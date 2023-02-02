@@ -45,11 +45,11 @@ int main()
 		srand(time(0));
 		int cGuess;
 		int randomNumber = rand() % 100 + 1;
-		cout << randomNumber << endl;
+		//cout << randomNumber << endl;
 		do {
 			switch (currentPlayer) {
 			case 0: {
-				cout << namePlayer1 << " Enter your guess" << endl;
+				cout << namePlayer1 << " Enter your guess" << endl << endl;
 				cin >> playerGuess;
 
 				break;
@@ -97,17 +97,17 @@ int main()
 	{
 		srand(time(0));
 		int randomNumber = std::rand() % 100 + 1;
-		cout << "Answer is: " << randomNumber << std::endl;
+		//cout << "Answer is: " << randomNumber << std::endl;
 		do
 		{
 			switch (currentPlayer)
 			{
 			case 0:
-				cout << namePlayer1 << " enter in your guess" << std::endl;
+				cout << namePlayer1 << " enter in your guess" << std::endl << endl;
 				break;
 
 			case 1:
-				std::cout << namePlayer2 << " enter in your guess" << std::endl;
+				std::cout << namePlayer2 << " enter in your guess" << std::endl << endl;
 				break;
 
 
