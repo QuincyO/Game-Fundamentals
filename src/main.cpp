@@ -20,7 +20,7 @@ bool init() {
 		return false;
 	}
 	std::cout << "SDL init Good";
-	pWindow = SDL_CreateWindow("Quincy Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 600, 0);
+	pWindow = SDL_CreateWindow("Quincy Orta 101070454", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 600, 0);
 
 
 	if (pWindow == NULL) {
