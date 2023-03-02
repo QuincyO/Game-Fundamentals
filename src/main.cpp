@@ -3,6 +3,7 @@
 #include <iostream>
 #include <Windows.h>
 #include<SDL_image.h>
+#include <SDL.h>
 
 
 constexpr float FPS = 60.0f;
@@ -14,6 +15,8 @@ SDL_Window* pWindow = nullptr;
 SDL_Renderer* pRenderer = nullptr;
 SDL_RendererFlip Flip = SDL_FLIP_NONE;
 
+SDL_Surface* backGround;
+
 SDL_Texture* enemySprite;
 SDL_Texture* enemyProjectiles;
 SDL_Texture* playerSprite;
@@ -21,6 +24,8 @@ SDL_Texture* playerProjectiles;
 SDL_Texture* bossSprite;
 SDL_Texture* bossProjectiles;
 SDL_Texture* astroidObject;
+SDL_Texture* background_1;
+
 
 
 SDL_Rect playerSpriteSRC, enemySpriteSRC,playerProjectilesSRC, enemyProjectilesSRC, bossSpriteSRC, bossProjectilesSRC, astroidObjectSRC;
@@ -51,13 +56,24 @@ bool init() {
 }
 void load() {
 	//SDL_Texture* IMG_LoadTexture(SDL_Renderer * renderer, const char* file);
-	playerSprite = IMG_LoadTexture(pRenderer, "../Assets/PNG/playerShip1_blue.png");
+
+	//Applying textures
+	playerSprite = IMG_LoadTexture(pRenderer, "../Assets/PNG/player.png");
 	playerProjectiles = IMG_LoadTexture(pRenderer, "../Assets/PNG/Lasers/laserBlue01.png");
-	enemySprite = IMG_LoadTexture(pRenderer, "../Assets/PNG/Enemies/enemyRed1.png");
+	enemySprite = IMG_LoadTexture(pRenderer, "../Assets/PNG/Enemies/enemyBlue2.png");
 	enemyProjectiles = IMG_LoadTexture(pRenderer, "../Assets/PNG/Lasers/laserRed01.png");
 	bossSprite = IMG_LoadTexture(pRenderer, "../Assets/PNG/Ships/spaceShips_005.png");
 	bossProjectiles = IMG_LoadTexture(pRenderer, "../Assets/PNG/Missiles/spaceMissiles_001.png");
 	astroidObject = IMG_LoadTexture(pRenderer, "../Assets/PNG/Meteors/meteorBrown_big4.png");
+
+
+	backGround = IMG_Load("..Assets/PNG/Background/backgroundColor");
+	background_1 = SDL_CreateTextureFromSurface(pRenderer, backGround);
+
+	int backgroundWidth, backgroundHeight;
+	SDL_QueryTexture(background_1, NULL, NULL, &backgroundWidth, &backgroundHeight);
+	SDL_FreeSurface(backGround);
+
 
 	if (bossProjectiles == NULL) {
 		std::cout << "Image Load Failed\n";
@@ -77,7 +93,7 @@ void load() {
 	//Enemy Ship Sprite
 		enemySpriteSRC.x = 0;
 		enemySpriteSRC.y = 0;
-		enemySpriteSRC.w = 93;
+		enemySpriteSRC.w = 104;
 		enemySpriteSRC.h = 84;
 	//Enemy ship Projectiles Sprite
 		enemyProjectilesSRC.x = 0;
@@ -173,7 +189,7 @@ void draw() {
 	SDL_RenderCopyEx(pRenderer, bossSprite, &bossSpriteSRC, &bossSpriteDST, 0, NULL, Flip);
 	SDL_RenderCopyEx(pRenderer, bossProjectiles, &bossProjectilesSRC, &bossProjectilesDST, 180, NULL, Flip);
 	//Render Astroid
-	SDL_RenderCopyEx(pRenderer, astroidObject, &astroidObjectSRC, &astroidObjectDST, 0, NULL, Flip);
+	SDL_RenderCopyEx(pRenderer, astroidObject, &astroidObjectSRC, &astroidObjectDST,0, NULL, Flip);
 
 
 
@@ -183,6 +199,9 @@ void draw() {
 
 }
 void update() {
+
+	
+
 
 }
 void input() {
