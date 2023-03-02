@@ -3,7 +3,7 @@
 #include <iostream>
 #include <Windows.h>
 #include<SDL_image.h>
-#include "Game.h"
+
 
 constexpr float FPS = 60.0f;
 constexpr float DELAY_TIME = 1000.0f / FPS;
