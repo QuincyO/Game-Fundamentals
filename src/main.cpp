@@ -14,12 +14,11 @@ SDL_Window* pWindow = nullptr;
 SDL_Renderer* pRenderer = nullptr;
 SDL_RendererFlip Flip = SDL_FLIP_NONE;
 
-SDL_Texture* playerSprite, enemySprite, projectileShips, bossSprite;
-SDL_Rect* playerSpriteSRC, enemySpriteSRC, projectileShipsSRC, bossSpriteSRC;
-SDL_Rect* playerSpriteDST, enemySpriteDST, projectileShipsDST, bossSpriteSRC;
+SDL_Texture* playerSprite = nullptr;
+SDL_Rect playerSpriteSRC, enemySpriteSRC, shipProjectilesSRC, bossSprite, astroidObjectSRC;
+SDL_Rect playerSpriteDST;
 
 
-int blah blah blah;
 
 bool init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -44,28 +43,27 @@ bool init() {
 }
 void load() {
 	//SDL_Texture* IMG_LoadTexture(SDL_Renderer * renderer, const char* file);
-	pMySprite = IMG_LoadTexture(pRenderer, "../Assets/PNG/playerShip1_blue.png");
+	playerSprite = IMG_LoadTexture(pRenderer, "../Assets/PNG/playerShip1_blue.png");
 
-	if (pMySprite == NULL) {
+	if (playerSprite == NULL) {
 		std::cout << "Image Failed to Load \n";
 	}
 	else std::cout << "Image load good" << std::endl;
 
+	playerSpriteSRC.x = 0;
+	playerSpriteSRC.y = 0;
+	playerSpriteSRC.w = 75;
+	playerSpriteSRC.h = 99;
 
-	enterpriseSpriteSRC.x = 0;
-	enterpriseSpriteSRC.y = 0;
-	enterpriseSpriteSRC.w = 75;
-	enterpriseSpriteSRC.h = 99;
+	int shipHeight = playerSpriteSRC.h / 2;
+	int shipWidth = playerSpriteSRC.w / 2;
 
-	int shipHeight = enterpriseSpriteSRC.h / 2;
-	int shipWidth = enterpriseSpriteSRC.w / 2;
+	playerSpriteDST.x = 50;
+	playerSpriteDST.y = 100;
+	playerSpriteDST.w = shipWidth;
+	playerSpriteDST.h = shipHeight;
 
-	enterpriseSpriteDST.x = 0;
-	enterpriseSpriteDST.y = (SCREEN_HEIGHT*.75)-(shipHeight/2);
-	enterpriseSpriteDST.w = shipWidth;
-	enterpriseSpriteDST.h = shipHeight;
-
-	mySpriteSRC.x = 0;
+	/*mySpriteSRC.x = 0;
 	mySpriteSRC.y = 0;
 	mySpriteSRC.w = 75;
 	mySpriteSRC.h = 99;
@@ -73,29 +71,33 @@ void load() {
 	mySpriteDST.x = SCREEN_WIDTH-shipWidth;
 	mySpriteDST.y = (SCREEN_HEIGHT / 4) - (shipHeight / 2);
 	mySpriteDST.w = shipWidth;
-	mySpriteDST.h = shipHeight;
+	mySpriteDST.h = shipHeight;*/
 	SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL;
 
 }
 void draw() {
 
 	SDL_SetRenderDrawColor(pRenderer, 75, 81, 100, 0);
-	SDL_RenderCopy(pRenderer, pMySprite, &enterpriseSpriteSRC, &enterpriseSpriteDST);
-	SDL_RenderCopyEx(pRenderer, pMySprite, &mySpriteSRC, &mySpriteDST, 270, NULL,Flip);
+
+	SDL_RenderCopy(pRenderer, playerSprite, &playerSpriteSRC, &playerSpriteDST);
+
+
+	//SDL_RenderCopy(pRenderer, pMySprite, &enterpriseSpriteSRC, &enterpriseSpriteDST);
+	//SDL_RenderCopyEx(pRenderer, pMySprite, &mySpriteSRC, &mySpriteDST, 270, NULL,Flip);
 	SDL_RenderPresent(pRenderer);
 	SDL_RenderClear(pRenderer);
 
 
 }
 void update() {
-	enterpriseSpriteDST.x += 1;
+	/*enterpriseSpriteDST.x += 1;
 	if (enterpriseSpriteDST.x > SCREEN_WIDTH) {
 		enterpriseSpriteDST.x = 0 - (enterpriseSpriteSRC.w/2);
 	}
 	mySpriteDST.x -= 1;
 	if (mySpriteDST.x <= 0-(mySpriteSRC.w/2)) {
 		mySpriteDST.x = SCREEN_WIDTH + (mySpriteDST.w / 2);
-	}
+	}*/
 }
 void input() {
 
