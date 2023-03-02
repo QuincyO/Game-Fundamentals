@@ -19,6 +19,8 @@ SDL_Rect* playerSpriteSRC, enemySpriteSRC, projectileShipsSRC, bossSpriteSRC;
 SDL_Rect* playerSpriteDST, enemySpriteDST, projectileShipsDST, bossSpriteSRC;
 
 
+int blah blah blah;
+
 bool init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
