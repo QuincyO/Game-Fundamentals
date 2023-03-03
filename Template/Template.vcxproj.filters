@@ -141,6 +141,9 @@
     <ClCompile Include="TextureManager1AndO.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="help.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">

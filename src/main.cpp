@@ -15,54 +15,53 @@ SDL_Window* pWindow = nullptr;
 SDL_Renderer* pRenderer = nullptr;
 SDL_RendererFlip Flip = SDL_FLIP_NONE;
 
-
-struct spriteObject
-{
-
-public:
-	SDL_Texture* pTexture;
-	SDL_Rect src;
-	SDL_Rect dst;
-	double sAngle;
-	//Default Consturctor with no arguments
-	spriteObject()
+	struct spriteObject
 	{
-		pTexture = nullptr;
-		sAngle = 0;
-		src={ 0,0,0,0 };
-		dst = { 0,0,0,0 };
 
-	}
-	//Constructor with arguments
-	spriteObject(SDL_Renderer* renderer, const char* fileName, int angle)
-	{
-		pTexture = IMG_LoadTexture(renderer, fileName);
-		if (pTexture == NULL) {
-			std::cout << "Image Failed to Load: ";
-			std::cout << fileName << std::endl;
+	public:
+		SDL_Texture* pTexture;
+		SDL_Rect src;
+		SDL_Rect dst;
+		double sAngle;
+		//Default Consturctor with no arguments
+		spriteObject()
+		{
+			pTexture = nullptr;
+			sAngle = 0;
+			src = { 0,0,0,0 };
+			dst = { 0,0,0,0 };
+
 		}
-		else std::cout << "Image Load Succesful\n";
-		SDL_QueryTexture(pTexture, NULL, NULL, &src.w, &src.h);
+		//Constructor with arguments
+		spriteObject(SDL_Renderer* renderer, const char* fileName, int angle)
+		{
+			pTexture = IMG_LoadTexture(renderer, fileName);
+			if (pTexture == NULL) {
+				std::cout << "Image Failed to Load: ";
+				std::cout << fileName << std::endl;
+			}
+			else std::cout << "Image Load Succesful\n";
+			SDL_QueryTexture(pTexture, NULL, NULL, &src.w, &src.h);
 
-		src.x = 0;
-		src.y = 0;
-		dst.w = src.w;
-		dst.h = src.h;
-		sAngle = angle;
-	}
+			src.x = 0;
+			src.y = 0;
+			dst.w = src.w;
+			dst.h = src.h;
+			sAngle = angle;
+		}
 
-//Member Function of spriteObject Struct
-	void draw(SDL_Renderer* renderer)
-	{
-		SDL_RenderCopyEx(pRenderer, pTexture, &src, &dst,sAngle,NULL,Flip);
-	}
-
-
-
-private:
+		//Member Function of spriteObject Struct
+		void draw(SDL_Renderer* renderer)
+		{
+			SDL_RenderCopyEx(pRenderer, pTexture, &src, &dst, sAngle, NULL, Flip);
+		}
 
 
-};
+
+	private:
+
+
+	};
 
 spriteObject backGround_1 = spriteObject();
 spriteObject playerShip = spriteObject();
@@ -188,6 +187,9 @@ void load() {
 void draw() {
 
 	SDL_SetRenderDrawColor(pRenderer, 75, 81, 100, 0);
+
+
+	//Drawing my game objects
 	backGround_1.draw(pRenderer);
 	astroid_1.draw(pRenderer);
 	playerShip.draw(pRenderer);
