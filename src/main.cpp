@@ -64,6 +64,7 @@ private:
 
 };
 
+spriteObject backGround_1 = spriteObject();
 spriteObject playerShip = spriteObject();
 spriteObject playerProjectile = spriteObject();
 spriteObject playerHit = spriteObject();
@@ -74,7 +75,6 @@ spriteObject bossProjectiles = spriteObject();
 spriteObject astroid_1 = spriteObject();
 
 
-SDL_Surface* backGround;
 
 
 
@@ -112,6 +112,7 @@ void load() {
 	bossSprite = spriteObject(pRenderer, "../Assets/PNG/Ships/spaceShips_005.png",NULL);
 	bossProjectiles = spriteObject(pRenderer, "../Assets/PNG/Missiles/spaceMissiles_001.png",180);
 	astroid_1 = spriteObject(pRenderer, "../Assets/PNG/Meteors/meteorBrown_big4.png",0);
+	backGround_1 = spriteObject(pRenderer, "../Assets/PNG/Background/starBackground.png",NULL);
 
 
 	//Object Sizing
@@ -178,11 +179,16 @@ void load() {
 			astroid_1.dst.y = SCREEN_HEIGHT * .5;
 			astroid_1.dst.w = astroidWidth;
 			astroid_1.dst.h = astroidHeight;
+		//Background
+			backGround_1.dst.x = (SCREEN_WIDTH * 0);
+			backGround_1.dst.y = (SCREEN_HEIGHT*0);
+			backGround_1.dst.w = SCREEN_WIDTH;
+			backGround_1.dst.h = SCREEN_HEIGHT;
 }
 void draw() {
 
 	SDL_SetRenderDrawColor(pRenderer, 75, 81, 100, 0);
-
+	backGround_1.draw(pRenderer);
 	astroid_1.draw(pRenderer);
 	playerShip.draw(pRenderer);
 	playerProjectile.draw(pRenderer);
