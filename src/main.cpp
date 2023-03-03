@@ -15,21 +15,67 @@ SDL_Window* pWindow = nullptr;
 SDL_Renderer* pRenderer = nullptr;
 SDL_RendererFlip Flip = SDL_FLIP_NONE;
 
+
+struct spriteObject
+{
+
+public:
+	SDL_Texture* pTexture;
+	SDL_Rect src;
+	SDL_Rect dst;
+	double sAngle;
+	//Default Consturctor with no arguments
+	spriteObject()
+	{
+		pTexture = nullptr;
+		sAngle = 0;
+		src={ 0,0,0,0 };
+		dst = { 0,0,0,0 };
+
+	}
+	//Constructor with arguments
+	spriteObject(SDL_Renderer* renderer, const char* fileName, int angle)
+	{
+		pTexture = IMG_LoadTexture(renderer, fileName);
+		if (pTexture == NULL) {
+			std::cout << "Image Failed to Load: ";
+			std::cout << fileName << std::endl;
+		}
+		else std::cout << "Image Load Succesful\n";
+		SDL_QueryTexture(pTexture, NULL, NULL, &src.w, &src.h);
+
+		src.x = 0;
+		src.y = 0;
+		dst.w = src.w;
+		dst.h = src.h;
+		sAngle = angle;
+	}
+
+//Member Function of spriteObject Struct
+	void draw(SDL_Renderer* renderer)
+	{
+		SDL_RenderCopyEx(pRenderer, pTexture, &src, &dst,sAngle,NULL,Flip);
+	}
+
+
+
+private:
+
+
+};
+
+spriteObject playerShip = spriteObject();
+spriteObject playerProjectile = spriteObject();
+spriteObject playerHit = spriteObject();
+spriteObject enemyShip = spriteObject();
+spriteObject enemyProjectiles = spriteObject();
+spriteObject bossSprite = spriteObject();
+spriteObject bossProjectiles = spriteObject();
+spriteObject astroid_1 = spriteObject();
+
+
 SDL_Surface* backGround;
 
-SDL_Texture* enemySprite;
-SDL_Texture* enemyProjectiles;
-SDL_Texture* playerSprite;
-SDL_Texture* playerProjectiles;
-SDL_Texture* bossSprite;
-SDL_Texture* bossProjectiles;
-SDL_Texture* astroidObject;
-SDL_Texture* background_1;
-
-
-
-SDL_Rect playerSpriteSRC, enemySpriteSRC,playerProjectilesSRC, enemyProjectilesSRC, bossSpriteSRC, bossProjectilesSRC, astroidObjectSRC;
-SDL_Rect playerSpriteDST, enemySpriteDST,playerProjectilesDST, enemyProjectilesDST, bossSpriteDST,bossProjectilesDST, astroidObjectDST;
 
 
 
@@ -58,138 +104,93 @@ void load() {
 	//SDL_Texture* IMG_LoadTexture(SDL_Renderer * renderer, const char* file);
 
 	//Applying textures
-	playerSprite = IMG_LoadTexture(pRenderer, "../Assets/PNG/player.png");
-	playerProjectiles = IMG_LoadTexture(pRenderer, "../Assets/PNG/Lasers/laserBlue01.png");
-	enemySprite = IMG_LoadTexture(pRenderer, "../Assets/PNG/Enemies/enemyBlue2.png");
-	enemyProjectiles = IMG_LoadTexture(pRenderer, "../Assets/PNG/Lasers/laserRed01.png");
-	bossSprite = IMG_LoadTexture(pRenderer, "../Assets/PNG/Ships/spaceShips_005.png");
-	bossProjectiles = IMG_LoadTexture(pRenderer, "../Assets/PNG/Missiles/spaceMissiles_001.png");
-	astroidObject = IMG_LoadTexture(pRenderer, "../Assets/PNG/Meteors/meteorBrown_big4.png");
+	playerShip = spriteObject(pRenderer, "../Assets/PNG/player.png",NULL);
+	playerProjectile = spriteObject(pRenderer, "../Assets/PNG/Lasers/laserRed01.png",NULL);
+	playerHit = spriteObject(pRenderer, "../Assets/PNG/laserRedShot.png",NULL);
+	enemyShip = spriteObject(pRenderer, "../Assets/PNG/Enemies/enemyBlue2.png",NULL);
+	enemyProjectiles = spriteObject(pRenderer, "../Assets/PNG/Lasers/laserBlue01.png",180);
+	bossSprite = spriteObject(pRenderer, "../Assets/PNG/Ships/spaceShips_005.png",NULL);
+	bossProjectiles = spriteObject(pRenderer, "../Assets/PNG/Missiles/spaceMissiles_001.png",180);
+	astroid_1 = spriteObject(pRenderer, "../Assets/PNG/Meteors/meteorBrown_big4.png",0);
 
 
-	backGround = IMG_Load("..Assets/PNG/Background/backgroundColor");
-	background_1 = SDL_CreateTextureFromSurface(pRenderer, backGround);
-
-	int backgroundWidth, backgroundHeight;
-	SDL_QueryTexture(background_1, NULL, NULL, &backgroundWidth, &backgroundHeight);
-	SDL_FreeSurface(backGround);
-
-
-	if (bossProjectiles == NULL) {
-		std::cout << "Image Load Failed\n";
-	}
-	else std::cout << "Image Load Successful\n";
-
-	//Player Sprite
-		playerSpriteSRC.x = 0;
-		playerSpriteSRC.y = 0;
-		playerSpriteSRC.w = 99;
-		playerSpriteSRC.h = 75;
-	//Player Projectile Sprite
-		playerProjectilesSRC.x = 0;
-		playerProjectilesSRC.y = 0;
-		playerProjectilesSRC.w = 9;
-		playerProjectilesSRC.h = 54;
-	//Enemy Ship Sprite
-		enemySpriteSRC.x = 0;
-		enemySpriteSRC.y = 0;
-		enemySpriteSRC.w = 104;
-		enemySpriteSRC.h = 84;
-	//Enemy ship Projectiles Sprite
-		enemyProjectilesSRC.x = 0;
-		enemyProjectilesSRC.y = 0;
-		enemyProjectilesSRC.w = 9;
-		enemyProjectilesSRC.h = 54;
-	//Boss Sprite
-		bossSpriteSRC.x = 0;
-		bossSpriteSRC.y = 0;
-		bossSpriteSRC.w = 342;
-		bossSpriteSRC.h = 301;
-	//Boss Projectile Sprites
-		bossProjectilesSRC.x = 0;
-		bossProjectilesSRC.y = 0;
-		bossProjectilesSRC.w = 40;
-		bossProjectilesSRC.h = 69;
-	//Astroid Sprite
-		astroidObjectSRC.x = 0;
-		astroidObjectSRC.y = 0;
-		astroidObjectSRC.w = 98;
-		astroidObjectSRC.h = 96;
 	//Object Sizing
 		//PlayerShip
-			int playerHeight = playerSpriteSRC.h;
-			int playerWidth = playerSpriteSRC.w;
+			int playerHeight = playerShip.src.h;
+			int playerWidth = playerShip.src.w;
 		//EnemyShip
-			int enemyHeight = enemySpriteSRC.h;
-			int enemyWidth = enemySpriteSRC.w;
+			int enemyHeight = enemyShip.src.h;
+			int enemyWidth = enemyShip.src.w;
 		//Boss Ship
-			int bossHeight = bossSpriteSRC.h;
-			int bossWidth = bossSpriteSRC.w;
+			int bossHeight = bossSprite.src.h;
+			int bossWidth = bossSprite.src.w;
 		//Astroids
-			int astroidHeight = astroidObjectSRC.h;
-			int astroidWidth = astroidObjectSRC.w;
+			int astroidHeight = astroid_1.src.h;
+			int astroidWidth = astroid_1.src.w;
 		//Boss Projectiles
-			int bossMissleHeight = bossProjectilesSRC.h*1.5;
-			int bossMissleWidth = bossProjectilesSRC.w*1.5;
+			int bossMissleHeight = bossProjectiles.src.h*1.5;
+			int bossMissleWidth = bossProjectiles.src.w*1.5;
 		//Player Projectiles
-			int playerLaserHeight = playerProjectilesSRC.h;
-			int playerLaserWidth = playerProjectilesSRC.w;
+			int playerLaserHeight = playerProjectile.src.h;
+			int playerLaserWidth = playerProjectile.src.w;
 		//Enemy Projectiles
-			int enemyLaserHeight = enemyProjectilesSRC.h;
-			int enemyLaserWidth = enemyProjectilesSRC.w;
+			int enemyLaserHeight = enemyProjectiles.src.h;
+			int enemyLaserWidth = enemyProjectiles.src.w;
 
 	//Screen Positions
 		//Player Ship
-			playerSpriteDST.x = (SCREEN_WIDTH * .5) - (playerWidth / 2);
-			playerSpriteDST.y = (SCREEN_HEIGHT * .9);
-			playerSpriteDST.w = playerWidth;
-			playerSpriteDST.h = playerHeight;
+			playerShip.dst.x = (SCREEN_WIDTH * .5) - (playerWidth / 2);
+			playerShip.dst.y = (SCREEN_HEIGHT * .9);
+			playerShip.dst.w = playerWidth;
+			playerShip.dst.h = playerHeight;
 		//Player Projectile
-			playerProjectilesDST.x = playerSpriteDST.x+(playerWidth/2)-(playerLaserWidth/2);
-			playerProjectilesDST.y = playerSpriteDST.y - (playerHeight) ;
-			playerProjectilesDST.w = playerLaserWidth;
-			playerProjectilesDST.h = playerLaserHeight;
+			playerProjectile.dst.x = playerShip.dst.x+(playerWidth/2)-(playerLaserWidth/2);
+			playerProjectile.dst.y = playerShip.dst.y - (playerHeight) ;
+			playerProjectile.dst.w = playerLaserWidth;
+			playerProjectile.dst.h = playerLaserHeight;
+		//Player Hit Marker
+			playerHit.dst.y = -50;
+			playerHit.dst.x = -50;
+			playerHit.dst.w = playerHit.src.w;
+			playerHit.dst.h = playerHit.src.h;
 		//Enemy Ship Position
-			enemySpriteDST.x = (SCREEN_WIDTH * .15) - (enemyHeight / 2);
-			enemySpriteDST.y = (SCREEN_HEIGHT * .15);
-			enemySpriteDST.h = enemyHeight;
-			enemySpriteDST.w = enemyWidth;
+			enemyShip.dst.x = (SCREEN_WIDTH * .15) - (enemyHeight / 2);
+			enemyShip.dst.y = (SCREEN_HEIGHT * .15);
+			enemyShip.dst.h = enemyHeight;
+			enemyShip.dst.w = enemyWidth;
 		//Enemy Projectile Positon
-			enemyProjectilesDST.x = (enemySpriteDST.x) + (enemyWidth / 2) - (enemyLaserWidth / 2);
-			enemyProjectilesDST.y = (enemySpriteDST.y) + enemyHeight;
-			enemyProjectilesDST.h = enemyLaserHeight;
-			enemyProjectilesDST.w = enemyLaserWidth;
+			enemyProjectiles.dst.x = (enemyShip.dst.x) + (enemyWidth / 2) - (enemyLaserWidth / 2);
+			enemyProjectiles.dst.y = (enemyShip.dst.y) + enemyHeight;
+			enemyProjectiles.dst.h = enemyLaserHeight;
+			enemyProjectiles.dst.w = enemyLaserWidth;
 		//Boss Ship Location
-			bossSpriteDST.x = (SCREEN_WIDTH * .75) - (bossWidth / 2);
-			bossSpriteDST.y = (SCREEN_HEIGHT * .25)-bossHeight/2;
-			bossSpriteDST.h = bossHeight;
-			bossSpriteDST.w = bossWidth;
+			bossSprite.dst.x = (SCREEN_WIDTH * .75) - (bossWidth / 2);
+			bossSprite.dst.y = (SCREEN_HEIGHT * .25)-bossHeight/2;
+			bossSprite.dst.h = bossHeight;
+			bossSprite.dst.w = bossWidth;
 		//Boss Projectile Position
-			bossProjectilesDST.x = bossSpriteDST.x+(bossWidth/2)-(bossMissleWidth/2);
-			bossProjectilesDST.y = bossSpriteDST.y+bossHeight;
-			bossProjectilesDST.h = bossMissleHeight;
-			bossProjectilesDST.w = bossMissleWidth;
+			bossProjectiles.dst.x = bossSprite.dst.x+(bossWidth/2)-(bossMissleWidth/2);
+			bossProjectiles.dst.y = bossSprite.dst.y+bossHeight;
+			bossProjectiles.dst.h = bossMissleHeight;
+			bossProjectiles.dst.w = bossMissleWidth;
 		//Astroid Position
-			astroidObjectDST.x = SCREEN_WIDTH * .5 - (astroidWidth/2);
-			astroidObjectDST.y = SCREEN_HEIGHT * .5;
-			astroidObjectDST.w = astroidWidth;
-			astroidObjectDST.h = astroidHeight;
+			astroid_1.dst.x = SCREEN_WIDTH * .5 - (astroidWidth/2);
+			astroid_1.dst.y = SCREEN_HEIGHT * .5;
+			astroid_1.dst.w = astroidWidth;
+			astroid_1.dst.h = astroidHeight;
 }
 void draw() {
 
 	SDL_SetRenderDrawColor(pRenderer, 75, 81, 100, 0);
 
-	//Render Player Ship and Laser
-	SDL_RenderCopy(pRenderer, playerSprite, &playerSpriteSRC, &playerSpriteDST);
-	SDL_RenderCopy(pRenderer, playerProjectiles, &playerProjectilesSRC, &playerProjectilesDST);
-	//Render Enemy Ship and Laser
-	SDL_RenderCopyEx(pRenderer, enemySprite, &enemySpriteSRC, &enemySpriteDST, 0, NULL, Flip);
-	SDL_RenderCopyEx(pRenderer, enemyProjectiles, &enemyProjectilesSRC, &enemyProjectilesDST, 180, NULL, Flip);
-	//Render Boss Ship and Missle
-	SDL_RenderCopyEx(pRenderer, bossSprite, &bossSpriteSRC, &bossSpriteDST, 0, NULL, Flip);
-	SDL_RenderCopyEx(pRenderer, bossProjectiles, &bossProjectilesSRC, &bossProjectilesDST, 180, NULL, Flip);
-	//Render Astroid
-	SDL_RenderCopyEx(pRenderer, astroidObject, &astroidObjectSRC, &astroidObjectDST,0, NULL, Flip);
+	astroid_1.draw(pRenderer);
+	playerShip.draw(pRenderer);
+	playerProjectile.draw(pRenderer);
+	playerHit.draw(pRenderer);
+	enemyShip.draw(pRenderer);
+	enemyProjectiles.draw(pRenderer);
+	bossSprite.draw(pRenderer);
+	bossProjectiles.draw(pRenderer);
 
 
 
@@ -198,12 +199,39 @@ void draw() {
 
 
 }
-void update() {
+void update(unsigned long int time) {
+	astroid_1.sAngle += 1;
+	enemyShip.dst.y += 2;
+	playerProjectile.dst.y -= 30;
+	enemyProjectiles.dst.y = enemyShip.dst.y+enemyShip.src.w;
+	if (enemyShip.dst.y > SCREEN_HEIGHT) {
+		enemyShip.dst.y = (SCREEN_HEIGHT * 0) - enemyShip.src.h;
+	}
+
+	if ((playerProjectile.dst.y<=astroid_1.dst.y+astroid_1.src.h)&&(playerProjectile.dst.y>=astroid_1.dst.y))
+	{
+		playerHit.dst.y = astroid_1.dst.y + (astroid_1.src.h / 4);
+		playerHit.dst.x = astroid_1.dst.x + (astroid_1.src.w / 4);
+
+		}
+	else {
+		playerHit.dst.y = -100;
+		playerHit.dst.x = -100;
+	}
+	if (playerProjectile.dst.y < (SCREEN_HEIGHT*0)) {
+		playerProjectile.dst.y = playerShip.dst.y - playerShip.src.h;
+	}
 
 	
 
 
+
+
+
 }
+
+
+
 void input() {
 
 }
@@ -232,7 +260,7 @@ int main(int argc, char* args[])
 		const auto frame_start = static_cast<float>(SDL_GetTicks());
 		input();
 		draw();
-		update();
+		update(frame_start);
 
 
 
