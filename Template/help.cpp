@@ -2,107 +2,166 @@
 #include <crtdbg.h>
 #include <iostream>
 #include <Windows.h>
-#include <sdl.h>
-#include <SDL_Image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
-//icluding another code file.tooo read this
-
-// global variables are accesssible from any context
-constexpr float FPS = 60.0f;//target frames per second
-constexpr float DELAY_TIME = 1000.0f / FPS;//target time between frames in ms
-const int SCREEN_WIDTH = 1200;
-const int SCREEN_HEIGHT = 600;
-
-
-//initialise SDL,open a window and set up renderer
-
-
+using namespace std;
+// Global variables are accessible from any context
+constexpr float FPS = 60.0f;
+constexpr float DELAY_TIME = 1000.0f / FPS;
+const int WINDOW_WIDTH = 1200;
+const int WINDOW_HEIGHT = 600;
 bool isGameRunning = true;
+SDL_Window* pWindow;
+SDL_Renderer* pRenderer;
+SDL_Rect mySpriteSrc;
+SDL_Rect mySpriteDst;
 
-//anything with a star to its right is apointer.SDL_Window is a memory address of an SDL_Window
-//pointers vcan also be set to point to memeory address 0, meaning no address. we call these null poimters
-//computer memory is
-SDL_Window* pWindow = nullptr;// asssigning a pointer to nullptr means the address 0
-SDL_Renderer* pRenderer = NULL;//NULL is the address 0
-SDL_Texture* pMysprite = NULL;// texture is another word for image in game programming 
-SDL_Rect Myspritesrc;
-SDL_Rect MyspriteDst;
+namespace Fund
+{
 
-// set up game window
+	struct Sprite
+	{
+	public:
+
+		SDL_Texture* pTexture;
+		SDL_Rect src;
+		SDL_Rect dst;
+		double rotationDegrees = 0;
+		SDL_RendererFlip flipState = SDL_FLIP_NONE;
+
+		Sprite()
+		{
+			std::cout << "Sprite Default Constructor!" << std::endl;
+			pTexture = nullptr;
+			//rotationDegrees = 0;
+			src = { 0,0,0,0 };
+			dst = { 0,0,0,0 };
+		}
+
+
+		Sprite(SDL_Renderer* renderer, const char* imageFilePath)
+		{
+			std::cout << "Sprite Constructor!" << std::endl;
+			pTexture = IMG_LoadTexture(renderer, imageFilePath);
+			if (pTexture == NULL)
+			{
+				std::cout << "Image load failed! " << SDL_GetError() << std::endl;
+			}
+			else
+			{
+				std::cout << "Image load success: " << imageFilePath << std::endl;
+			}
+
+			if (SDL_QueryTexture(pTexture, NULL, NULL, &src.w, &src.h) != 0)
+			{
+				std::cout << "Query Texture failed! " << SDL_GetError() << std::endl;
+			}
+			src.x = 0;
+			src.y = 0;
+
+			dst.x = 0;
+			dst.y = 0;
+			dst.w = src.w;
+			dst.h = src.h;
+		}
+
+		void Draw(SDL_Renderer* renderer)
+		{
+			int result = SDL_RenderCopyEx(renderer, pTexture, &src, &dst, rotationDegrees, NULL, flipState);
+			if (result != 0)
+			{
+				std::cout << "Render failed! " << SDL_GetError() << std::endl;
+			}
+		}
+
+		void SetPosition(int x, int y)
+		{
+			dst.x = x;
+			dst.y = y;
+		}
+	};
+}
+
+
+using namespace Fund;
+Sprite MC = Sprite();
+Sprite Enemy1;
+Sprite Enemy2;
+Sprite Boss;
+
+
+
 bool Initialize()
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
-
 	// Display Main SDL Window
-	// 
-	// get pointer to SDL_Window object
-	pWindow = SDL_CreateWindow("pavanijalapati-101433827", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		SCREEN_WIDTH, SCREEN_HEIGHT, 0
-	);
-	if (pWindow == NULL) // if window address as not been set
+
+	pWindow = SDL_CreateWindow("Brandon Quach 101191483", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+
+	if (pWindow == NULL)
 	{
-		std::cout << "window creation failed!" << SDL_GetError() << std::endl;
+		cout << "Windows creation failed!" << SDL_GetError() << endl;
 		return false;
-	}
-	else {
-		std::cout << "window creation successful!\n";
-	}
-
-	//get pointer to SDL_Renderer object to use for drawing sprites
-	pRenderer = SDL_CreateRenderer(pWindow, -1, 0);
-
-	if (pRenderer == NULL) //if create renderer failed....
-	{
-
-		std::cout << "Renderer creation failed!" << SDL_GetError() << std::endl;
-		return false;
-	}
-	else {
-		std::cout << "Renderer creation successful!\n";
-
-	}
-	return true;
-}
-
-void Load() {
-	//load texture...
-		//SdL_Texture*IMG_LoadTexture(SDL_Renderer*renderer,const char*file);
-	pMysprite = IMG_LoadTexture(pRenderer, "../Assets/textures/enterprise.png");
-	if (pMysprite == NULL)
-	{
-
-		std::cout << "Image load failed!" << SDL_GetError() << std::endl;
-
 	}
 	else
 	{
-		std::cout << "Image load successful!\n";
+		cout << "Winidows creation Success!" << endl;
 
 	}
 
-	//describe location to copy from in the texture
-	Myspritesrc.x = 0;
-	Myspritesrc.y = 0;
-	Myspritesrc.w = 643;
-	Myspritesrc.h = 296;
+	pRenderer = SDL_CreateRenderer(pWindow, -1, 0);
+	if (pRenderer == NULL)
+	{
+		cout << "Renderer creation failed!" << SDL_GetError() << endl;
+		return false;
+	}
+	else
+	{
+		cout << "Renderer creation Success!" << endl;
+	}
+	return true;
+}
+void Load()
+{
+	MC = Sprite(pRenderer, "../Assets/PNG/player.png");
 
-	// describe location to paste to on the screen
-	int shipwidth = Myspritesrc.w / 4;
-	int shipheight = Myspritesrc.h / 4;
-	MyspriteDst.x = SCREEN_WIDTH / 8;//start with the left eighth of the screen as open space
-	MyspriteDst.y = (SCREEN_HEIGHT / 2) - (shipheight / 2);//exactly centered vertically
-	MyspriteDst.w = shipwidth;
-	MyspriteDst.h = shipheight;
+	int MCW = MC.src.w;
+	int MCH = MC.src.h;
+	MC.dst.w = MCW;
+	MC.dst.h = MCH;
+	MC.dst.x = (WINDOW_WIDTH / 8); // start with the left eighth of the screen as open space
+	MC.dst.y = (WINDOW_HEIGHT / 2) - MCH / 2; // exactly centered vertically
+	MC.SetPosition(100, 400);
+
+	//Background_image.dst.w = WINDOW_WIDTH;
+
+
+
+	Enemy1 = Sprite(pRenderer, "../Assets/PNG/player.png");
+	Enemy1.SetPosition(700, 400);
+
+	Enemy1.flipState = SDL_FLIP_HORIZONTAL;
+
+
+	Enemy2 = Sprite(pRenderer, "../Assets/PNG/player.png");
+	Enemy2.SetPosition(700, 100);
+
+	Enemy2.flipState = SDL_FLIP_HORIZONTAL;
+
+	Boss = Sprite(pRenderer, "../Assets/PNG/player.png");
+	Boss.SetPosition(900, 250);
+
+	Boss.flipState = SDL_FLIP_HORIZONTAL;
+
 }
 void Input()
 {
-
-
 }
 
-void update()
+void Update()
 {
-	MyspriteDst.x = MyspriteDst.x + 1;
+
 }
 
 void Draw()
@@ -110,17 +169,14 @@ void Draw()
 	SDL_SetRenderDrawColor(pRenderer, 0, 0, 20, 255);
 	SDL_RenderClear(pRenderer);
 
-	//the & before a variable asks for that object's memory address
-	int result = SDL_RenderCopy(pRenderer, pMysprite, &Myspritesrc, &MyspriteDst);
-	if (result != 0) {
-		std::cout << "Render failed!" << SDL_GetError() << std::endl;
-	}
+	MC.Draw(pRenderer); //Call the member function Draw on my Sprite object
+	Enemy1.Draw(pRenderer);
+	Enemy2.Draw(pRenderer);
+	Boss.Draw(pRenderer);
 
-
-	// show the backbuffer which we have been drawing to prior.This is part of a common rendering technique called double buffering
+	//Show the BackBuffer which we have been drawing to prior. This is part of a common rendering technique called Double Buffering.
 	SDL_RenderPresent(pRenderer);
 }
-
 /**
  * \brief Program Entry Point
  */
@@ -133,45 +189,34 @@ int main(int argc, char* args[])
 	MoveWindow(window_handle, 100, 700, 800, 200, TRUE);
 
 	isGameRunning = Initialize();
+
+	SDL_Texture* pMysprite = IMG_LoadTexture(pRenderer, "../Assets/textures/explosion1.png");
+
 	Load();
-	//Load texture....
-	//SDL_Texture * IMG_LoadTexture(SDL_Renderer *renderer, const, char *file)
 
-	//Render Texture
-	//int SDL_RenderCopy(SDL_Renderer* renderer,
-   //SDL_Texture*texture,
-   //const SDL_RECT*srcrect,
-
-
-
- // Main Game Loop,one iteration of this game loop is one frame
+	// Main Game Loop
 	while (isGameRunning)
 	{
-		//time at the start of the frame, in ms
 		const auto frame_start = static_cast<float>(SDL_GetTicks());
+		//Calling three functions in sequence...
 		Input();
-		update();
+		Update();
 		Draw();
 
-		//fake player input
-		//update game state(presumably based on other conditions and input)
-		//draw to score to show new game state to player
-		//figure how long we need to wait for the next frame training.
-		// current time - time at start of frame = time elapsed during this frame
 		const float frame_time = static_cast<float>(SDL_GetTicks()) - frame_start;
-		if (frame_time < DELAY_TIME)// if time passed is less than the time we have for each frame...
+		if (const float frame_time = static_cast<float>(SDL_GetTicks()) - frame_start;
+			frame_time < DELAY_TIME)
 		{
-			//do nothing for a while until its time for the next frame
 			SDL_Delay(static_cast<int>(DELAY_TIME - frame_time));
 		}
 
-		// delta time. time elapsed this frame,in seconds
-		const float delta_time = (static_cast<float>(SDL_GetTicks()) - frame_start) / 1000.0f;
+		// delta time
+		const auto delta_time = (static_cast<float>(SDL_GetTicks()) - frame_start) / 1000.0f;
+
 
 	}
 
-
-
+	getchar();
 	return 0;
 }
 

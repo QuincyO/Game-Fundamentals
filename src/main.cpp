@@ -22,7 +22,7 @@ SDL_RendererFlip Flip = SDL_FLIP_NONE;
 		SDL_Texture* pTexture;
 		SDL_Rect src;
 		SDL_Rect dst;
-		double sAngle;
+		float sAngle;
 		//Default Consturctor with no arguments
 		spriteObject()
 		{
@@ -62,7 +62,7 @@ SDL_RendererFlip Flip = SDL_FLIP_NONE;
 
 
 	};
-
+	//Written by Quincy
 spriteObject backGround_1 = spriteObject();
 spriteObject playerShip = spriteObject();
 spriteObject playerProjectile = spriteObject();
@@ -74,7 +74,12 @@ spriteObject bossProjectiles = spriteObject();
 spriteObject astroid_1 = spriteObject();
 
 
-
+//Written Michael
+spriteObject powerUp_1 = spriteObject();
+spriteObject powerUp_2 = spriteObject();
+spriteObject powerUp_3 = spriteObject();
+spriteObject powerUp_4 = spriteObject();
+spriteObject playerShield = spriteObject();
 
 
 
@@ -85,7 +90,7 @@ bool init() {
 		return false;
 	}
 	std::cout << "SDL init Good \n";
-	pWindow = SDL_CreateWindow("Quincy Orta 101070454", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	pWindow = SDL_CreateWindow("Quincy Orta & Michael Slodki  101070454 & 101453409 ", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
 
 
 	if (pWindow == NULL) {
@@ -113,6 +118,11 @@ void load() {
 	astroid_1 = spriteObject(pRenderer, "../Assets/PNG/Meteors/meteorBrown_big4.png",0);
 	backGround_1 = spriteObject(pRenderer, "../Assets/PNG/Background/starBackground.png",NULL);
 
+powerUp_1 = spriteObject(pRenderer, "../Assets/PNG/Power-ups/powerupBlue_bolt.png", NULL);
+powerUp_2 = spriteObject(pRenderer, "../Assets/PNG/Power-ups/powerupBlue.png", NULL);
+powerUp_3 = spriteObject(pRenderer, "../Assets/PNG/Power-ups/powerupBlue_shield.png", NULL);
+powerUp_4 = spriteObject(pRenderer, "../Assets/PNG/Power-ups/powerupBlue_star.png", NULL);
+playerShield = spriteObject(pRenderer, "../Assets/PNG/shield.png", NULL);
 
 	//Object Sizing
 		//PlayerShip
@@ -128,14 +138,31 @@ void load() {
 			int astroidHeight = astroid_1.src.h;
 			int astroidWidth = astroid_1.src.w;
 		//Boss Projectiles
-			int bossMissleHeight = bossProjectiles.src.h*1.5;
-			int bossMissleWidth = bossProjectiles.src.w*1.5;
+			float bossMissleHeight = bossProjectiles.src.h*1.5;
+			float bossMissleWidth = bossProjectiles.src.w*1.5;
 		//Player Projectiles
 			int playerLaserHeight = playerProjectile.src.h;
 			int playerLaserWidth = playerProjectile.src.w;
 		//Enemy Projectiles
 			int enemyLaserHeight = enemyProjectiles.src.h;
 			int enemyLaserWidth = enemyProjectiles.src.w;
+
+			//Power Up 1
+			int powerUpHeight_1 = powerUp_1.src.h;
+			int powerUpWidth_1 = powerUp_1.src.w;
+			//Power Up 2
+			int powerUpHeight_2 = powerUp_2.src.h;
+			int powerUpWidth_2 = powerUp_2.src.w;
+			//Power Up 3
+			int powerUpHeight_3 = powerUp_3.src.h;
+			int powerUpWidth_3 = powerUp_3.src.w;
+			//Power Up 4
+			int powerUpHeight_4 = powerUp_4.src.h;
+			int powerUpWidth_4 = powerUp_4.src.w;
+
+			//Player sheild
+			int playerShieldHeight = playerShield.src.h;
+			int playerShieldWidth = playerShield.src.w;
 
 	//Screen Positions
 		//Player Ship
@@ -183,6 +210,28 @@ void load() {
 			backGround_1.dst.y = (SCREEN_HEIGHT*0);
 			backGround_1.dst.w = SCREEN_WIDTH;
 			backGround_1.dst.h = SCREEN_HEIGHT;
+
+
+
+			//Player Shield. 
+			playerShield.dst.x = playerShip.dst.x - ((playerShield.src.w - playerShip.src.w) / 2);
+			playerShield.dst.y = playerShip.dst.y - ((playerShield.src.h - playerShip.src.h)/2);
+			playerShield.dst.w = playerShieldWidth;
+			playerShield.dst.h = playerShieldHeight;
+
+		//Power Up 1
+			powerUp_1.dst.y = playerShield.dst.y;
+			powerUp_1.dst.x = playerShield.dst.x + playerShield.src.w;
+		//Power Up 2
+			powerUp_2.dst.y = powerUp_1.dst.y;
+			powerUp_2.dst.x = powerUp_1.dst.x + powerUp_1.src.w;
+		//Power Up 2
+			powerUp_3.dst.y = powerUp_2.dst.y;
+			powerUp_3.dst.x = powerUp_2.dst.x + powerUp_1.src.w;
+		//Power Up 2
+			powerUp_4.dst.y = powerUp_3.dst.y;
+			powerUp_4.dst.x = powerUp_3.dst.x + powerUp_1.src.w;
+
 }
 void draw() {
 
@@ -199,6 +248,15 @@ void draw() {
 	enemyProjectiles.draw(pRenderer);
 	bossSprite.draw(pRenderer);
 	bossProjectiles.draw(pRenderer);
+
+
+
+
+	powerUp_1.draw(pRenderer);
+	powerUp_2.draw(pRenderer);
+	powerUp_3.draw(pRenderer);
+	powerUp_4.draw(pRenderer);
+	playerShield.draw(pRenderer);
 
 
 
