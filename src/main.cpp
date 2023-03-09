@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include<SDL_image.h>
 #include <SDL.h>
+#include "Game.h"
 
 
 constexpr float FPS = 60.0f;
@@ -239,7 +240,7 @@ bool southMove = false;
 bool westMove = false;
 bool eastMove = false;
 bool shooting = false;
-float playerMoveSpeed = 10;
+float playerMoveSpeed = 100;
 float playerFireRateSec = 1 ;
 float playerFireDelaySec = 10;
 
