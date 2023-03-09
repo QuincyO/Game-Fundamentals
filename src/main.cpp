@@ -8,7 +8,7 @@
 
 constexpr float FPS = 60.0f;
 constexpr float DELAY_TIME = 1000.0f / FPS;
-float deltaTime = 1.0f / 60;
+float deltaTime = 1.0f / FPS;
 bool isGameRunning = true;
 const int SCREEN_WIDTH = 900; //900
 const int SCREEN_HEIGHT = 900;//1100
@@ -234,99 +234,16 @@ playerShield = spriteObject(pRenderer, "../Assets/PNG/shield.png", NULL);
 			powerUp_4.dst.x = powerUp_3.dst.x + powerUp_1.src.w;
 
 }
-void draw() {
-
-	SDL_SetRenderDrawColor(pRenderer, 75, 81, 100, 0);
-
-
-	//Drawing my game objects
-	backGround_1.draw(pRenderer);
-	astroid_1.draw(pRenderer);
-	playerShip.draw(pRenderer);
-	playerProjectile.draw(pRenderer);
-	playerHit.draw(pRenderer);
-	enemyShip.draw(pRenderer);
-	enemyProjectiles.draw(pRenderer);
-	bossSprite.draw(pRenderer);
-	bossProjectiles.draw(pRenderer);
-
-
-
-
-	powerUp_1.draw(pRenderer);
-	powerUp_2.draw(pRenderer);
-	powerUp_3.draw(pRenderer);
-	powerUp_4.draw(pRenderer);
-	playerShield.draw(pRenderer);
-
-
-
-	SDL_RenderPresent(pRenderer);
-	SDL_RenderClear(pRenderer);
-
-
-}
 bool northMove = false;
 bool southMove = false;
 bool westMove = false;
 bool eastMove = false;
 bool shooting = false;
-float playerMoveSpeed = 10;
-float playerFireRate = 1.0;
+float playerMoveSpeed = 200;
+float playerFireRateSec = 1 ;
+float playerFireDelaySec = 10;
 
-void update(unsigned long int time) {
-	astroid_1.sAngle += 1;
-	enemyShip.dst.y += 2;
-	playerProjectile.dst.y -= 30;
-	enemyProjectiles.dst.y = enemyShip.dst.y+enemyShip.src.w;
-
-
-	if (eastMove) {
-		playerShip.dst.x -= (playerMoveSpeed * deltaTime);
-	}	
-	if (westMove) {
-		playerShip.dst.x += (playerMoveSpeed * deltaTime+.5);
-	}
-
-	if (southMove) {
-		playerShip.dst.y += (playerMoveSpeed * deltaTime+.5);
-	}
-	if (northMove) {
-		playerShip.dst.y  -= (playerMoveSpeed * deltaTime);
-	}
-	playerShield.dst.x = playerShip.dst.x - ((playerShield.src.w - playerShip.src.w) / 2);
-	playerShield.dst.y = playerShip.dst.y - ((playerShield.src.h - playerShip.src.h) / 2);
-
-
-	if (enemyShip.dst.y > SCREEN_HEIGHT) {
-		enemyShip.dst.y = (SCREEN_HEIGHT * 0) - enemyShip.dst.h;
-	}
-
-	if ((playerProjectile.dst.y<=astroid_1.dst.y+astroid_1.src.h)&&(playerProjectile.dst.y>=astroid_1.dst.y))
-	{
-		playerHit.dst.y = astroid_1.dst.y + (astroid_1.src.h / 4);
-		playerHit.dst.x = astroid_1.dst.x + (astroid_1.src.w / 4);
-
-		}
-	else {
-		playerHit.dst.y = -100;
-		playerHit.dst.x = -100;
-	}
-	if (playerProjectile.dst.y < (SCREEN_HEIGHT*0)) {
-		playerProjectile.dst.y = playerShip.dst.y - playerShip.src.h;
-	}
-
-	
-
-
-
-
-
-}
 //Input Vars
-
-
-
 void input() {
 
 	SDL_Event event; //Creating SDL Event Viarable
@@ -399,9 +316,104 @@ void input() {
 
 }
 
-/**
- * \brief Program Entry Point
- */
+		int i = 0;
+
+void update(unsigned long int time) {
+	astroid_1.sAngle += 1;
+	enemyShip.dst.y += 2;
+	enemyProjectiles.dst.y = enemyShip.dst.y+enemyShip.src.w;
+
+
+	if (eastMove) {
+		playerShip.dst.x -= (playerMoveSpeed * deltaTime);
+	}	
+	if (westMove) {
+		playerShip.dst.x += (playerMoveSpeed * deltaTime+1);
+	}
+
+	if (southMove) {
+		playerShip.dst.y += (playerMoveSpeed * deltaTime+1);
+	}
+	if (northMove) {
+		playerShip.dst.y  -= (playerMoveSpeed * deltaTime);
+	}
+
+	if (shooting == true && playerFireRateSec <= 0)
+	{
+		std::cout << "Shoot: " << i++<< std::endl;
+		playerFireRateSec = 1;
+
+	}
+
+	playerFireRateSec -= deltaTime * playerFireDelaySec;
+
+
+	playerShield.dst.x = playerShip.dst.x - ((playerShield.src.w - playerShip.src.w) / 2);
+	playerShield.dst.y = playerShip.dst.y - ((playerShield.src.h - playerShip.src.h) / 2);
+
+
+	if (enemyShip.dst.y > SCREEN_HEIGHT) {
+		enemyShip.dst.y = (SCREEN_HEIGHT * 0) - enemyShip.dst.h;
+	}
+
+	if ((playerProjectile.dst.y<=astroid_1.dst.y+astroid_1.src.h)&&(playerProjectile.dst.y>=astroid_1.dst.y))
+	{
+		playerHit.dst.y = astroid_1.dst.y + (astroid_1.src.h / 4);
+		playerHit.dst.x = astroid_1.dst.x + (astroid_1.src.w / 4);
+
+		}
+	else {
+		playerHit.dst.y = -100;
+		playerHit.dst.x = -100;
+	}
+	if (playerProjectile.dst.y < (SCREEN_HEIGHT*0)) {
+		playerProjectile.dst.y = playerShip.dst.y - playerShip.src.h;
+	}
+
+	
+
+
+
+
+
+}
+
+
+void draw() {
+
+	SDL_SetRenderDrawColor(pRenderer, 75, 81, 100, 0);
+
+
+	//Drawing my game objects
+	backGround_1.draw(pRenderer);
+	astroid_1.draw(pRenderer);
+	playerShip.draw(pRenderer);
+	playerProjectile.draw(pRenderer);
+	playerHit.draw(pRenderer);
+	enemyShip.draw(pRenderer);
+	enemyProjectiles.draw(pRenderer);
+	bossSprite.draw(pRenderer);
+	bossProjectiles.draw(pRenderer);
+
+
+
+
+	powerUp_1.draw(pRenderer);
+	powerUp_2.draw(pRenderer);
+	powerUp_3.draw(pRenderer);
+	powerUp_4.draw(pRenderer);
+	playerShield.draw(pRenderer);
+
+
+
+	SDL_RenderPresent(pRenderer);
+	SDL_RenderClear(pRenderer);
+
+
+}
+
+
+
 int main(int argc, char* args[])
 {
 	// show and position the application console
@@ -431,7 +443,7 @@ int main(int argc, char* args[])
 		if (const float frame_time = static_cast<float>(SDL_GetTicks()) - frame_start;
 			frame_time < DELAY_TIME)
 		{
-			SDL_Delay(static_cast<int>(DELAY_TIME - frame_time));
+         			SDL_Delay(static_cast<int>(DELAY_TIME - frame_time));
 		}
 
 
