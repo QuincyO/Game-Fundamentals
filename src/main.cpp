@@ -239,7 +239,7 @@ bool southMove = false;
 bool westMove = false;
 bool eastMove = false;
 bool shooting = false;
-float playerMoveSpeed = 200;
+float playerMoveSpeed = 10;
 float playerFireRateSec = 1 ;
 float playerFireDelaySec = 10;
 
