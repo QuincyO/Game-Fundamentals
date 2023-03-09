@@ -8,9 +8,10 @@
 
 constexpr float FPS = 60.0f;
 constexpr float DELAY_TIME = 1000.0f / FPS;
+float deltaTime = 1.0f / 60;
 bool isGameRunning = true;
-const int SCREEN_WIDTH = 900;
-const int SCREEN_HEIGHT = 1100;
+const int SCREEN_WIDTH = 900; //900
+const int SCREEN_HEIGHT = 900;//1100
 SDL_Window* pWindow = nullptr;
 SDL_Renderer* pRenderer = nullptr;
 SDL_RendererFlip Flip = SDL_FLIP_NONE;
@@ -265,13 +266,40 @@ void draw() {
 
 
 }
+bool northMove = false;
+bool southMove = false;
+bool westMove = false;
+bool eastMove = false;
+bool shooting = false;
+float playerMoveSpeed = 10;
+float playerFireRate = 1.0;
+
 void update(unsigned long int time) {
 	astroid_1.sAngle += 1;
 	enemyShip.dst.y += 2;
 	playerProjectile.dst.y -= 30;
 	enemyProjectiles.dst.y = enemyShip.dst.y+enemyShip.src.w;
+
+
+	if (eastMove) {
+		playerShip.dst.x -= (playerMoveSpeed * deltaTime);
+	}	
+	if (westMove) {
+		playerShip.dst.x += (playerMoveSpeed * deltaTime+.5);
+	}
+
+	if (southMove) {
+		playerShip.dst.y += (playerMoveSpeed * deltaTime+.5);
+	}
+	if (northMove) {
+		playerShip.dst.y  -= (playerMoveSpeed * deltaTime);
+	}
+	playerShield.dst.x = playerShip.dst.x - ((playerShield.src.w - playerShip.src.w) / 2);
+	playerShield.dst.y = playerShip.dst.y - ((playerShield.src.h - playerShip.src.h) / 2);
+
+
 	if (enemyShip.dst.y > SCREEN_HEIGHT) {
-		enemyShip.dst.y = (SCREEN_HEIGHT * 0) - enemyShip.src.h;
+		enemyShip.dst.y = (SCREEN_HEIGHT * 0) - enemyShip.dst.h;
 	}
 
 	if ((playerProjectile.dst.y<=astroid_1.dst.y+astroid_1.src.h)&&(playerProjectile.dst.y>=astroid_1.dst.y))
@@ -295,10 +323,79 @@ void update(unsigned long int time) {
 
 
 }
+//Input Vars
 
 
 
 void input() {
+
+	SDL_Event event; //Creating SDL Event Viarable
+	while (SDL_PollEvent(&event)) {
+			SDL_Scancode key = event.key.keysym.scancode;
+		switch (event.type)
+		{
+		case (SDL_KEYDOWN):{
+			switch (key) {
+			case(SDL_SCANCODE_W): {
+					northMove = true;
+					break;
+				}
+			case (SDL_SCANCODE_S): {
+				southMove = true;
+				break;
+			}
+			case (SDL_SCANCODE_A):
+			{
+				 eastMove = true;
+				 break;
+			 }
+			case (SDL_SCANCODE_D):
+			{
+				westMove = true;
+				break;
+			}
+			case (SDL_SCANCODE_SPACE):
+			{
+				shooting = true;
+				break;
+			}
+			
+			}
+			break;
+		}
+		case (SDL_KEYUP):
+		{
+			switch (key) {
+			case(SDL_SCANCODE_W): {
+				northMove = false;
+				break;
+			}
+			case (SDL_SCANCODE_S): {
+				southMove = false;
+				break;
+			}
+			case (SDL_SCANCODE_A):
+			{
+				eastMove = false;
+				break;
+			}
+			case (SDL_SCANCODE_D):
+			{
+				westMove = false;
+				break;
+			}
+			case (SDL_SCANCODE_SPACE):
+			{
+				shooting = false;
+				break;
+			}
+			}
+			break;
+
+		}
+		}
+
+	}
 
 }
 
