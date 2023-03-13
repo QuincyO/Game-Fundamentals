@@ -30,6 +30,8 @@ public:
 		static Game instance;
 		return instance;
 	}
+	Game();
+	~Game();
 
 	// simply set the isRunning variable to true
 	void Init();
@@ -58,8 +60,6 @@ public:
 	[[nodiscard]] SDL_Window* GetWindow() const;
 
 private:
-	Game();
-	~Game();
 
 	// game properties
 	bool m_bRunning;

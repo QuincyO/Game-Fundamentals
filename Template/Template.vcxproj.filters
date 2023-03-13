@@ -144,6 +144,12 @@
     <ClCompile Include="help.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="gameStrut.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFund.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">
@@ -295,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="..\src\InputType.h">
       <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFund.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

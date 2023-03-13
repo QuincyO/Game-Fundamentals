@@ -5,8 +5,9 @@
 #include<SDL_image.h>
 #include <SDL.h>
 #include "Game.h"
-
-
+#include "gameStrut.cpp"
+#include "Renderer.h"
+#include "GameFund.h"
 constexpr float FPS = 60.0f;
 constexpr float DELAY_TIME = 1000.0f / FPS;
 float deltaTime = 1.0f / FPS;
@@ -14,10 +15,7 @@ bool isGameRunning = true;
 const int SCREEN_WIDTH = 900; //900
 const int SCREEN_HEIGHT = 900;//1100
 SDL_Window* pWindow = nullptr;
-SDL_Renderer* pRenderer = nullptr;
-SDL_RendererFlip Flip = SDL_FLIP_NONE;
-
-	struct spriteObject
+/*struct spriteObject
 	{
 
 	public:
@@ -55,7 +53,7 @@ SDL_RendererFlip Flip = SDL_FLIP_NONE;
 		//Member Function of spriteObject Struct
 		void draw(SDL_Renderer* renderer)
 		{
-			SDL_RenderCopyEx(pRenderer, pTexture, &src, &dst, sAngle, NULL, Flip);
+			SDL_RenderCopyEx(Renderer::Instance().GetRenderer(), pTexture, &src, &dst, sAngle, NULL, Flip);
 		}
 
 
@@ -63,28 +61,23 @@ SDL_RendererFlip Flip = SDL_FLIP_NONE;
 	private:
 
 
-	};
+	};*/
 	//Written by Quincy
-spriteObject backGround_1 = spriteObject();
-spriteObject playerShip = spriteObject();
-spriteObject playerProjectile = spriteObject();
-spriteObject playerHit = spriteObject();
-spriteObject enemyShip = spriteObject();
-spriteObject enemyProjectiles = spriteObject();
-spriteObject bossSprite = spriteObject();
-spriteObject bossProjectiles = spriteObject();
-spriteObject astroid_1 = spriteObject();
-
-
-//Written Michael
-spriteObject powerUp_1 = spriteObject();
-spriteObject powerUp_2 = spriteObject();
-spriteObject powerUp_3 = spriteObject();
-spriteObject powerUp_4 = spriteObject();
-spriteObject playerShield = spriteObject();
-
-
-
+//spriteObject backGround_1 = spriteObject();
+//spriteObject playerShip = spriteObject();
+//spriteObject playerProjectile = spriteObject();
+//spriteObject playerHit = spriteObject();
+//spriteObject enemyShip = spriteObject();
+//spriteObject enemyProjectiles = spriteObject();
+//spriteObject bossSprite = spriteObject();
+//spriteObject bossProjectiles = spriteObject();
+//spriteObject astroid_1 = spriteObject();
+////Written Michael
+//spriteObject powerUp_1 = spriteObject();
+//spriteObject powerUp_2 = spriteObject();
+//spriteObject powerUp_3 = spriteObject();
+//spriteObject powerUp_4 = spriteObject();
+//spriteObject playerShield = spriteObject();
 bool init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
@@ -99,10 +92,11 @@ bool init() {
 		return false;
 		std::cout << "Failed to open window" << std::endl;
 	}
-	pRenderer = SDL_CreateRenderer(pWindow, -1, 0);
-	if (pRenderer == NULL) {
+	//Renderer::Instance().GetRenderer() = SDL_CreateRenderer(pWindow, -1, 0);
+	
+	if (Renderer::Instance().GetRenderer() == NULL) {
 		std::cout << "pRender did not load" << std::endl;
-		return false;
+		//return false;
 	}
 	return true;
 }
@@ -110,21 +104,20 @@ void load() {
 	//SDL_Texture* IMG_LoadTexture(SDL_Renderer * renderer, const char* file);
 
 	//Applying textures
-	playerShip = spriteObject(pRenderer, "../Assets/PNG/player.png",NULL);
-	playerProjectile = spriteObject(pRenderer, "../Assets/PNG/Lasers/laserRed01.png",NULL);
-	playerHit = spriteObject(pRenderer, "../Assets/PNG/laserRedShot.png",NULL);
-	enemyShip = spriteObject(pRenderer, "../Assets/PNG/Enemies/enemyBlue2.png",NULL);
-	enemyProjectiles = spriteObject(pRenderer, "../Assets/PNG/Lasers/laserBlue01.png",180);
-	bossSprite = spriteObject(pRenderer, "../Assets/PNG/Ships/spaceShips_005.png",NULL);
-	bossProjectiles = spriteObject(pRenderer, "../Assets/PNG/Missiles/spaceMissiles_001.png",180);
-	astroid_1 = spriteObject(pRenderer, "../Assets/PNG/Meteors/meteorBrown_big4.png",0);
-	backGround_1 = spriteObject(pRenderer, "../Assets/PNG/Background/starBackground.png",NULL);
-
-powerUp_1 = spriteObject(pRenderer, "../Assets/PNG/Power-ups/powerupBlue_bolt.png", NULL);
-powerUp_2 = spriteObject(pRenderer, "../Assets/PNG/Power-ups/powerupBlue.png", NULL);
-powerUp_3 = spriteObject(pRenderer, "../Assets/PNG/Power-ups/powerupBlue_shield.png", NULL);
-powerUp_4 = spriteObject(pRenderer, "../Assets/PNG/Power-ups/powerupBlue_star.png", NULL);
-playerShield = spriteObject(pRenderer, "../Assets/PNG/shield.png", NULL);
+/*playerShip = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/player.png", NULL);
+playerProjectile = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Lasers/laserRed01.png",NULL);
+playerHit = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/laserRedShot.png",NULL);
+enemyShip = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Enemies/enemyBlue2.png",NULL);
+enemyProjectiles = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Lasers/laserBlue01.png",180);
+bossSprite = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Ships/spaceShips_005.png",NULL);
+bossProjectiles = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Missiles/spaceMissiles_001.png",180);
+astroid_1 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Meteors/meteorBrown_big4.png",0);
+backGround_1 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Background/starBackground.png",NULL);
+owerUp_1 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Power-ups/powerupBlue_bolt.png", NULL);
+owerUp_2 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Power-ups/powerupBlue.png", NULL);
+owerUp_3 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Power-ups/powerupBlue_shield.png", NULL);
+owerUp_4 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Power-ups/powerupBlue_star.png", NULL);
+layerShield = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/shield.png", NULL);
 
 	//Object Sizing
 		//PlayerShip
@@ -233,6 +226,7 @@ playerShield = spriteObject(pRenderer, "../Assets/PNG/shield.png", NULL);
 		//Power Up 2
 			powerUp_4.dst.y = powerUp_3.dst.y;
 			powerUp_4.dst.x = powerUp_3.dst.x + powerUp_1.src.w;
+			*/
 
 }
 bool northMove = false;
@@ -243,7 +237,6 @@ bool shooting = false;
 float playerMoveSpeed = 100;
 float playerFireRateSec = 1 ;
 float playerFireDelaySec = 10;
-
 //Input Vars
 void input() {
 
@@ -316,11 +309,8 @@ void input() {
 	}
 
 }
-
-		int i = 0;
-
 void update(unsigned long int time) {
-	astroid_1.sAngle += 1;
+/*	astroid_1.sAngle += 1;
 	enemyShip.dst.y += 2;
 	enemyProjectiles.dst.y = enemyShip.dst.y+enemyShip.src.w;
 
@@ -341,7 +331,7 @@ void update(unsigned long int time) {
 
 	if (shooting == true && playerFireRateSec <= 0)
 	{
-		std::cout << "Shoot: " << i++<< std::endl;
+	//	std::cout << "Shoot: " << count++<< std::endl;
 		playerFireRateSec = 1;
 
 	}
@@ -376,45 +366,40 @@ void update(unsigned long int time) {
 
 
 
-
+	*/
 }
-
-
 void draw() {
-
-	SDL_SetRenderDrawColor(pRenderer, 75, 81, 100, 0);
+/*
+	SDL_SetRenderDrawColor(Renderer::Instance().GetRenderer(), 75, 81, 100, 0);
 
 
 	//Drawing my game objects
-	backGround_1.draw(pRenderer);
-	astroid_1.draw(pRenderer);
-	playerShip.draw(pRenderer);
-	playerProjectile.draw(pRenderer);
-	playerHit.draw(pRenderer);
-	enemyShip.draw(pRenderer);
-	enemyProjectiles.draw(pRenderer);
-	bossSprite.draw(pRenderer);
-	bossProjectiles.draw(pRenderer);
+	backGround_1.draw(Renderer::Instance().GetRenderer());
+	astroid_1.draw(Renderer::Instance().GetRenderer());
+	playerShip.draw(Renderer::Instance().GetRenderer());
+	playerProjectile.draw(Renderer::Instance().GetRenderer());
+	playerHit.draw(Renderer::Instance().GetRenderer());
+	enemyShip.draw(Renderer::Instance().GetRenderer());
+	enemyProjectiles.draw(Renderer::Instance().GetRenderer());
+	bossSprite.draw(Renderer::Instance().GetRenderer());
+	bossProjectiles.draw(Renderer::Instance().GetRenderer());
 
 
 
 
-	powerUp_1.draw(pRenderer);
-	powerUp_2.draw(pRenderer);
-	powerUp_3.draw(pRenderer);
-	powerUp_4.draw(pRenderer);
-	playerShield.draw(pRenderer);
+	powerUp_1.draw(Renderer::Instance().GetRenderer());
+	powerUp_2.draw(Renderer::Instance().GetRenderer());
+	powerUp_3.draw(Renderer::Instance().GetRenderer());
+	powerUp_4.draw(Renderer::Instance().GetRenderer());
+	playerShield.draw(Renderer::Instance().GetRenderer());
 
 
 
-	SDL_RenderPresent(pRenderer);
-	SDL_RenderClear(pRenderer);
+	SDL_RenderPresent(Renderer::Instance().GetRenderer());
+	SDL_RenderClear(Renderer::Instance().GetRenderer());
 
-
+*/
 }
-
-
-
 int main(int argc, char* args[])
 {
 	// show and position the application console
@@ -422,34 +407,41 @@ int main(int argc, char* args[])
 	auto console = freopen("CON", "w", stdout);
 	const auto window_handle = GetConsoleWindow();
 	MoveWindow(window_handle, 100, 700, 800, 200, TRUE);
-
-	isGameRunning = init();
+	GameFund* game = nullptr;
 	Uint32 frames = 0;
 
+	game = new GameFund();
+	game->init("Quincy's Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+	//isGameRunning = init();
+	//load();
 
-	load();
+	game->load();
 
 	// Display Main SDL Window
 	// Main Game Loop
-	while (isGameRunning)
+	while (game->running())
 	{
 		const auto frame_start = static_cast<float>(SDL_GetTicks());
-		input();
-		draw();
-		update(frame_start);
+		game->input();
+		game->update();
+		game->draw();
+	//input();
+	//draw();
+	//update(frame_start);
 
 
 
 
-		if (const float frame_time = static_cast<float>(SDL_GetTicks()) - frame_start;
-			frame_time < DELAY_TIME)
-		{
-         			SDL_Delay(static_cast<int>(DELAY_TIME - frame_time));
-		}
+	if (const float frame_time = static_cast<float>(SDL_GetTicks()) - frame_start;
+		frame_time < DELAY_TIME)
+	{
+     			SDL_Delay(static_cast<int>(DELAY_TIME - frame_time));
+	}
 
 
 
 	}
+	game->clean();
 
 	return 0;
 }

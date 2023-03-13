@@ -26,7 +26,6 @@ void StartScene::Clean()
 {
 	RemoveAllChildren();
 }
-
 void StartScene::HandleEvents()
 {
 	EventManager::Instance().Update();

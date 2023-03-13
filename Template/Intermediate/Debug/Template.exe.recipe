@@ -5,7 +5,11 @@
       <FullPath>C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\bin\Debug\Template.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles />
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\Template\gameStrut.cpp</FullPath>
+    </ContentFile>
+  </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>

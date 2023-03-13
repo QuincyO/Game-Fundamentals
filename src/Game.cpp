@@ -19,11 +19,6 @@ Game::~Game()
 = default;
 
 
-void Game::Init()
-{
-	m_bRunning = true;
-}
-
 bool Game::Init(const char* title, const int x, const int y, const int width, const int height, const bool fullscreen)
 {
 	auto flags = 0;
