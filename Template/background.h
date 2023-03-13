@@ -15,14 +15,17 @@ public:
 
 
 private:
+	int map[32][28];
+
+
 	SDL_Rect src, dst;
+
 	SDL_Texture* star1;
 	SDL_Texture* star2;
 	SDL_Texture* lines;
 	SDL_Texture* nebula;
 	SDL_Texture* backGround;
 
-	int map[32][28];
 
 
 
