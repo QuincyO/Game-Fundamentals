@@ -2,19 +2,12 @@
 #include <crtdbg.h>
 #include <iostream>
 #include <Windows.h>
-#include<SDL_image.h>
-#include <SDL.h>
-#include "Game.h"
-#include "gameStrut.cpp"
-#include "Renderer.h"
 #include "GameFund.h"
 constexpr float FPS = 60.0f;
 constexpr float DELAY_TIME = 1000.0f / FPS;
 float deltaTime = 1.0f / FPS;
-bool isGameRunning = true;
-const int SCREEN_WIDTH = 900; //900
-const int SCREEN_HEIGHT = 900;//1100
-SDL_Window* pWindow = nullptr;
+const int SCREEN_WIDTH = 896; //896 divisible by 32
+const int SCREEN_HEIGHT = 1024;//1024 dividisible by 32
 /*struct spriteObject
 	{
 
@@ -61,23 +54,23 @@ SDL_Window* pWindow = nullptr;
 	private:
 
 
-	};*/
+	};
 	//Written by Quincy
-//spriteObject backGround_1 = spriteObject();
-//spriteObject playerShip = spriteObject();
-//spriteObject playerProjectile = spriteObject();
-//spriteObject playerHit = spriteObject();
-//spriteObject enemyShip = spriteObject();
-//spriteObject enemyProjectiles = spriteObject();
-//spriteObject bossSprite = spriteObject();
-//spriteObject bossProjectiles = spriteObject();
-//spriteObject astroid_1 = spriteObject();
-////Written Michael
-//spriteObject powerUp_1 = spriteObject();
-//spriteObject powerUp_2 = spriteObject();
-//spriteObject powerUp_3 = spriteObject();
-//spriteObject powerUp_4 = spriteObject();
-//spriteObject playerShield = spriteObject();
+spriteObject backGround_1 = spriteObject();
+spriteObject playerShip = spriteObject();
+spriteObject playerProjectile = spriteObject();
+spriteObject playerHit = spriteObject();
+spriteObject enemyShip = spriteObject();
+spriteObject enemyProjectiles = spriteObject();
+spriteObject bossSprite = spriteObject();
+spriteObject bossProjectiles = spriteObject();
+spriteObject astroid_1 = spriteObject();
+//Written Michael
+spriteObject powerUp_1 = spriteObject();
+spriteObject powerUp_2 = spriteObject();
+spriteObject powerUp_3 = spriteObject();
+spriteObject powerUp_4 = spriteObject();
+spriteObject playerShield = spriteObject();
 bool init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
@@ -226,7 +219,7 @@ layerShield = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/sh
 		//Power Up 2
 			powerUp_4.dst.y = powerUp_3.dst.y;
 			powerUp_4.dst.x = powerUp_3.dst.x + powerUp_1.src.w;
-			*/
+			
 
 }
 bool northMove = false;
@@ -310,7 +303,7 @@ void input() {
 
 }
 void update(unsigned long int time) {
-/*	astroid_1.sAngle += 1;
+	astroid_1.sAngle += 1;
 	enemyShip.dst.y += 2;
 	enemyProjectiles.dst.y = enemyShip.dst.y+enemyShip.src.w;
 
@@ -366,10 +359,10 @@ void update(unsigned long int time) {
 
 
 
-	*/
+	
 }
 void draw() {
-/*
+
 	SDL_SetRenderDrawColor(Renderer::Instance().GetRenderer(), 75, 81, 100, 0);
 
 
@@ -398,8 +391,8 @@ void draw() {
 	SDL_RenderPresent(Renderer::Instance().GetRenderer());
 	SDL_RenderClear(Renderer::Instance().GetRenderer());
 
-*/
-}
+
+}*/
 int main(int argc, char* args[])
 {
 	// show and position the application console
@@ -411,13 +404,10 @@ int main(int argc, char* args[])
 	Uint32 frames = 0;
 
 	game = new GameFund();
-	game->init("Quincy's Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false);
-	//isGameRunning = init();
-	//load();
+	game->init("Quincy's Game", SCREEN_WIDTH, SCREEN_HEIGHT, false);
 
 	game->load();
 
-	// Display Main SDL Window
 	// Main Game Loop
 	while (game->running())
 	{

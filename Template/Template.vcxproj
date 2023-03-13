@@ -196,6 +196,8 @@
     <ClCompile Include="..\src\Target.cpp" />
     <ClCompile Include="..\src\TextureManager.cpp" />
     <ClCompile Include="..\src\Util.cpp" />
+    <ClCompile Include="background.cpp" />
+    <ClCompile Include="fundObject.cpp" />
     <ClCompile Include="GameFund.cpp" />
     <ClCompile Include="gameStrut.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -209,6 +211,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="textFund.cpp" />
     <ClCompile Include="TextureManager1AndO.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -262,7 +265,10 @@
     <ClInclude Include="..\src\Transform.h" />
     <ClInclude Include="..\src\Util.h" />
     <ClInclude Include="..\src\WindowName.h" />
+    <ClInclude Include="background.h" />
+    <ClInclude Include="fundObject.h" />
     <ClInclude Include="GameFund.h" />
+    <ClInclude Include="textFund.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
