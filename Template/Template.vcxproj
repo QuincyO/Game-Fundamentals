@@ -197,6 +197,7 @@
     <ClCompile Include="..\src\TextureManager.cpp" />
     <ClCompile Include="..\src\Util.cpp" />
     <ClCompile Include="background.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="fundObject.cpp" />
     <ClCompile Include="GameFund.cpp" />
     <ClCompile Include="gameStrut.cpp">
@@ -266,6 +267,7 @@
     <ClInclude Include="..\src\Util.h" />
     <ClInclude Include="..\src\WindowName.h" />
     <ClInclude Include="background.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="fundObject.h" />
     <ClInclude Include="GameFund.h" />
     <ClInclude Include="textFund.h" />

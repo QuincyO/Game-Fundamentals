@@ -1,5 +1,6 @@
 #include "GameFund.h"
 #include "background.h"
+#include "Bullet.h"
 //#include "fundObject.cpp"
 /* backGround_1 = spriteObject();
 //spriteObject playerShip = spriteObject();
@@ -20,7 +21,9 @@ spriteObject playerShield = spriteObject();
 
 fundObject* playerShip;
 fundObject* enemyShip;
+//fundObject* bullet1;
 background* map;
+Bullet* bullet1;
 
 GameFund::GameFund() {}
 GameFund::~GameFund() {}
@@ -67,6 +70,7 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 }
 
 void GameFund::input() {
+	playerShip->input();
 	SDL_Event event;
 	SDL_PollEvent(&event);
 	switch (event.type) {
@@ -78,19 +82,23 @@ void GameFund::input() {
 void GameFund::update(){
 	playerShip->update();
 	enemyShip->update();
+	//bullet1->update();
 }
 void GameFund::load() {
-	enemyShip = new fundObject("../Assets/PNG/enemyShip.png",250, 250);
-	playerShip = new fundObject("../Assets/PNG/player.png",500,500);
 	map = new background();
+	enemyShip = new fundObject("../Assets/PNG/enemyShip.png",250, 250);
+	playerShip = new fundObject("../Assets/PNG/player.png",0,500);
+	//bullet1 = new fundObject("../Assets/PNG/laserRed.png", 800, 800);
+	bullet1 = new Bullet("../Assets/PNG/laserRed.png", 800, 800);
 
 }
 
 void GameFund::draw() {
 	SDL_RenderClear(pRenderer);
 	map->drawMap();
-	playerShip->render();
-	enemyShip->render();
+	bullet1->draw(NULL);
+	playerShip->render(NULL);
+	enemyShip->render(NULL);
 
 	SDL_RenderPresent(pRenderer);
 }

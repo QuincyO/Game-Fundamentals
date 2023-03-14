@@ -162,6 +162,9 @@
     <ClCompile Include="background.cpp">
       <Filter>Core\GameFundementals</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Core\GameFundementals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">
@@ -324,6 +327,9 @@
       <Filter>Core\GameFundementals</Filter>
     </ClInclude>
     <ClInclude Include="background.h">
+      <Filter>Core\GameFundementals</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
       <Filter>Core\GameFundementals</Filter>
     </ClInclude>
   </ItemGroup>
