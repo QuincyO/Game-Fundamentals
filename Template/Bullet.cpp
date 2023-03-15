@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet(const char* filepath, int x,int y)
+Bullet::Bullet(const char* filepath, int xPos,int yPos,int width, int height)
 {
 	bulletTexture = textFund::loadTexture(filepath, NULL);
 
@@ -14,11 +14,17 @@ Bullet::Bullet(const char* filepath, int x,int y)
 	srcRect.x = srcRect.y = 0;
 	dstRect.h = srcRect.h;
 	dstRect.w = srcRect.w;
-	dstRect.x = x;
-	dstRect.y = y;
+	dstRect.x = xPos + (width / 2)-(dstRect.w/2);
+	dstRect.y = yPos;
 	
+
 }
 
 void Bullet::draw(int rotation) {
 	SDL_RenderCopyEx(GameFund::pRenderer, bulletTexture, &srcRect, &dstRect,rotation,NULL, SDL_FLIP_NONE);
+}
+
+void Bullet::update() {
+
+	dstRect.y -= bulletMoveSpeed;
 }

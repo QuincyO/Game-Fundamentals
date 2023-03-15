@@ -165,6 +165,7 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Core\GameFundementals</Filter>
     </ClCompile>
+    <ClCompile Include="bulletManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">
@@ -332,6 +333,7 @@
     <ClInclude Include="Bullet.h">
       <Filter>Core\GameFundementals</Filter>
     </ClInclude>
+    <ClInclude Include="bulletManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">

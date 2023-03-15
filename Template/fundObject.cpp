@@ -1,5 +1,7 @@
 #include "fundObject.h"
 #include"textFund.h"
+#include "bulletManager.h"
+	bulletManager bullet;
 
 
 
@@ -73,13 +75,12 @@
 void fundObject::update() {
 	//Movement or Actions
 	SDL_QueryTexture(objectTexture, NULL, NULL, &srcRect.w, &srcRect.h);
-
-
-
 		srcRect.x = 0;
 		srcRect.y = 0;
+		dstRect.w = srcRect.w;
+		dstRect.h = srcRect.h;
 
-
+	//2 Axis Movement
 	if (upMove) {
 			dstRect.y -= playerMoveSpeedPerSec;
 
@@ -97,21 +98,10 @@ void fundObject::update() {
 
 	}
 	//Shooting Mechanic
-	if (shooting && shootingTimer <= 0.0f) {
-		std::cout << "Shooting\n";
+	shoot();
+	bullet.updateBullet();
 
-		//Resetting The Timer
-		shootingTimer = shootCD;
-	}
-
-	shootingTimer -= deltaTime;
-
-		dstRect.w = srcRect.w;
-		dstRect.h = srcRect.h;
-	
-
-
-
+	//Preventing From exiting Box
 		if (dstRect.x >= 896-dstRect.w-10) {
 			dstRect.x = 896 - dstRect.w-10;
 		}
@@ -126,6 +116,17 @@ void fundObject::update() {
 		}
 }
 
+void fundObject::shoot()
+{
+	//Shooting Mechanic
+	if (shooting && shootingTimer <= 0.0f) {
+		bullet.createBullet(dstRect.x, dstRect.y,dstRect.w,dstRect.h);
+		shootingTimer = shootCD;
+	}
+	shootingTimer -= deltaTime;
+}
+
 void fundObject::render(int rotation) {
 	SDL_RenderCopyEx(GameFund::pRenderer, objectTexture, &srcRect, &dstRect, rotation , NULL, flip);
+		bullet.drawBullet();
 }

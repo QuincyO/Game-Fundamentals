@@ -23,7 +23,6 @@ fundObject* playerShip;
 fundObject* enemyShip;
 //fundObject* bullet1;
 background* map;
-Bullet* bullet1;
 
 GameFund::GameFund() {}
 GameFund::~GameFund() {}
@@ -89,14 +88,12 @@ void GameFund::load() {
 	enemyShip = new fundObject("../Assets/PNG/enemyShip.png",250, 250);
 	playerShip = new fundObject("../Assets/PNG/player.png",0,500);
 	//bullet1 = new fundObject("../Assets/PNG/laserRed.png", 800, 800);
-	bullet1 = new Bullet("../Assets/PNG/laserRed.png", 800, 800);
 
 }
 
 void GameFund::draw() {
 	SDL_RenderClear(pRenderer);
 	map->drawMap();
-	bullet1->draw(NULL);
 	playerShip->render(NULL);
 	enemyShip->render(NULL);
 

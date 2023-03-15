@@ -11,6 +11,7 @@ public:
 
 	void update();
 	void input();
+	void shoot();
 	void render(int rotation);
 
 	SDL_Rect srcRect, dstRect;
