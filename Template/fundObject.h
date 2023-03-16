@@ -1,21 +1,34 @@
 #pragma once
 #include"textFund.h"
 #include<SDL.h>
+#include "Vec2.h"
 
 class fundObject
 {
 public:
+	Vec2 position;
 
 	fundObject(const char* filename,int x,int y);
 	~fundObject() {}
+	//Getter Function
+	Vec2 getPos();
+
+
+	void setSpriteFrame(int width, int height);
+
+
+	void setFrame(int frame);
+
+	void setSize(Vec2 widthHeight);
+	void setSize(int x, int y);
 
 	void update();
 	void input();
 	void shoot();
 	void render(int rotation);
 
-	SDL_Rect srcRect, dstRect;
 private:
+	SDL_Rect srcRect, dstRect;
 
 	int yPos;
 	int xPos;
@@ -26,6 +39,8 @@ private:
 	bool leftMove = false;
 	bool rightMove = false;
 	bool shooting = false;
+
+	int currentFrame = 0;
 
 	float deltaTime = 1.0f / 60.0f;
 	const float playerMoveSpeedPerSec = 500*deltaTime;

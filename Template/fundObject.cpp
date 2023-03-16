@@ -7,6 +7,11 @@
 
  fundObject::fundObject(const char* texture,int x,int y) {
 	objectTexture = textFund::loadTexture(texture,NULL);
+	SDL_QueryTexture(objectTexture, NULL, NULL, &srcRect.w, &srcRect.h);
+		srcRect.x = 0;
+		srcRect.y = 0;
+		dstRect.w = srcRect.w;
+		dstRect.h = srcRect.h;
 	if (objectTexture) {
 		std::cout << "Image Created\n";
 	}
@@ -72,13 +77,41 @@
 	 }
  }
 
-void fundObject::update() {
+ Vec2 fundObject::getPos()
+ {
+	 Vec2 returnvec = { dstRect.x,dstRect.y };
+	 return returnvec;
+ }
+
+ void fundObject::setSpriteFrame(int width, int height)
+ {
+	 srcRect.w = width;
+	 srcRect.h = height;
+	 dstRect.w = srcRect.w;
+	 dstRect.h = srcRect.h;
+ }
+
+ void fundObject::setFrame(int frame)
+ {
+	 //currentFrame = frame;
+	srcRect.x = srcRect.w * currentFrame;
+ }
+
+ void fundObject::setSize(Vec2 widthHeight)
+ {
+	 dstRect.x = widthHeight.x;
+	 dstRect.y = widthHeight.y;
+
+ }
+
+ void fundObject::setSize(int w, int h)
+ {
+	 dstRect.w = w;
+	 dstRect.h = h;
+ }
+
+ void fundObject::update() {
 	//Movement or Actions
-	SDL_QueryTexture(objectTexture, NULL, NULL, &srcRect.w, &srcRect.h);
-		srcRect.x = 0;
-		srcRect.y = 0;
-		dstRect.w = srcRect.w;
-		dstRect.h = srcRect.h;
 
 	//2 Axis Movement
 	if (upMove) {
@@ -120,7 +153,8 @@ void fundObject::shoot()
 {
 	//Shooting Mechanic
 	if (shooting && shootingTimer <= 0.0f) {
-		bullet.createBullet(dstRect.x, dstRect.y,dstRect.w,dstRect.h);
+		currentFrame += 1;
+		//bullet.createBullet(dstRect.x, dstRect.y,dstRect.w,dstRect.h);
 		shootingTimer = shootCD;
 	}
 	shootingTimer -= deltaTime;
