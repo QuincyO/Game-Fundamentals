@@ -23,8 +23,9 @@ fundObject* playerShip;
 fundObject* enemyShip;
 fundObject* heli; //Animation Testing
 
+
 				  
-				  //fundObject* bullet1;
+//fundObject* bullet1;
 background* map;
 
 GameFund::GameFund() {}
@@ -72,8 +73,8 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 }
 
 void GameFund::input() {
-	//playerShip->input();
-	heli->input();
+	playerShip->input();
+	//heli->input();
 	SDL_Event event;
 	SDL_PollEvent(&event);
 	switch (event.type) {
@@ -105,6 +106,7 @@ void GameFund::draw() {
 	playerShip->render(NULL);
 	enemyShip->render(NULL);
 	heli->render(NULL);
+	//bullet1->render(NULL);
 
 	SDL_RenderPresent(pRenderer);
 }

@@ -154,7 +154,7 @@ void fundObject::shoot()
 	//Shooting Mechanic
 	if (shooting && shootingTimer <= 0.0f) {
 		currentFrame += 1;
-		//bullet.createBullet(dstRect.x, dstRect.y,dstRect.w,dstRect.h);
+		bullet.createBullet(dstRect.x, dstRect.y,dstRect.w,dstRect.h);
 		shootingTimer = shootCD;
 	}
 	shootingTimer -= deltaTime;
