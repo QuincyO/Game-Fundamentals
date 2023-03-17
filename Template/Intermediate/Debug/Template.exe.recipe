@@ -2,12 +2,12 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\101070454\source\repos\QuincyO\Game-Fundamentals\bin\Debug\Template.exe</FullPath>
+      <FullPath>C:\Users\Quincy\OneDrive\Desktop\Game Programing\Game-Fundamentals\bin\Debug\Template.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\101070454\source\repos\QuincyO\Game-Fundamentals\Template\gameStrut.cpp</FullPath>
+      <FullPath>C:\Users\Quincy\OneDrive\Desktop\Game Programing\Game-Fundamentals\Template\gameStrut.cpp</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />
