@@ -113,6 +113,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\IMGUI_SDL;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_Image;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_Mixer;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_net;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL2_ttf;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\Template;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,6 +149,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\IMGUI_SDL;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_Image;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_Mixer;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_net;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL2_ttf;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\Template;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
