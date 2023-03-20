@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "SDL.h"
+#include"fundObject.h"
 
 class GameFund
 {
@@ -9,7 +10,7 @@ public:
 	GameFund();
 	~GameFund();
 
-	void init(const char* Title, int xPos, int yPos, int width, int height, bool fullscreen);
+	void init(const char* Title, int width, int height, bool fullscreen);
 
 	void input();
 	void update();
@@ -18,10 +19,11 @@ public:
 	void clean();
 	bool running();
 
+	static SDL_Renderer *pRenderer;
+
 private:
 	bool isRunning;
 	SDL_Window* pWindow;
-	SDL_Renderer* pRenderer;
 
 	int count;
 

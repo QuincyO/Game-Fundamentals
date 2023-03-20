@@ -31,6 +31,9 @@
     <Filter Include="DOCS">
       <UniqueIdentifier>{a44d29c3-2835-4901-a310-0039121b84b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\GameFundementals">
+      <UniqueIdentifier>{6a747666-8950-4379-9feb-aab89035e5d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\StartScene.cpp">
@@ -90,9 +93,6 @@
     <ClCompile Include="..\src\GameObject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\main.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Scene.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -144,11 +144,32 @@
     <ClCompile Include="help.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="gameStrut.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="textFund.cpp">
+      <Filter>Core\GameFundementals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main.cpp">
+      <Filter>Core\GameFundementals</Filter>
     </ClCompile>
     <ClCompile Include="GameFund.cpp">
-      <Filter>Core</Filter>
+      <Filter>Core\GameFundementals</Filter>
+    </ClCompile>
+    <ClCompile Include="gameStrut.cpp">
+      <Filter>Core\GameFundementals</Filter>
+    </ClCompile>
+    <ClCompile Include="fundObject.cpp">
+      <Filter>Core\GameFundementals</Filter>
+    </ClCompile>
+    <ClCompile Include="background.cpp">
+      <Filter>Core\GameFundementals</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Core\GameFundementals</Filter>
+    </ClCompile>
+    <ClCompile Include="bulletManager.cpp">
+      <Filter>Core\GameFundementals</Filter>
+    </ClCompile>
+    <ClCompile Include="Vec2.cpp">
+      <Filter>Core\GameFundementals</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -302,8 +323,26 @@
     <ClInclude Include="..\src\InputType.h">
       <Filter>Enums</Filter>
     </ClInclude>
+    <ClInclude Include="textFund.h">
+      <Filter>Core\GameFundementals</Filter>
+    </ClInclude>
     <ClInclude Include="GameFund.h">
-      <Filter>Core</Filter>
+      <Filter>Core\GameFundementals</Filter>
+    </ClInclude>
+    <ClInclude Include="fundObject.h">
+      <Filter>Core\GameFundementals</Filter>
+    </ClInclude>
+    <ClInclude Include="background.h">
+      <Filter>Core\GameFundementals</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Core\GameFundementals</Filter>
+    </ClInclude>
+    <ClInclude Include="bulletManager.h">
+      <Filter>Core\GameFundementals</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.h">
+      <Filter>Core\GameFundementals</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

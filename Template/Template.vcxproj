@@ -93,7 +93,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\src;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\Template;$(SolutionDir)include\;$(SolutionDir)include\GLM\;$(SolutionDir)include\SDL\include\;$(SolutionDir)include\SDL_Image\include\;$(SolutionDir)include\SDL_Mixer\include\;$(SolutionDir)include\SDL2_ttf\include\;$(SolutionDir)include\SDL_net\include\;$(SolutionDir)include\IMGUI_SDL\;$(SolutionDir)include\IMGUI\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\101070454\source\repos\QuincyO\Game-Fundamentals\Template;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\src;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\Template;$(SolutionDir)include\;$(SolutionDir)include\GLM\;$(SolutionDir)include\SDL\include\;$(SolutionDir)include\SDL_Image\include\;$(SolutionDir)include\SDL_Mixer\include\;$(SolutionDir)include\SDL2_ttf\include\;$(SolutionDir)include\SDL_net\include\;$(SolutionDir)include\IMGUI_SDL\;$(SolutionDir)include\IMGUI\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -113,6 +113,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\IMGUI_SDL;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_Image;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_Mixer;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_net;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL2_ttf;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\Template;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,6 +149,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\IMGUI_SDL;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_Image;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_Mixer;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL_net;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\include\SDL2_ttf;C:\Users\Quincy\source\repos\QuincyO\Game-Fundamentals\Template;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -196,6 +198,10 @@
     <ClCompile Include="..\src\Target.cpp" />
     <ClCompile Include="..\src\TextureManager.cpp" />
     <ClCompile Include="..\src\Util.cpp" />
+    <ClCompile Include="background.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="bulletManager.cpp" />
+    <ClCompile Include="fundObject.cpp" />
     <ClCompile Include="GameFund.cpp" />
     <ClCompile Include="gameStrut.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -209,7 +215,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="textFund.cpp" />
     <ClCompile Include="TextureManager1AndO.cpp" />
+    <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\IMGUI\imconfig.h" />
@@ -262,7 +270,13 @@
     <ClInclude Include="..\src\Transform.h" />
     <ClInclude Include="..\src\Util.h" />
     <ClInclude Include="..\src\WindowName.h" />
+    <ClInclude Include="background.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="bulletManager.h" />
+    <ClInclude Include="fundObject.h" />
     <ClInclude Include="GameFund.h" />
+    <ClInclude Include="textFund.h" />
+    <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
