@@ -74,7 +74,6 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 
 void GameFund::input() {
 	playerShip->input();
-	//heli->input();
 	SDL_Event event;
 	SDL_PollEvent(&event);
 	switch (event.type) {
@@ -87,7 +86,6 @@ void GameFund::update(){
 	playerShip->update();
 	enemyShip->update();
 	heli->update();
-	//bullet1->update();
 	heli->setFrame(0);
 }
 void GameFund::load() {
@@ -96,7 +94,6 @@ void GameFund::load() {
 	playerShip = new fundObject("../Assets/PNG/player.png",0,500);
 	heli = new fundObject("../Assets/textures/helicopter.png", 500, 500);
 	heli->setSpriteFrame(128,56);
-	//bullet1 = new fundObject("../Assets/PNG/laserRed.png", 800, 800);
 
 }
 
@@ -105,8 +102,7 @@ void GameFund::draw() {
 	map->drawMap();
 	playerShip->render(NULL);
 	enemyShip->render(NULL);
-	heli->render(NULL);
-	//bullet1->render(NULL);
+	//heli->render(NULL);
 
 	SDL_RenderPresent(pRenderer);
 }

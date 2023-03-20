@@ -404,7 +404,7 @@ int main(int argc, char* args[])
 	Uint32 frames = 0;
 
 	game = new GameFund();
-	game->init("Quincy's Game", SCREEN_WIDTH, SCREEN_HEIGHT, false);
+	game->init("Quincy and Michael Space Game", SCREEN_WIDTH, SCREEN_HEIGHT, false);
 
 	game->load();
 
