@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include "SDL.h"
 #include"fundObject.h"
 
@@ -22,6 +23,7 @@ public:
 	static SDL_Renderer *pRenderer;
 
 private:
+	std::vector<fundObject> enemyShips;
 	bool isRunning;
 	SDL_Window* pWindow;
 

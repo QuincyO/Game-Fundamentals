@@ -1,11 +1,12 @@
 #pragma once
 #include <vector>
-#include "bullet.h"
+#include "Bullet.h"
 class bulletManager
 {
 
 public:
-	bulletManager() {}
+	bulletManager() {};
+	~bulletManager() {};
 
 	void createBullet(int xPos, int yPos,int width,int height);
 
@@ -17,6 +18,7 @@ public:
 
 private:
 	std::vector<Bullet> bullets;
+
 
 
 

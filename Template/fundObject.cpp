@@ -1,10 +1,9 @@
 #include "fundObject.h"
 #include"textFund.h"
 #include "bulletManager.h"
-	bulletManager bullet;
 
 
-
+bulletManager bullet;
  fundObject::fundObject(const char* texture,int x,int y) {
 	objectTexture = textFund::loadTexture(texture,NULL);
 	SDL_QueryTexture(objectTexture, NULL, NULL, &srcRect.w, &srcRect.h);

@@ -2,11 +2,12 @@
 #include"textFund.h"
 #include<SDL.h>
 #include "Vec2.h"
+//#include "bulletManager.h"
+
 
 class fundObject
 {
 public:
-	Vec2 position;
 
 	fundObject(const char* filename,int x,int y);
 	~fundObject() {}
@@ -28,6 +29,8 @@ public:
 	void render(int rotation);
 
 private:
+	Vec2 position;
+//	bulletManager bullet;
 	SDL_Rect srcRect, dstRect;
 
 	int yPos;
