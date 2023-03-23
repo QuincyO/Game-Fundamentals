@@ -85,9 +85,7 @@ void GameFund::input() {
 void GameFund::update(){
 	playerShip->update();
 
-	for (fundObject& enemies : enemyShips) {
 
-	};
 	enemyShip->update();
 	heli->update();
 	heli->setFrame(0);
@@ -96,8 +94,7 @@ void GameFund::load() {
 	map = new background();
 	playerShip = new fundObject("../Assets/PNG/player.png",0,500);
 
-	v
-	//enemyShip = new fundObject("../Assets/PNG/enemyShip.png",250, 250);
+	enemyShip = new fundObject("../Assets/PNG/enemyShip.png",250, 250);
 	
 	heli = new fundObject("../Assets/textures/helicopter.png", 500, 500);
 	heli->setSpriteFrame(128,56);
@@ -109,9 +106,7 @@ void GameFund::draw() {
 	map->drawMap();
 	playerShip->render(NULL);
 	enemyShip->render(NULL);
-	for (fundObject& enemies : enemyShips) {
 
-	}
 	//heli->render(NULL);
 
 	SDL_RenderPresent(pRenderer);

@@ -6,8 +6,7 @@
 SDL_Texture* textFund::loadTexture(const char* filename,int rotation)
 {
 	SDL_Texture* image = IMG_LoadTexture(GameFund::pRenderer, filename);
-	if (image) {
-	}
+
 	return image;
 }
 

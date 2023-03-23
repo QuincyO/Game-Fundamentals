@@ -38,17 +38,19 @@ int level1[32][28] = {
 };
 
 background::background() {
-	star1 = textFund::loadTexture("../Assets/PNG/Background/starBig.png", NULL);
-	if (star1) std::cout << "Star Loaded\n";
-	star2 = textFund::loadTexture("../Assets/PNG/Background/starSmall.png", NULL);
-	if (star2) std::cout << "Star 2 Loaded\n";
+	bigStar = textFund::loadTexture("../Assets/PNG/Background/starBig.png", NULL);
+	if (bigStar) std::cout << "Star Loaded\n";
+	littleStar = textFund::loadTexture("../Assets/PNG/Background/starSmall.png", NULL);
+	if (littleStar) std::cout << "Star 2 Loaded\n";
 	lines = textFund::loadTexture("../Assets/PNG/Background/speedLine.png", NULL);
 	if (lines) std::cout << "Lines Loaded\n";
 	nebula = textFund::loadTexture("../Assets/PNG/Background/nebula.png", NULL);
 	if (nebula) std::cout << "Nebula Loaded\n";
 	backGround = textFund::loadTexture("../Assets/PNG/Background/starBackGround.png", NULL);
 	
-	loadMap(level1);
+	SDL_QueryTexture(bigStar, NULL, NULL, &src.w, &src.h);
+	SDL_QueryTexture(littleStar, NULL, NULL, &src.w, &src.h);
+	//loadMap(level1);
 
 	
 
@@ -56,13 +58,25 @@ background::background() {
 	dst.w = src.w = 32;
 	dst.h = src.h = 32;
 }
-void background::loadMap(int array[32][28])
+void background::drawStar()
+
 {
-	for (int row = 0; row < 32; row++) {
-		for (int col = 0; col < 28; col++) {
-			map[row][col] = array[row][col];
-		}
+
+}
+void background::loadMap()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		
+		
 	}
+
+
+	//for (int row = 0; row < 32; row++) {
+	//	for (int col = 0; col < 28; col++) {
+	//		map[row][col] = array[row][col];
+	//	}
+	//}
 	
 }
 
@@ -80,11 +94,11 @@ void background::drawMap()
 			switch (type)
 			{
 			case 1:
-				textFund::draw(star1, src, dst);
+				textFund::draw(littleStar, src, dst);
 				//std::cout << "Star Printed\n";
 				break;
 			case 2:
-				textFund::draw(star2, src, dst);
+				textFund::draw(bigStar , src, dst);
 				break;
 			case 3:
 				textFund::draw(nebula, src, dst);

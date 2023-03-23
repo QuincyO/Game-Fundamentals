@@ -395,6 +395,7 @@ void draw() {
 }*/
 int main(int argc, char* args[])
 {
+srand(time(NULL));
 	// show and position the application console
 	AllocConsole();
 	auto console = freopen("CON", "w", stdout);

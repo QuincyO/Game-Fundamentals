@@ -171,6 +171,7 @@
     <ClCompile Include="Vec2.cpp">
       <Filter>Core\GameFundementals</Filter>
     </ClCompile>
+    <ClCompile Include="stars.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">
@@ -344,6 +345,7 @@
     <ClInclude Include="Vec2.h">
       <Filter>Core\GameFundementals</Filter>
     </ClInclude>
+    <ClInclude Include="stars.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">

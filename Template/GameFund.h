@@ -23,7 +23,7 @@ public:
 	static SDL_Renderer *pRenderer;
 
 private:
-	std::vector<fundObject> enemyShips;
+	//std::vector<fundObject> enemyShips;
 	bool isRunning;
 	SDL_Window* pWindow;
 

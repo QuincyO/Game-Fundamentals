@@ -215,6 +215,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="stars.cpp" />
     <ClCompile Include="textFund.cpp" />
     <ClCompile Include="TextureManager1AndO.cpp" />
     <ClCompile Include="Vec2.cpp" />
@@ -275,6 +276,7 @@
     <ClInclude Include="bulletManager.h" />
     <ClInclude Include="fundObject.h" />
     <ClInclude Include="GameFund.h" />
+    <ClInclude Include="stars.h" />
     <ClInclude Include="textFund.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
