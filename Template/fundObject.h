@@ -45,11 +45,11 @@ private:
 	Vec2 position ;
 	int yPos;
 	int xPos;
+	bool upMove = false;
+	bool downMove = false;
 	int rotation;
 	
 	//Relating to Movement + Shooting
-	bool upMove = false;
-	bool downMove = false;
 	bool leftMove = false;
 	bool rightMove = false;
 	bool shooting = false;

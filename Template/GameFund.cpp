@@ -44,7 +44,7 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 	
 	pRenderer = SDL_CreateRenderer(pWindow, -1, 0);
 	
-	SDL_SetRenderDrawColor(pRenderer, 94, 63, 107, 255);
+	SDL_SetRenderDrawColor(pRenderer, 0, 47, 74, 255);
 	
 	if (pRenderer) {
 		std::cout << "Render Good " << std::endl;
@@ -69,12 +69,13 @@ void GameFund::input() {
 void GameFund::update(){
 	playerShip->update();
 
-
+	map->update();
 	enemyShip->update();
-	heli->animate();
+//	heli->animate();
 }
 void GameFund::load() {
 	map = new background();
+	map->loadMap();
 	playerShip = new fundObject("../Assets/PNG/player.png");
 	playerShip->setPosition(500, 500);
 	playerShip->getPos();
@@ -82,19 +83,19 @@ void GameFund::load() {
 
 	enemyShip = new fundObject("../Assets/PNG/enemyShip.png");
 	
-	heli = new fundObject("../Assets/textures/helicopter.png");
-	heli->setPosition(250, 250);
-	heli->setSpriteFrame(128,55,4);
+	//heli = new fundObject("../Assets/textures/helicopter.png");
+	//heli->setPosition(250, 250);
+	//heli->setSpriteFrame(128,55,4);
 
 }
 
 void GameFund::draw() {
 	SDL_RenderClear(pRenderer);
-	map->drawMap();
+	map->draw();
 	playerShip->render(NULL);
-	enemyShip->render(NULL);
+	//enemyShip->render(NULL);
 
-	heli->render(NULL);
+	//heli->render(NULL);
 
 	SDL_RenderPresent(pRenderer);
 }

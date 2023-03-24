@@ -1,5 +1,7 @@
 #include "background.h"
 #include "textFund.h"
+#include "GameFund.h"
+
 
 int level1[32][28] = {
 	{0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -38,25 +40,18 @@ int level1[32][28] = {
 };
 
 background::background() {
-	bigStar = textFund::loadTexture("../Assets/PNG/Background/starBig.png", NULL);
-	if (bigStar) std::cout << "Star Loaded\n";
-	littleStar = textFund::loadTexture("../Assets/PNG/Background/starSmall.png", NULL);
-	if (littleStar) std::cout << "Star 2 Loaded\n";
-	lines = textFund::loadTexture("../Assets/PNG/Background/speedLine.png", NULL);
-	if (lines) std::cout << "Lines Loaded\n";
-	nebula = textFund::loadTexture("../Assets/PNG/Background/nebula.png", NULL);
-	if (nebula) std::cout << "Nebula Loaded\n";
-	backGround = textFund::loadTexture("../Assets/PNG/Background/starBackGround.png", NULL);
+	//Star.bigStar = textFund::loadTexture("../Assets/PNG/Background/starBig.png", NULL);
+	//if (Star.bigStar) std::cout << "Star Loaded\n";
+;
 	
-	SDL_QueryTexture(bigStar, NULL, NULL, &src.w, &src.h);
-	SDL_QueryTexture(littleStar, NULL, NULL, &src.w, &src.h);
+	//SDL_QueryTexture(Star.bigStar, NULL, NULL,&Star.src.w,&Star.src.h);
 	//loadMap(level1);
 
 	
 
-	src.x = src.y = 0;
-	dst.w = src.w = 32;
-	dst.h = src.h = 32;
+	//Star.src.x = Star.src.y = 0;
+	//Star.dst.w = Star.src.w = 23;
+	//Star.dst.h = Star.src.h = 21;
 }
 void background::drawStar()
 
@@ -65,51 +60,85 @@ void background::drawStar()
 }
 void background::loadMap()
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i <=30 ; i++)
 	{
-		
-		
+		Stars s("../Assets/PNG/Background/starBig.png");
+		s.dst.x = rand() % 896 - s.dst.w;
+		s.dst.y = rand() % 1026 - s.dst.h;
+		stars1.push_back(s);
+	}
+	for (int i = 0; i <= 15; i++)
+	{
+		Stars s("../Assets/PNG/Background/starBig.png");
+		s.dst.w *= 2;
+		s.dst.h *= 2;
+		s.dst.x = rand() % 896 - s.dst.w;
+		s.dst.y = rand() % 1026 - s.dst.h;
+		stars2.push_back(s);
 	}
 
-
-	//for (int row = 0; row < 32; row++) {
-	//	for (int col = 0; col < 28; col++) {
-	//		map[row][col] = array[row][col];
-	//	}
-	//}
 	
 }
 
-void background::drawMap()
+void background::update()
 {
-	int type = 0;
-
-	for (int row = 0; row < 32; row++) {
-		for (int col = 0; col < 28; col++) {
-			type = map[row][col];
-
-			dst.x = col * 32;
-			dst.y = row * 32;
-
-			switch (type)
-			{
-			case 1:
-				textFund::draw(littleStar, src, dst);
-				//std::cout << "Star Printed\n";
-				break;
-			case 2:
-				textFund::draw(bigStar , src, dst);
-				break;
-			case 3:
-				textFund::draw(nebula, src, dst);
-				break;
-			case 4:
-				textFund::draw(lines, src, dst);
-				break;
-			}
-			
-
+	for (Stars& s : stars1) {
+		s.dst.y += backgroundStarSpeed;
+		if (s.dst.y >= 1024 + s.dst.h) {
+			s.dst.y = 0 - s.dst.h;
+			s.dst.x = rand() % 896 - s.dst.w;
 		}
 	}
+
+	for (Stars& s : stars2) {
+		s.dst.y += foregroundStarSpeed;
+		if (s.dst.y >= 1024 + s.dst.h) {
+			s.dst.y = 0 - s.dst.h;
+			s.dst.x = rand() % 896 - s.dst.w;
+		}
+	}
+}
+
+void background::draw()
+{
+
+	for (Stars& s : stars1) {
+		s.drawStars();
+	}
+	for (Stars& s : stars2) {
+		s.drawStars();
+	}
+
+
+
+	int type = 0;
+
+	//for (int row = 0; row < 32; row++) {
+	//	for (int col = 0; col < 28; col++) {
+	//		type = map[row][col];
+	//
+	//		dst.x = col * 32;
+	//		dst.y = row * 32;
+	//
+	//		switch (type)
+	//		{
+	//		case 1:
+	//			textFund::draw(littleStar, src, dst);
+	//			//std::cout << "Star Printed\n";
+	//			break;
+	//		case 2:
+	//			textFund::draw(Star.bigStar , src, dst);
+	//			break;
+	//		case 3:
+	//			textFund::draw(nebula, src, dst);
+	//			break;
+	//		case 4:
+	//			textFund::draw(lines, src, dst);
+	//			break;
+	//		}
+	//		
+	//
+	//	}
+	//}
 
 }
