@@ -1,30 +1,15 @@
 #include "GameFund.h"
 #include "background.h"
-#include "Bullet.h"
+#include "bulletManager.h"
 //#include "fundObject.cpp"
-/* backGround_1 = spriteObject();
-//spriteObject playerShip = spriteObject();
-spriteObject playerProjectile = spriteObject();
-spriteObject playerHit = spriteObject();
-spriteObject enemyShip = spriteObject();
-spriteObject enemyProjectiles = spriteObject();
-spriteObject bossSprite = spriteObject();
-spriteObject bossProjectiles = spriteObject();
-spriteObject astroid_1 = spriteObject();
-//Written Michael
-spriteObject powerUp_1 = spriteObject();
-spriteObject powerUp_2 = spriteObject();
-spriteObject powerUp_3 = spriteObject();
-spriteObject powerUp_4 = spriteObject();
-spriteObject playerShield = spriteObject();
-*/
+
 
 fundObject* playerShip;
 fundObject* enemyShip;
 fundObject* heli; //Animation Testing
 
 
-				  
+bulletManager* bullet;
 //fundObject* bullet1;
 background* map;
 
@@ -69,7 +54,6 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 		std::cout << "Render Bad\n";
 			isRunning = false;
 	}
-//player = fundObject("../Assets/PNG/player.png", pRenderer);
 }
 
 void GameFund::input() {
@@ -87,17 +71,20 @@ void GameFund::update(){
 
 
 	enemyShip->update();
-	heli->update();
-	heli->setFrame(0);
+	heli->animate();
 }
 void GameFund::load() {
 	map = new background();
-	playerShip = new fundObject("../Assets/PNG/player.png",0,500);
+	playerShip = new fundObject("../Assets/PNG/player.png");
+	playerShip->setPosition(500, 500);
+	playerShip->getPos();
 
-	enemyShip = new fundObject("../Assets/PNG/enemyShip.png",250, 250);
+
+	enemyShip = new fundObject("../Assets/PNG/enemyShip.png");
 	
-	heli = new fundObject("../Assets/textures/helicopter.png", 500, 500);
-	heli->setSpriteFrame(128,56);
+	heli = new fundObject("../Assets/textures/helicopter.png");
+	heli->setPosition(250, 250);
+	heli->setSpriteFrame(128,55,4);
 
 }
 
@@ -107,7 +94,7 @@ void GameFund::draw() {
 	playerShip->render(NULL);
 	enemyShip->render(NULL);
 
-	//heli->render(NULL);
+	heli->render(NULL);
 
 	SDL_RenderPresent(pRenderer);
 }

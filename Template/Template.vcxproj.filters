@@ -168,10 +168,12 @@
     <ClCompile Include="bulletManager.cpp">
       <Filter>Core\GameFundementals</Filter>
     </ClCompile>
-    <ClCompile Include="Vec2.cpp">
+    <ClCompile Include="stars.cpp">
       <Filter>Core\GameFundementals</Filter>
     </ClCompile>
-    <ClCompile Include="stars.cpp" />
+    <ClCompile Include="Vec2.h">
+      <Filter>Core\GameFundementals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">
@@ -342,10 +344,9 @@
     <ClInclude Include="bulletManager.h">
       <Filter>Core\GameFundementals</Filter>
     </ClInclude>
-    <ClInclude Include="Vec2.h">
+    <ClInclude Include="stars.h">
       <Filter>Core\GameFundementals</Filter>
     </ClInclude>
-    <ClInclude Include="stars.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">

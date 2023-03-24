@@ -4,23 +4,20 @@
 
 
 bulletManager bullet;
- fundObject::fundObject(const char* texture,int x,int y) {
+ fundObject::fundObject(const char* texture) {
 	objectTexture = textFund::loadTexture(texture,NULL);
 	SDL_QueryTexture(objectTexture, NULL, NULL, &srcRect.w, &srcRect.h);
 		srcRect.x = 0;
 		srcRect.y = 0;
 		dstRect.w = srcRect.w;
 		dstRect.h = srcRect.h;
+
 	if (objectTexture) {
 		std::cout << "Image Created\n";
 	}
 	else {
 		std::cout << "Image Failed to Load: " << SDL_GetError << std::endl;
 	}
-	xPos = x;
-	yPos = y;
-	dstRect.x = xPos;
-	dstRect.y = yPos;
 }
 
 
@@ -76,38 +73,70 @@ bulletManager bullet;
 	 }
  }
 
+
+
  Vec2 fundObject::getPos()
  {
-	 Vec2 returnvec = { dstRect.x,dstRect.y };
-	 return returnvec;
+	 Vec2 posXY = { dstRect.x,dstRect.y };
+	 return posXY;
  }
 
- void fundObject::setSpriteFrame(int width, int height)
+ Vec2 fundObject::getSize()
+ {
+	Vec2 sizeXY = { dstRect.w,dstRect.h };
+	 return sizeXY;
+ }
+
+ void fundObject::setPosition(int x, int y)
+ {
+	 dstRect.x = x;
+	 dstRect.y = y;
+ }
+
+ void fundObject::setSpriteFrame(int width, int height,int frameTotal)
  {
 	 srcRect.w = width;
 	 srcRect.h = height;
 	 dstRect.w = srcRect.w;
 	 dstRect.h = srcRect.h;
+	 frameCount = frameTotal;
+ }
+
+ void fundObject::animate()
+ {
+	 if (animationTimer <= 0.0f) {
+		 nextFrame();
+		 animationTimer = animationTime;
+	 }
+	 animationTimer -= deltaTime;
  }
 
  void fundObject::setFrame(int frame)
  {
-	 //currentFrame = frame;
+	currentFrame = frame;
 	srcRect.x = srcRect.w * currentFrame;
+	currentFrame %= frameCount;
  }
-
- void fundObject::setSize(Vec2 widthHeight)
+ 
+ void fundObject::nextFrame()
  {
-	 dstRect.x = widthHeight.x;
-	 dstRect.y = widthHeight.y;
-
+	 setFrame(currentFrame + 1);
  }
 
  void fundObject::setSize(int w, int h)
  {
 	 dstRect.w = w;
 	 dstRect.h = h;
+
  }
+
+ void fundObject::scaleSize(float Scale)
+ {
+	 dstRect.w = srcRect.w * Scale;
+	 dstRect.h = srcRect.h * Scale;
+ }
+
+
 
  void fundObject::update() {
 	//Movement or Actions
