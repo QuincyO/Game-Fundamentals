@@ -1,5 +1,9 @@
 #include "playerShip.h"
 
+playerShip::playerShip(const char* texture) : fundObject(texture)
+{
+}
+
 Vec2 playerShip::getPos()
 {
     Vec2 returnVector = { dst.x,dst.y };
@@ -26,6 +30,26 @@ void playerShip::setPos(Vec2 XposY)
 }
 
 void playerShip::setSpriteSheetInfo(int width_of_frame, int height_of_frame, int amount_of_frames)
+{
+
+}
+
+void playerShip::input()
+{
+
+}
+
+void playerShip::update()
+{
+
+}
+
+void playerShip::shoot()
+{
+
+}
+
+void playerShip::draw()
 {
 
 }

@@ -9,6 +9,7 @@ class fundObject
 {
 public:
 	fundObject(const char* filename);
+
 	~fundObject() {}
 
 	//Getter Functions
@@ -25,10 +26,10 @@ public:
 	void animate();
 
 	//GameLoop
-	void input();
-	void update();
-	void shoot();
-	void render(int rotation);
+	virtual void input();
+	virtual void update();
+	virtual void shoot();
+	virtual void render(int rotation);
 
 
 	//Getter Function
@@ -50,11 +51,11 @@ public:
 //	void shoot();
 //	void render(int rotation);
 
+	Vec2 position = { 0,0 };
 private:
 	SDL_Rect srcRect, dstRect;
 
 	//Relating to Position
-	Vec2 position = {0,0};
 	int yPos;
 	int xPos;
 	bool upMove = false;

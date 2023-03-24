@@ -1,10 +1,11 @@
 #include "GameFund.h"
 #include "background.h"
 #include "bulletManager.h"
+#include "playerShip.h"
 //#include "fundObject.cpp"
 
 
-fundObject* playerShip;
+playerShip* player;
 fundObject* enemyShip;
 fundObject* heli; //Animation Testing
 
@@ -57,7 +58,7 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 }
 
 void GameFund::input() {
-	playerShip->input();
+	player->input();
 	SDL_Event event;
 	SDL_PollEvent(&event);
 	switch (event.type) {
@@ -67,7 +68,7 @@ void GameFund::input() {
 	}
 }
 void GameFund::update(){
-	playerShip->update();
+	player->update();
 
 	map->update();
 	enemyShip->update();
@@ -76,9 +77,10 @@ void GameFund::update(){
 void GameFund::load() {
 	map = new background();
 	map->loadMap();
-	playerShip = new fundObject("../Assets/PNG/player.png");
-	playerShip->setPosition(500, 500);
-	playerShip->getPos();
+	player = new playerShip("../Assets/PNG/player.png");
+	
+	player->setPos({ 250,250 });
+
 
 
 	enemyShip = new fundObject("../Assets/PNG/enemyShip.png");
@@ -92,7 +94,7 @@ void GameFund::load() {
 void GameFund::draw() {
 	SDL_RenderClear(pRenderer);
 	map->draw();
-	playerShip->render(NULL);
+	player->render(NULL);
 	//enemyShip->render(NULL);
 
 	//heli->render(NULL);

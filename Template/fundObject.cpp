@@ -21,6 +21,7 @@ bulletManager bullet;
 }
 
 
+
  void fundObject::input()
  {
 

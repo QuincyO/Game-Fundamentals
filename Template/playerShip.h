@@ -1,11 +1,10 @@
 #pragma once
-#include "Vec2.h"
 #include <SDL.h>
 #include "fundObject.h"
-class playerShip: // public fundObject
+class playerShip:public fundObject
 {
 public:
-	playerShip() ;
+	playerShip(const char* texture) ;
 	~playerShip() {};
 	
 	//Getter Functions
