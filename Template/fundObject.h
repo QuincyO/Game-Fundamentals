@@ -8,41 +8,53 @@
 class fundObject
 {
 public:
-
-
 	fundObject(const char* filename);
 	~fundObject() {}
-	//Getter Function
+
+	//Getter Functions
 	Vec2 getPos();
 	Vec2 getSize();
+	//Setter Functions
+	void setSize(Vec2 width_or_height);
+	void setPos(Vec2 XposY);
 
-	void setPosition(int x, int y);
+	//Functions Relating to Animation
+	void setSpriteSheetInfo(int width_of_frame, int height_of_frame, int amount_of_frames);
+	void setFrame(int frame);
+	void nextFrame();
+	void animate();
+
+	//GameLoop
+	void input();
+	void update();
+	void shoot();
+	void render(int rotation);
+
+
+	//Getter Function
+//	Vec2 getPos();
+//	Vec2 getSize();
+
 
 
 	void setSpriteFrame(int width, int height, int frameCount);
-	void animate();
-
-
-	void setFrame(int frame);
-	void nextFrame();
-	
-	
-	void scaleSize(float Scale);
-	void setSize(int w, int h);
-	
-
-
-
-	void update();
-	void input();
-	void shoot();
-	void render(int rotation);
+//	void animate();
+//
+//
+//	void setFrame(int frame);
+//	void nextFrame();
+//	
+//
+//	void update();
+//	void input();
+//	void shoot();
+//	void render(int rotation);
 
 private:
 	SDL_Rect srcRect, dstRect;
 
 	//Relating to Position
-	Vec2 position ;
+	Vec2 position = {0,0};
 	int yPos;
 	int xPos;
 	bool upMove = false;

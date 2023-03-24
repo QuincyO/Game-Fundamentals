@@ -5,7 +5,8 @@
 #include "GameFund.h"
 constexpr float FPS = 60.0f;
 constexpr float DELAY_TIME = 1000.0f / FPS;
-float deltaTime = 1.0f / FPS;
+double deltaTime;
+double* delta_time = nullptr;
 const int SCREEN_WIDTH = 896; //896 divisible by 32
 const int SCREEN_HEIGHT = 1024;//1024 dividisible by 32
 /*struct spriteObject
@@ -428,8 +429,8 @@ srand(time(NULL));
 	{
      			SDL_Delay(static_cast<int>(DELAY_TIME - frame_time));
 	}
-
-
+	deltaTime = (static_cast<float>(SDL_GetTicks()) - frame_start / 1000.0f);
+	delta_time = &deltaTime;
 
 	}
 	game->clean();

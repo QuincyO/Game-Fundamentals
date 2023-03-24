@@ -87,10 +87,10 @@ bulletManager bullet;
 	 return sizeXY;
  }
 
- void fundObject::setPosition(int x, int y)
+ void fundObject::setPos(Vec2 posXY)
  {
-	 dstRect.x = x;
-	 dstRect.y = y;
+	 dstRect.x = posXY.x;
+	 dstRect.y = posXY.y;
  }
 
  void fundObject::setSpriteFrame(int width, int height,int frameTotal)
@@ -123,18 +123,14 @@ bulletManager bullet;
 	 setFrame(currentFrame + 1);
  }
 
- void fundObject::setSize(int w, int h)
+ void fundObject::setSize(Vec2 width_or_height)
  {
-	 dstRect.w = w;
-	 dstRect.h = h;
+	 dstRect.w = width_or_height.x;
+	 dstRect.h = width_or_height.y;
 
  }
 
- void fundObject::scaleSize(float Scale)
- {
-	 dstRect.w = srcRect.w * Scale;
-	 dstRect.h = srcRect.h * Scale;
- }
+
 
 
 
