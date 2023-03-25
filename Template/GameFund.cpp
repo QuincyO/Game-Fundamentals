@@ -79,6 +79,7 @@ void GameFund::load() {
 	map->loadMap();
 	player = new playerShip("../Assets/PNG/player.png");
 	
+
 	player->setPos({ 250,250 });
 
 
@@ -95,6 +96,7 @@ void GameFund::draw() {
 	SDL_RenderClear(pRenderer);
 	map->draw();
 	player->render(NULL);
+	player->draw();
 	//enemyShip->render(NULL);
 
 	//heli->render(NULL);

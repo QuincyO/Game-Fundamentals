@@ -16,7 +16,7 @@ public:
 	Vec2 getPos();
 	Vec2 getSize();
 	//Setter Functions
-	void setSize(Vec2 width_or_height);
+ void setSize(Vec2 width_or_height);
 	void setPos(Vec2 XposY);
 
 	//Functions Relating to Animation
@@ -26,7 +26,7 @@ public:
 	void animate();
 
 	//GameLoop
-	virtual void input();
+	virtual void input() ;
 	virtual void update();
 	virtual void shoot();
 	virtual void render(int rotation);
@@ -52,20 +52,8 @@ public:
 //	void render(int rotation);
 
 	Vec2 position = { 0,0 };
+	SDL_Rect src, dst;
 private:
-	SDL_Rect srcRect, dstRect;
-
-	//Relating to Position
-	int yPos;
-	int xPos;
-	bool upMove = false;
-	bool downMove = false;
-	int rotation;
-	
-	//Relating to Movement + Shooting
-	bool leftMove = false;
-	bool rightMove = false;
-	bool shooting = false;
 
 	//Relating to Animation
 	int currentFrame = 0;
@@ -76,7 +64,6 @@ private:
 
 	float deltaTime = 1.0f / 60.0f;
 	//Movement Speed
-	const float playerMoveSpeedPerSec = 500*deltaTime;
 
 	//Shooting Delay + Timer
 	const float shootCD = 0.1f;

@@ -1,18 +1,14 @@
 #pragma once
 #include <SDL.h>
 #include "fundObject.h"
+#include "bulletManager.h"
 class playerShip:public fundObject
 {
 public:
 	playerShip(const char* texture) ;
 	~playerShip() {};
 	
-	//Getter Functions
-	Vec2 getPos();
-	Vec2 getSize();
-	//Setter Functions
-	void setSize(Vec2 width_or_height);
-	void setPos(Vec2 XposY);
+
 
 	//Functions Relating to Animation
 	void setSpriteSheetInfo(int width_of_frame, int height_of_frame, int amount_of_frames);
@@ -28,11 +24,8 @@ public:
 
 
 private:
-	float deltaTime = 1.0f / 6.0f;
-
-	SDL_Rect src, dst;
-	SDL_Texture* pTex;
-	SDL_Event* pEvent;
+	float deltaTime = 1.0f / 60.0f;
+	SDL_Event pEvent;
 
 	Vec2 position;
 	bool upMove = false;
@@ -41,13 +34,16 @@ private:
 	bool rightMove = false;
 	bool shooting = false;
 
-	
+	float playerMoveSpeedPerSec = 500 * deltaTime;
+
+	bulletManager bullet;
+
 	//Animation Vars
 	int frameCount;
 	int currentFrame;
 
 	//Shooting Timers;
-	const float fireRate = 0.1f * deltaTime; //10 Shots per Second;
+	const float fireRate = .1f; //10 Shots per Second;
 	float fireTimer = 0.0f;
 
 
