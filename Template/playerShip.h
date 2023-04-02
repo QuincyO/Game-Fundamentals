@@ -18,6 +18,7 @@ public:
 
 	//GameLoop
 	void input();
+	void move(Vec2 inputVector);
 	void update();
 	void shoot();
 	void draw();
@@ -27,6 +28,7 @@ private:
 	float deltaTime = 1.0f / 60.0f;
 	SDL_Event pEvent;
 
+	Vec2 inputVector;
 	Vec2 position;
 	bool upMove = false;
 	bool downMove = false;
@@ -34,7 +36,7 @@ private:
 	bool rightMove = false;
 	bool shooting = false;
 
-	float playerMoveSpeedPerSec = 500 * deltaTime;
+	float playerMoveSpeedPerSec = 300 ;
 
 	bulletManager bullet;
 

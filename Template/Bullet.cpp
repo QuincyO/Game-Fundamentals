@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet(const char* filepath, int xPos,int yPos,int width, int height)
+Bullet::Bullet(const char* filepath,SDL_Rect objectDST,Vec2 Velo)
 {
 	bulletTexture = textFund::loadTexture(filepath, NULL);
 
@@ -14,8 +14,9 @@ Bullet::Bullet(const char* filepath, int xPos,int yPos,int width, int height)
 	srcRect.x = srcRect.y = 0;
 	dstRect.h = srcRect.h;
 	dstRect.w = srcRect.w;
-	dstRect.x = xPos + (width / 2)-(dstRect.w/2);
-	dstRect.y = yPos;
+	dstRect.x = objectDST.x + (objectDST.w / 2)-(dstRect.w/2);
+	dstRect.y = objectDST.y;
+	velocity = Velo;
 	
 
 }
@@ -25,6 +26,6 @@ void Bullet::draw(int rotation) {
 }
 
 void Bullet::update() {
-
-	dstRect.y -= bulletMoveSpeed;
+	dstRect.x += velocity.x * (deltaTime);
+	dstRect.y += velocity.y * (deltaTime);
 }

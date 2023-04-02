@@ -62,38 +62,28 @@ void playerShip::input()
 
 }
 
+void playerShip::move(Vec2 inputVector1)
+{
+	dst.y += inputVector1.y * (playerMoveSpeedPerSec * deltaTime);
+	dst.x += inputVector1.x * (playerMoveSpeedPerSec * deltaTime);
+	inputVector.y = 0;
+	inputVector.x = 0;
+}
+
 void playerShip::update()
 {
-	if (upMove) {
-		dst.y -= playerMoveSpeedPerSec;
-
-	}
-	if (downMove) {
-		dst.y += playerMoveSpeedPerSec + 1;
-
-	}
-	if (leftMove) {
-		dst.x -= playerMoveSpeedPerSec;
-
-	}
-	if (rightMove) {
-		dst.x += playerMoveSpeedPerSec + 1;
-
-	}
-
+	//Movement
+	if (upMove) {inputVector.y = -1;}
+	if (downMove) {inputVector.y = 1;}
+	if (leftMove) {inputVector.x = -1;}
+	if (rightMove) {inputVector.x = 1;}
+	move(inputVector);
+	
 	//Preventing From exiting Box
-	if (dst.x >= 896 - dst.w - 10) {
-		dst.x = 896 - dst.w - 10;
-	}
-	if (dst.x <= 0 + 10) {
-		dst.x = 10;
-	}
-	if (dst.y >= 1024 - dst.h - 10) {
-		dst.y = 1024 - dst.h - 10;
-	}
-	if (dst.y <= 0 + 10) {
-		dst.y = 0 + 10;
-	}
+	if (dst.x >= 896 - getSize().x - 10)	{ dst.x = 896 - dst.w - 10; }
+	if (dst.x <= 0 + 10)					{dst.x = 10;}
+	if (dst.y >= 1024 - getSize().y - 10)	{ dst.y = 1024 - dst.h - 10; }
+	if (dst.y <= 0 + 10)					{dst.y = 0 + 10;}
 	//Shooting Mechanic
 	shoot();
 	bullet.updateBullet();
@@ -102,8 +92,8 @@ void playerShip::update()
 void playerShip::shoot()
 {
 	if (shooting && fireTimer <= 0.0f) {
-		currentFrame += 1;
-		bullet.createBullet(dst.x, dst.y, dst.w, dst.h);
+		Vec2 velocity = { 0,-750 };
+		bullet.createBullet("../Assets/PNG/laserRed.png",dst, velocity);
 		fireTimer = fireRate;
 	}
 	fireTimer -= deltaTime;

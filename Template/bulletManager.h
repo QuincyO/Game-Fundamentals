@@ -8,7 +8,8 @@ public:
 	bulletManager() {};
 	~bulletManager() {};
 
-	void createBullet(int xPos, int yPos,int width,int height);
+	//void createBullet(const char* filepath,int xPos, int yPos,int width,int height);
+	void createBullet(const char* filepath,SDL_Rect sourceDst,Vec2 velocity);
 
 	void updateBullet();
 

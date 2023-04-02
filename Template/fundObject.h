@@ -16,7 +16,7 @@ public:
 	Vec2 getPos();
 	Vec2 getSize();
 	//Setter Functions
- void setSize(Vec2 width_or_height);
+	void setSize(Vec2 width_or_height);
 	void setPos(Vec2 XposY);
 
 	//Functions Relating to Animation
@@ -32,24 +32,10 @@ public:
 	virtual void render(int rotation);
 
 
-	//Getter Function
-//	Vec2 getPos();
-//	Vec2 getSize();
 
 
 
 	void setSpriteFrame(int width, int height, int frameCount);
-//	void animate();
-//
-//
-//	void setFrame(int frame);
-//	void nextFrame();
-//	
-//
-//	void update();
-//	void input();
-//	void shoot();
-//	void render(int rotation);
 
 	Vec2 position = { 0,0 };
 	SDL_Rect src, dst;
