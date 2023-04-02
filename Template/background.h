@@ -25,8 +25,8 @@ private:
 	int map[32][28];
 
 	float deltaTime = 1.0f / 60.0f;
-	int backgroundStarSpeed = 100 * deltaTime;
-	float foregroundStarSpeed = 175 * deltaTime;
+	int backgroundStarSpeed = 100 * deltaTime;;
+	float foregroundStarSpeed = 200 * deltaTime;
 ////	star Star;
 	vector<Stars> stars1;
 	vector<Stars> stars2;

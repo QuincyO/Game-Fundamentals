@@ -22,7 +22,7 @@ private:
 	Vec2 bulletVelocity = { 0,300 };
 	int moveSpeed = 100 * deltaTime;
 
-	float fireRate = 2.0f;
+	float fireRate = 1.0f;
 	float shootingTimer = 0;
 
 };

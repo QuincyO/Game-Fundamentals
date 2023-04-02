@@ -6,6 +6,7 @@ void enemyShip::input()
 
 void enemyShip::update()
 {
+	dst.y += 150 * deltaTime;
 	enemyBullet.updateBullet();
 }
 
@@ -25,7 +26,7 @@ void enemyShip::draw()
 
 bool enemyShip::canShoot()
 {
-	if (shootingTimer <= 0.0f) {
+	if (shootingTimer <= 0.0f&& dst.y>99) {
 		shootingTimer = fireRate;
 		return true;
 	}
