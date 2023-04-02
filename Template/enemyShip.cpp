@@ -9,10 +9,10 @@ void enemyShip::update()
 	enemyBullet.updateBullet();
 }
 
-void enemyShip::shoot(Vec2 Velo)
+void enemyShip::shoot()
 {
 	if (canShoot()) {
-		enemyBullet.createBullet("../Assets/PNG/laserGreen.png", dst, Velo);
+		enemyBullet.createBullet("../Assets/PNG/laserGreen.png", dst, bulletVelocity);
 	}
 }
 
@@ -20,6 +20,8 @@ void enemyShip::draw()
 {
 	enemyBullet.drawBullet();
 }
+
+
 
 bool enemyShip::canShoot()
 {

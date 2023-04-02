@@ -10,7 +10,7 @@ public:
 
 	void input() ;
 	void update() ;
-	void shoot(Vec2 velo) ;
+	void shoot() ;
 	void draw();
 	
 	bool canShoot();
@@ -19,7 +19,7 @@ public:
 private:
 	float deltaTime = 1.0f / 60.0f;
 	bulletManager enemyBullet;
-	Vec2 velocity;
+	Vec2 bulletVelocity = { 0,300 };
 	int moveSpeed = 100 * deltaTime;
 
 	float fireRate = 2.0f;

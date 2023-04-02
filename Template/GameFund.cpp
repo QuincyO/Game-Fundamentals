@@ -56,7 +56,7 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 
 void GameFund::input() {
 	player->input();
-	enemy->shoot({0,100});
+	enemy->shoot();
 
 }
 void GameFund::update(){
