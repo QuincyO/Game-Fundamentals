@@ -7,11 +7,11 @@
 
 playerShip* player;
 fundObject* enemyShip;
-fundObject* heli; //Animation Testing
+
 
 
 bulletManager* bullet;
-//fundObject* bullet1;
+
 background* map;
 
 GameFund::GameFund() {}
@@ -72,7 +72,7 @@ void GameFund::update(){
 
 	map->update();
 	enemyShip->update();
-//	heli->animate();
+
 }
 void GameFund::load() {
 	map = new background();
@@ -86,9 +86,6 @@ void GameFund::load() {
 
 	enemyShip = new fundObject("../Assets/PNG/enemyShip.png");
 	
-	//heli = new fundObject("../Assets/textures/helicopter.png");
-	//heli->setPosition(250, 250);
-	//heli->setSpriteFrame(128,55,4);
 
 }
 
@@ -97,9 +94,7 @@ void GameFund::draw() {
 	map->draw();
 	player->render(NULL);
 	player->draw();
-	//enemyShip->render(NULL);
 
-	//heli->render(NULL);
 
 	SDL_RenderPresent(pRenderer);
 }
