@@ -2,17 +2,14 @@
 #include "background.h"
 #include "bulletManager.h"
 #include "playerShip.h"
-//#include "fundObject.cpp"
+#include "enemyShip.h"
 
 
+vector<enemyShip> enemies;
 playerShip* player;
-fundObject* enemyShip;
-
-
-
-bulletManager* bullet;
-
+enemyShip* enemy;
 background* map;
+
 
 GameFund::GameFund() {}
 GameFund::~GameFund() {}
@@ -59,19 +56,14 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 
 void GameFund::input() {
 	player->input();
-	SDL_Event event;
-	SDL_PollEvent(&event);
-	switch (event.type) {
-	case SDL_QUIT:
-		isRunning = false;
-		break;
-	}
+	enemy->shoot({0,100});
+
 }
 void GameFund::update(){
 	player->update();
-
+	enemy->update();
 	map->update();
-	enemyShip->update();
+	
 
 }
 void GameFund::load() {
@@ -84,7 +76,8 @@ void GameFund::load() {
 
 
 
-	enemyShip = new fundObject("../Assets/PNG/enemyShip.png");
+	enemy = new enemyShip("../Assets/PNG/enemyShip.png");
+	enemy->setPos({ 400,400 });
 	
 
 }
@@ -94,6 +87,8 @@ void GameFund::draw() {
 	map->draw();
 	player->render(NULL);
 	player->draw();
+	enemy->render(NULL);
+	enemy->draw();
 
 
 	SDL_RenderPresent(pRenderer);

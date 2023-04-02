@@ -174,7 +174,12 @@
     <ClCompile Include="Vec2.h">
       <Filter>Core\GameFundementals</Filter>
     </ClCompile>
-    <ClCompile Include="playerShip.cpp" />
+    <ClCompile Include="playerShip.cpp">
+      <Filter>Core\GameFundementals</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyShip.cpp">
+      <Filter>Core\GameFundementals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">
@@ -348,7 +353,12 @@
     <ClInclude Include="stars.h">
       <Filter>Core\GameFundementals</Filter>
     </ClInclude>
-    <ClInclude Include="playerShip.h" />
+    <ClInclude Include="playerShip.h">
+      <Filter>Core\GameFundementals</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyShip.h">
+      <Filter>Core\GameFundementals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">

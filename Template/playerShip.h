@@ -29,6 +29,7 @@ private:
 	SDL_Event pEvent;
 
 	Vec2 inputVector;
+	Vec2 bulletVelocity = { 0,-750 };
 	Vec2 position;
 	bool upMove = false;
 	bool downMove = false;
@@ -45,7 +46,7 @@ private:
 	int currentFrame;
 
 	//Shooting Timers;
-	const float fireRate = .1f; //10 Shots per Second;
+	const float fireRate = .8f; //10 Shots per Second;
 	float fireTimer = 0.0f;
 
 

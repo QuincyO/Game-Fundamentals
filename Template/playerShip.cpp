@@ -92,8 +92,8 @@ void playerShip::update()
 void playerShip::shoot()
 {
 	if (shooting && fireTimer <= 0.0f) {
-		Vec2 velocity = { 0,-750 };
-		bullet.createBullet("../Assets/PNG/laserRed.png",dst, velocity);
+		
+		bullet.createBullet("../Assets/PNG/laserRed.png",dst, bulletVelocity);
 		fireTimer = fireRate;
 	}
 	fireTimer -= deltaTime;

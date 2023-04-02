@@ -417,12 +417,6 @@ srand(time(NULL));
 		game->input();
 		game->update();
 		game->draw();
-	//input();
-	//draw();
-	//update(frame_start);
-
-
-
 
 	if (const float frame_time = static_cast<float>(SDL_GetTicks()) - frame_start;
 		frame_time < DELAY_TIME)

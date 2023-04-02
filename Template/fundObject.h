@@ -2,7 +2,7 @@
 #include"textFund.h"
 #include<SDL.h>
 #include "Vec2.h"
-//#include "bulletManager.h"
+
 
 
 class fundObject
@@ -51,9 +51,7 @@ private:
 	float deltaTime = 1.0f / 60.0f;
 	//Movement Speed
 
-	//Shooting Delay + Timer
-	const float shootCD = 0.1f;
-	float shootingTimer = 0.0f;
+
 
 	SDL_Texture* objectTexture;
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
