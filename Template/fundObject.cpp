@@ -93,7 +93,7 @@ void fundObject::shoot()
 }
 
 void fundObject::render(int rotation) {
-	SDL_RenderCopyEx(gameRenderer::pRenderer, objectTexture, &src, &dst, rotation , NULL, flip);
+	SDL_RenderCopyEx(GameFund::pRenderer, objectTexture, &src, &dst, rotation , NULL, flip);
 		
 }
 

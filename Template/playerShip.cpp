@@ -4,11 +4,7 @@
 
 
 
-playerShip::playerShip()
-{
 
-
-}
 
 playerShip::playerShip(const char *texture)
 {
