@@ -80,7 +80,7 @@ void GameFund::input() {
 }
 void GameFund::update(){
 	player->update();
-
+	map->update();
 //	for (auto& b : enemy.bullets)
 //	{
 //		//check for collision
@@ -98,10 +98,10 @@ void GameFund::update(){
 
 }
 void GameFund::load() {
+	map = new background();
+	map->loadMap();
 	player = new playerShip("../Assets/PNG/player.png");
 	player->setPos({ 250,250 });
-	//map = new background();
-	//map->loadMap();
 	//player = new playerShip("../Assets/PNG/player.png");
 	//
 	//
@@ -116,9 +116,9 @@ void GameFund::load() {
 
 void GameFund::draw() {
 	SDL_RenderClear(pRenderer);
+	map->draw();
 	player->draw(NULL);
 	
-	//map->draw();
 	//player->render(NULL);
 	//player->draw();
 	//
@@ -140,6 +140,8 @@ bool GameFund::running() {
 void GameFund::clean() {
 	delete player;
 	player = nullptr;
+	delete map;
+	map = nullptr;
 	SDL_DestroyRenderer(pRenderer);
 	SDL_DestroyWindow(pWindow);
 	SDL_Quit;
