@@ -1,6 +1,5 @@
 // Core Libraries
 #include <crtdbg.h>
-#include <iostream>
 #include <Windows.h>
 #include "GameFund.h"
 constexpr float FPS = 60.0f;
@@ -404,6 +403,7 @@ srand(time(NULL));
 	MoveWindow(window_handle, 100, 700, 800, 200, TRUE);
 	GameFund* game = nullptr;
 	Uint32 frames = 0;
+	std::cout << "Hello World" << endl;
 
 	game = new GameFund();
 	game->init("Quincy and Michael Space Game", SCREEN_WIDTH, SCREEN_HEIGHT, false);

@@ -7,19 +7,19 @@ void enemyShip::input()
 void enemyShip::update()
 {
 	dst.y += 150 * deltaTime;
-	enemyBullet.updateBullet();
+	updateBullets();
 }
 
 void enemyShip::shoot()
 {
 	if (canShoot()) {
-		enemyBullet.createBullet("../Assets/PNG/laserGreen.png", dst, bulletVelocity);
+		createBullet("../Assets/PNG/laserGreen.png", dst, bulletVelocity);
 	}
 }
 
 void enemyShip::draw()
 {
-	enemyBullet.drawBullet();
+	drawBullets();
 }
 
 
@@ -33,3 +33,9 @@ bool enemyShip::canShoot()
 	shootingTimer -= deltaTime;
 	return false;
 }
+
+
+
+
+
+

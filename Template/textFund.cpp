@@ -10,6 +10,8 @@ SDL_Texture* textFund::loadTexture(const char* filename,int rotation)
 	return image;
 }
 
+
+
 void textFund::draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dst)
 {
 	SDL_RenderCopy(GameFund::pRenderer, tex, &src, &dst);

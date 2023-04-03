@@ -1,9 +1,6 @@
 #include "fundObject.h"
-#include"textFund.h"
-#include "bulletManager.h"
 
 
-bulletManager bullet;
  fundObject::fundObject(const char* texture) {
 	objectTexture = textFund::loadTexture(texture,NULL);
 	SDL_QueryTexture(objectTexture, NULL, NULL, &src.w, &src.h);
@@ -85,9 +82,6 @@ bulletManager bullet;
  }
 
 
-
-
-
  void fundObject::update() {
 
 }
@@ -100,5 +94,27 @@ void fundObject::shoot()
 
 void fundObject::render(int rotation) {
 	SDL_RenderCopyEx(GameFund::pRenderer, objectTexture, &src, &dst, rotation , NULL, flip);
-		bullet.drawBullet();
+		
+}
+
+void fundObject::createBullet(const char* filepath, SDL_Rect dst, Vec2 Velo)
+{
+	//bullet.GetandSetInfo(filepath, dst, Velo);
+	//bullets.push_back(bullet);
+}
+
+void fundObject::updateBullets()
+{
+	//for (Bullet& b : bullets) {
+	//	b.update();
+	//}
+}
+
+void fundObject::drawBullets()
+{
+//for (Bullet& b : bullets)
+//{
+//	b.draw(NULL);
+//}
+
 }

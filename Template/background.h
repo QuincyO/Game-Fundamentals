@@ -1,13 +1,8 @@
 #pragma once
-#include "GameFund.h"
+
 #include "stars.h"
 using namespace std;
-//struct star
-//{
-//	SDL_Texture* bigStar;
-//	SDL_Rect  dst, src;
-//	float speed;
-//};
+class Stars;
 class background
 {
 public:
@@ -27,10 +22,9 @@ private:
 	float deltaTime = 1.0f / 60.0f;
 	int backgroundStarSpeed = 100 * deltaTime;;
 	float foregroundStarSpeed = 200 * deltaTime;
-////	star Star;
+
 	vector<Stars> stars1;
 	vector<Stars> stars2;
-//	vector<star> stars3;
 
 	SDL_Texture* littleStar;
 	SDL_Texture* lines;

@@ -81,33 +81,33 @@ void background::loadMap()
 }
 
 void background::update()
-{
-	for (Stars& s : stars1) {
-		s.dst.y += backgroundStarSpeed;
-		if (s.dst.y >= 1024 + s.dst.h) {
-			s.dst.y = 0 - s.dst.h;
-			s.dst.x = rand() % 896 - s.dst.w;
-		}
-	}
-
-	for (Stars& s : stars2) {
-		s.dst.y += foregroundStarSpeed;
-		if (s.dst.y >= 1024 + s.dst.h) {
-			s.dst.y = 0 - s.dst.h;
-			s.dst.x = rand() % 896 - s.dst.w;
-		}
-	}
+{	//
+	//for (Stars& s : stars1) {
+	//	s.dst.y += backgroundStarSpeed;
+	//	if (s.dst.y >= 1024 + s.dst.h) {
+	//		s.dst.y = 0 - s.dst.h;
+	//		s.dst.x = rand() % 896 - s.dst.w;
+	//	}
+	//}
+	//
+	//for (Stars& s : stars2) {
+	//	s.dst.y += foregroundStarSpeed;
+	//	if (s.dst.y >= 1024 + s.dst.h) {
+	//		s.dst.y = 0 - s.dst.h;
+	//		s.dst.x = rand() % 896 - s.dst.w;
+	//	}
+	//}
 }
 
 void background::draw()
 {
 
-	for (Stars& s : stars1) {
-		s.drawStars();
-	}
-	for (Stars& s : stars2) {
-		s.drawStars();
-	}
+//for (Stars& s : stars1) {
+//	s.drawStars();
+//}
+//for (Stars& s : stars2) {
+//	s.drawStars();
+//}
 
 
 

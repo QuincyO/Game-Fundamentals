@@ -1,14 +1,34 @@
 #include "playerShip.h"
 
-playerShip::playerShip(const char* texture) : fundObject(texture)
+
+
+playerShip::playerShip(const char *texture)
 {
+	pTex = textFund::loadTexture(texture,NULL);
+	SDL_QueryTexture(pTex, NULL, NULL, &src.w, &src.h);
+	src.x = 0;
+	src.y = 0;
+	dst.w = src.w;
+	dst.h = src.h;
+
+	if (pTex) {
+		std::cout << "Image Created\n";
+	}
+	else {
+		std::cout << "Image Failed to Load: " << SDL_GetError << std::endl;
+	}
+
 }
-
-
 
 void playerShip::setSpriteSheetInfo(int width_of_frame, int height_of_frame, int amount_of_frames)
 {
 
+}
+
+void playerShip::setPos(Vec2 position)
+{
+	dst.x = position.x;
+	dst.y = position.y;
 }
 
 void playerShip::input()
@@ -80,27 +100,34 @@ void playerShip::update()
 	move(inputVector);
 	
 	//Preventing From exiting Box
-	if (dst.x >= 896 - getSize().x - 10)	{ dst.x = 896 - dst.w - 10; }
+	if (dst.x >= 896 - dst.w - 10) { dst.x = 896 - dst.w - 10; }
 	if (dst.x <= 0 + 10)					{dst.x = 10;}
-	if (dst.y >= 1024 - getSize().y - 10)	{ dst.y = 1024 - dst.h - 10; }
+	if (dst.y >= 1024 - dst.h - 10) { dst.y = 1024 - dst.h - 11; };
 	if (dst.y <= 0 + 10)					{dst.y = 0 + 10;}
 	//Shooting Mechanic
 	shoot();
-	bullet.updateBullet();
+	for (Bullet& b : bullets)
+	{
+		b.update();
+	}
+	
 }
 
 void playerShip::shoot()
 {
 	if (shooting && fireTimer <= 0.0f) {
-		
-		bullet.createBullet("../Assets/PNG/laserRed.png",dst, bulletVelocity);
+		bullet.GetandSetInfo("../Assets/PNG/laserRed.png", dst, bulletVelocity);
+		bullets.push_back(bullet);
 		fireTimer = fireRate;
 	}
 	fireTimer -= deltaTime;
 
 }
 
-void playerShip::draw()
+void playerShip::draw(int rotation)
 {
-	bullet.drawBullet();
+	SDL_RenderCopyEx(GameFund::pRenderer, pTex, &src, &dst, rotation, NULL, SDL_FLIP_NONE);
+	for (Bullet& b : bullets) {
+		b.draw(NULL);
+	}
 }

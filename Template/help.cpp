@@ -4,9 +4,7 @@
 #include <Windows.h>
 #include<SDL_image.h>
 #include <SDL.h>
-#include "Game.h"
 #include "gameStrut.cpp"
-#include "Renderer.h"
 #include "GameFund.h"
 
 
@@ -112,21 +110,21 @@ void load() {
 	//SDL_Texture* IMG_LoadTexture(SDL_Renderer * renderer, const char* file);
 
 	//Applying textures
-	playerShip = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/player.png", NULL);
-	playerProjectile = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Lasers/laserRed01.png", NULL);
-	playerHit = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/laserRedShot.png", NULL);
-	enemyShip = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Enemies/enemyBlue2.png", NULL);
-	enemyProjectiles = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Lasers/laserBlue01.png", 180);
-	bossSprite = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Ships/spaceShips_005.png", NULL);
-	bossProjectiles = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Missiles/spaceMissiles_001.png", 180);
-	astroid_1 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Meteors/meteorBrown_big4.png", 0);
-	backGround_1 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Background/starBackground.png", NULL);
+	playerShip = spriteObject(GameFund::pRenderer, "../Assets/PNG/player.png", NULL);
+	playerProjectile = spriteObject(GameFund::pRenderer, "../Assets/PNG/Lasers/laserRed01.png", NULL);
+	playerHit = spriteObject(GameFund::pRenderer, "../Assets/PNG/laserRedShot.png", NULL);
+	enemyShip = spriteObject(GameFund::pRenderer, "../Assets/PNG/Enemies/enemyBlue2.png", NULL);
+	enemyProjectiles = spriteObject(GameFund::pRenderer, "../Assets/PNG/Lasers/laserBlue01.png", 180);
+	bossSprite = spriteObject(GameFund::pRenderer, "../Assets/PNG/Ships/spaceShips_005.png", NULL);
+	bossProjectiles = spriteObject(GameFund::pRenderer, "../Assets/PNG/Missiles/spaceMissiles_001.png", 180);
+	astroid_1 = spriteObject(GameFund::pRenderer, "../Assets/PNG/Meteors/meteorBrown_big4.png", 0);
+	backGround_1 = spriteObject(GameFund::pRenderer, "../Assets/PNG/Background/starBackground.png", NULL);
 
-	powerUp_1 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Power-ups/powerupBlue_bolt.png", NULL);
-	powerUp_2 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Power-ups/powerupBlue.png", NULL);
-	powerUp_3 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Power-ups/powerupBlue_shield.png", NULL);
-	powerUp_4 = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/Power-ups/powerupBlue_star.png", NULL);
-	playerShield = spriteObject(Renderer::Instance().GetRenderer(), "../Assets/PNG/shield.png", NULL);
+	powerUp_1 = spriteObject(GameFund::pRenderer, "../Assets/PNG/Power-ups/powerupBlue_bolt.png", NULL);
+	powerUp_2 = spriteObject(GameFund::pRenderer, "../Assets/PNG/Power-ups/powerupBlue.png", NULL);
+	powerUp_3 = spriteObject(GameFund::pRenderer, "../Assets/PNG/Power-ups/powerupBlue_shield.png", NULL);
+	powerUp_4 = spriteObject(GameFund::pRenderer, "../Assets/PNG/Power-ups/powerupBlue_star.png", NULL);
+	playerShield = spriteObject(GameFund::pRenderer, "../Assets/PNG/shield.png", NULL);
 
 	//Object Sizing
 		//PlayerShip

@@ -1,13 +1,16 @@
 #pragma once
 #include"textFund.h"
-#include<SDL.h>
-#include "Vec2.h"
+#include "Bullet.h"
 
 
 
+
+class playerShip;
 class fundObject
 {
 public:
+
+	fundObject() {};
 	fundObject(const char* filename);
 
 	~fundObject() {}
@@ -32,13 +35,21 @@ public:
 	virtual void render(int rotation);
 
 
-
+	//Bullets
+	void createBullet(const char* filepath, SDL_Rect dst, Vec2 Velo);
+	void updateBullets();
+	void drawBullets();
 
 
 	void setSpriteFrame(int width, int height, int frameCount);
 
+
+//Child Classes Need to see this
+//	std::vector<Bullet> bullets;
 	Vec2 position = { 0,0 };
 	SDL_Rect src, dst;
+//	Bullet bullet;
+	SDL_Texture* objectTexture;
 private:
 
 	//Relating to Animation
@@ -53,7 +64,7 @@ private:
 
 
 
-	SDL_Texture* objectTexture;
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 };
+
 

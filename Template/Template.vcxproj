@@ -200,7 +200,10 @@
     <ClCompile Include="..\src\Util.cpp" />
     <ClCompile Include="background.cpp" />
     <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="bulletManager.cpp" />
+    <ClCompile Include="bulletManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="enemyShip.cpp" />
     <ClCompile Include="fundObject.cpp" />
     <ClCompile Include="GameFund.cpp" />
@@ -217,6 +220,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="playerShip.cpp" />
+    <ClCompile Include="pRenderer.cpp" />
     <ClCompile Include="stars.cpp" />
     <ClCompile Include="textFund.cpp" />
     <ClCompile Include="TextureManager1AndO.cpp" />
@@ -275,11 +279,15 @@
     <ClInclude Include="..\src\WindowName.h" />
     <ClInclude Include="background.h" />
     <ClInclude Include="Bullet.h" />
-    <ClInclude Include="bulletManager.h" />
+    <ClInclude Include="bulletManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="enemyShip.h" />
     <ClInclude Include="fundObject.h" />
     <ClInclude Include="GameFund.h" />
     <ClInclude Include="playerShip.h" />
+    <ClInclude Include="pRenderer.h" />
     <ClInclude Include="stars.h" />
     <ClInclude Include="textFund.h" />
   </ItemGroup>

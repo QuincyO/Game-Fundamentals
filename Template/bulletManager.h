@@ -1,6 +1,7 @@
 #pragma once
-#include <vector>
 #include "Bullet.h"
+#include <vector>
+
 class bulletManager
 {
 
@@ -13,14 +14,14 @@ public:
 
 	void updateBullet();
 
+	
+
 	void drawBullet();
 
 
 
-private:
 	std::vector<Bullet> bullets;
-
-
+private:
 
 
 };
