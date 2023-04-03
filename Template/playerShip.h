@@ -34,13 +34,20 @@ public:
 
 
 private:
+	float deltaTime = 1.0f / 60.0f;
 	Vec2 position;
 	SDL_Rect src, dst;
-	float deltaTime = 1.0f / 60.0f;
 	SDL_Event pEvent;
 	SDL_Texture* pTex = nullptr;
 	Vec2 inputVector;
 	Vec2 bulletVelocity = { 0,-750 };
+
+
+	Bullet bullet;
+	std::vector<Bullet> bullets;
+
+
+
 	bool upMove = false;
 	bool downMove = false;
 	bool leftMove = false;

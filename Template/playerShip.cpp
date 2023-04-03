@@ -1,11 +1,9 @@
 #include "playerShip.h"
 
 
-
-
-
-
-
+//std::vector<Bullet> bullets;
+//Bullet bullet;
+//std::vector<Bullet> bullets;
 playerShip::playerShip(const char *texture)
 {
 	pTex = textFund::loadTexture(texture,NULL);
@@ -110,14 +108,19 @@ void playerShip::update()
 	if (dst.y <= 0 + 10)					{dst.y = 0 + 10;}
 	//Shooting Mechanic
 	shoot();
+	for (Bullet& b : bullets)
+	{
+		b.update();
+	}
 	
 }
 
 void playerShip::shoot()
 {
 	if (shooting && fireTimer <= 0.0f) {
-		
-
+		bullet.GetandSetInfo("../Assets/PNG/laserRed.png", dst, bulletVelocity);
+		bullets.push_back(bullet);
+		fireTimer = fireRate;
 	}
 	fireTimer -= deltaTime;
 
@@ -126,4 +129,7 @@ void playerShip::shoot()
 void playerShip::draw(int rotation)
 {
 	SDL_RenderCopyEx(GameFund::pRenderer, pTex, &src, &dst, rotation, NULL, SDL_FLIP_NONE);
+	for (Bullet& b : bullets) {
+		b.draw(NULL);
+	}
 }
