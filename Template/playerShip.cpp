@@ -104,9 +104,9 @@ void playerShip::update()
 	move(inputVector);
 	
 	//Preventing From exiting Box
-	if (dst.x >= 896 - dst.w - 10)	{ dst.x = 896 - dst.w - 10; }
+	if (dst.x >= 896 - dst.w - 10) { dst.x = 896 - dst.w - 10; }
 	if (dst.x <= 0 + 10)					{dst.x = 10;}
-	if (dst.y >= 1024 - dst.w - 10)	{ dst.y = 1024 - dst.h - 10; }
+	if (dst.y >= 1024 - dst.h - 10) { dst.y = 1024 - dst.h - 11; };
 	if (dst.y <= 0 + 10)					{dst.y = 0 + 10;}
 	//Shooting Mechanic
 	shoot();

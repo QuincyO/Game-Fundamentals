@@ -403,9 +403,9 @@ srand(time(NULL));
 	MoveWindow(window_handle, 100, 700, 800, 200, TRUE);
 	GameFund* game = nullptr;
 	Uint32 frames = 0;
+	std::cout << "Hello World" << endl;
 
 	game = new GameFund();
-	std::cout << "Hello World" << endl;
 	game->init("Quincy and Michael Space Game", SCREEN_WIDTH, SCREEN_HEIGHT, false);
 
 	game->load();

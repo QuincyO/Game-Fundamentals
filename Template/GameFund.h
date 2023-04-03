@@ -32,7 +32,6 @@ public:
 	bool running();
 
 	static SDL_Renderer* pRenderer;
-	
 
 private:
 	float deltaTime = 1.0f / 60.0f;

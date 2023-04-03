@@ -3,9 +3,9 @@
 
 #include "enemyShip.h"
 //enemyShip enemy("../Assets/PNG/enemyShip.png");
-playerShip player("../Assets/PNG/player.png");
 background* map;
 vector<enemyShip> enemies;
+playerShip* player;
 
 
 
@@ -70,7 +70,7 @@ void GameFund::spawnShip()
 }
 
 void GameFund::input() {
-	player.input();
+	player->input();
 //	spawnShip();
 //	for (auto& e : enemies) {
 //		e.shoot();
@@ -79,7 +79,7 @@ void GameFund::input() {
 //
 }
 void GameFund::update(){
-	player.update();
+	player->update();
 
 //	for (auto& b : enemy.bullets)
 //	{
@@ -98,7 +98,8 @@ void GameFund::update(){
 
 }
 void GameFund::load() {
-	player.setPos({ 250,250 });
+	player = new playerShip("../Assets/PNG/player.png");
+	player->setPos({ 250,250 });
 	//map = new background();
 	//map->loadMap();
 	//player = new playerShip("../Assets/PNG/player.png");
@@ -115,7 +116,7 @@ void GameFund::load() {
 
 void GameFund::draw() {
 	SDL_RenderClear(pRenderer);
-	player.draw(NULL);
+	player->draw(NULL);
 	
 	//map->draw();
 	//player->render(NULL);

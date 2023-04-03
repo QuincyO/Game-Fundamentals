@@ -12,7 +12,7 @@ class playerShip
 {
 public:
 
-	playerShip() ;
+	playerShip() {};
 	playerShip(const char* texture) ;
 	~playerShip() {};
 	
