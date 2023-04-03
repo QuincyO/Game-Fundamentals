@@ -33,3 +33,24 @@ bool enemyShip::canShoot()
 	shootingTimer -= deltaTime;
 	return false;
 }
+
+void enemyShip::createBullet(const char* filepath, SDL_Rect dst, Vec2 Velo)
+{
+	Bullet b(filepath, dst, Velo);
+	enemyBullets.push_back(b);
+}
+
+void enemyShip::updateBullets()
+{
+	for (Bullet& b : enemyBullets) {
+		b.update();
+	}
+}
+
+void enemyShip::drawBullets()
+{
+	for (Bullet& b : enemyBullets)
+	{
+		b.draw(NULL);
+	}
+}

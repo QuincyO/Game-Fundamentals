@@ -1,16 +1,15 @@
 #include "GameFund.h"
 #include "background.h"
-#include "bulletManager.h"
 #include "playerShip.h"
 #include "enemyShip.h"
 
-enemyShip enemy("../Assets/PNG/enemyShip.png");
+//enemyShip enemy("../Assets/PNG/enemyShip.png");
 playerShip* player;
 background* map;
 vector<enemyShip> enemies;
 
 
-GameFund::GameFund() {}
+GameFund::GameFund() { enemy =  enemyShip("../Assets/PNG/enemyShip.png"); }
 GameFund::~GameFund() {}
 
 SDL_Renderer* GameFund::pRenderer = nullptr;
@@ -67,8 +66,8 @@ void GameFund::spawnShip()
 {
 	if (canSpawn()) {
 		//enemy("../Assets/PNG/enemyShip.png");
-		enemy.dst.y = rand() % 76 -151;
-		enemy.dst.x = rand()%798;
+		enemy->dst.y = rand() % 76 -151;
+		enemy->dst.x = rand()%798;
 
 		enemies.push_back(enemy);
 
@@ -87,7 +86,10 @@ void GameFund::input() {
 void GameFund::update(){
 	player->update();
 
-	for (auto& b: enemy.enemyBullet.bullets )
+	for (auto& b : enemy.enemyBullets)
+	{
+		//check for collision
+	}
 	
 		
 		

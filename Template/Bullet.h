@@ -21,7 +21,7 @@ private:
 
 
 	float deltaTime = 1.0f / 60.0f;
-	 float bulletMoveSpeed = 1024 * deltaTime;
+	float bulletMoveSpeed = 1024 * deltaTime;
 
 
 

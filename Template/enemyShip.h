@@ -1,6 +1,6 @@
 #pragma once
 #include "fundObject.h"
-#include "bulletManager.h"
+#include "Bullet.h"
 #include <vector>
 class enemyShip :public fundObject
 {
@@ -13,10 +13,15 @@ public:
 	void shoot() ;
 	void draw();
 	
+
+
 	bool canShoot();
 
+	void createBullet(const char* filepath, SDL_Rect dst, Vec2 Velo);
+	void updateBullets();
+	void drawBullets();
 
-	bulletManager enemyBullet;
+	std::vector<Bullet> enemyBullets;
 private:
 	float deltaTime = 1.0f / 60.0f;
 	Vec2 bulletVelocity = { 0,300 };

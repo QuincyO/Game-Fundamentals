@@ -31,7 +31,7 @@ private:
 	float deltaTime = 1.0f / 60.0f;
 	bool isRunning;
 	SDL_Window* pWindow;
-	
+	enemyShip enemy;
 	float enemySpawnRate = 2.0f;
 	float enemyTimer;
 
