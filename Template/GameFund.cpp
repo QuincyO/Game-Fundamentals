@@ -138,7 +138,8 @@ bool GameFund::running() {
 }
 
 void GameFund::clean() {
-	delete[] player;
+	delete player;
+	player = nullptr;
 	SDL_DestroyRenderer(pRenderer);
 	SDL_DestroyWindow(pWindow);
 	SDL_Quit;
