@@ -123,7 +123,7 @@ void playerShip::shoot()
 
 }
 
-void playerShip::draw()
+void playerShip::draw(int rotation)
 {
-	textFund::draw(pTex, src, dst);
+	SDL_RenderCopyEx(GameFund::pRenderer, pTex, &src, &dst, rotation, NULL, SDL_FLIP_NONE);
 }

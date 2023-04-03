@@ -30,7 +30,7 @@ public:
 	void move(Vec2 inputVector);
 	void update();
 	void shoot();
-	void draw();
+	void draw(int rotation);
 
 
 private:
