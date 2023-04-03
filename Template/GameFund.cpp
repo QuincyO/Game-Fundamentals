@@ -1,18 +1,18 @@
+
 #include "GameFund.h"
-#include "background.h"
-#include "playerShip.h"
+
 #include "enemyShip.h"
 
 //enemyShip enemy("../Assets/PNG/enemyShip.png");
-playerShip* player;
+playerShip player("../Assets/PNG/player.png");
 background* map;
 vector<enemyShip> enemies;
 
 
-GameFund::GameFund() { enemy =  enemyShip("../Assets/PNG/enemyShip.png"); }
-GameFund::~GameFund() {}
+
 
 SDL_Renderer* GameFund::pRenderer = nullptr;
+
 
 void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 	int flags = 0;
@@ -38,7 +38,7 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 		isRunning = false;
 	}
 	
-	pRenderer = SDL_CreateRenderer(pWindow, -1, 0);
+	 pRenderer= SDL_CreateRenderer(pWindow, -1, 0);
 	
 	SDL_SetRenderDrawColor(pRenderer, 0, 47, 74, 255);
 	
@@ -65,50 +65,47 @@ bool GameFund::canSpawn()
 void GameFund::spawnShip()
 {
 	if (canSpawn()) {
-		//enemy("../Assets/PNG/enemyShip.png");
-		enemy->dst.y = rand() % 76 -151;
-		enemy->dst.x = rand()%798;
 
-		enemies.push_back(enemy);
 
 	}
 }
 
 void GameFund::input() {
-	player->input();
-	spawnShip();
-	for (auto& e : enemies) {
-		e.shoot();
-	}
-	
-
+//	player.input();
+//	spawnShip();
+//	for (auto& e : enemies) {
+//		e.shoot();
+//	}
+//	
+//
 }
 void GameFund::update(){
-	player->update();
+//	player.update();
 
-	for (auto& b : enemy.enemyBullets)
-	{
-		//check for collision
-	}
+//	for (auto& b : enemy.bullets)
+//	{
+//		//check for collision
+//	}
 	
 		
 		
 		//Enemies Spawning
-	for (enemyShip& e : enemies)
-	{
-		e.update();
-	}
-	map->update();
+//	for (enemyShip& e : enemies)
+//	{
+//		e.update();
+//	}
+//	map->update();
 	
 
 }
 void GameFund::load() {
-	map = new background();
-	map->loadMap();
-	player = new playerShip("../Assets/PNG/player.png");
-	
-
-	player->setPos({ 250,250 });
+	player.setPos({ 250,250 });
+	//map = new background();
+	//map->loadMap();
+	//player = new playerShip("../Assets/PNG/player.png");
+	//
+	//
+	//player->setPos({ 250,250 });
 
 
 
@@ -119,18 +116,21 @@ void GameFund::load() {
 
 void GameFund::draw() {
 	SDL_RenderClear(pRenderer);
-	map->draw();
-	player->render(NULL);
-	player->draw();
-
-	for (enemyShip& e : enemies) {
-		e.render(NULL);
-		e.draw();
-	}
+	player.draw();
+	//map->draw();
+	//player->render(NULL);
+	//player->draw();
+	//
+	//for (enemyShip& e : enemies) {
+	//	e.render(NULL);
+	//	e.draw();
+	//}
 
 
 	SDL_RenderPresent(pRenderer);
 }
+
+
 
 bool GameFund::running() {
 	return isRunning;
@@ -143,4 +143,3 @@ void GameFund::clean() {
 
 
 }
-

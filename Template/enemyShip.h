@@ -1,10 +1,10 @@
 #pragma once
 #include "fundObject.h"
-#include "Bullet.h"
-#include <vector>
+class fundObject;
 class enemyShip :public fundObject
 {
 public:
+	enemyShip();
 	enemyShip(const char* texture) :fundObject(texture){};
 
 
@@ -17,11 +17,8 @@ public:
 
 	bool canShoot();
 
-	void createBullet(const char* filepath, SDL_Rect dst, Vec2 Velo);
-	void updateBullets();
-	void drawBullets();
 
-	std::vector<Bullet> enemyBullets;
+
 private:
 	float deltaTime = 1.0f / 60.0f;
 	Vec2 bulletVelocity = { 0,300 };

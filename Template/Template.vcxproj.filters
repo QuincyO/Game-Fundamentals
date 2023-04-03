@@ -180,6 +180,7 @@
     <ClCompile Include="enemyShip.cpp">
       <Filter>Core\GameFundementals</Filter>
     </ClCompile>
+    <ClCompile Include="pRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">
@@ -359,6 +360,7 @@
     <ClInclude Include="enemyShip.h">
       <Filter>Core\GameFundementals</Filter>
     </ClInclude>
+    <ClInclude Include="pRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">

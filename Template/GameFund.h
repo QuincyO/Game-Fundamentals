@@ -3,15 +3,20 @@
 #include <iostream>
 #include <vector>
 #include "SDL.h"
-#include "fundObject.h"
-#include "enemyShip.h"
+#include "Vec2.h"
+#include "background.h"
+#include "pRenderer.h"
+#include "playerShip.h"
+
+
+//#include "enemyShip.h"
 
 
 
 class GameFund
 {
 public:
-	GameFund();
+	GameFund() { pRenderer = nullptr;  };
 	~GameFund();
 
 	void init(const char* Title, int width, int height, bool fullscreen);
@@ -25,13 +30,14 @@ public:
 	void clean();
 	bool running();
 
-	static SDL_Renderer *pRenderer;
+	static SDL_Renderer* pRenderer;
+	
 
 private:
 	float deltaTime = 1.0f / 60.0f;
 	bool isRunning;
 	SDL_Window* pWindow;
-	enemyShip enemy;
+	//enemyShip* enemy;
 	float enemySpawnRate = 2.0f;
 	float enemyTimer;
 
