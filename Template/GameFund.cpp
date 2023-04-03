@@ -4,7 +4,7 @@
 #include "playerShip.h"
 #include "enemyShip.h"
 
-
+enemyShip enemy("../Assets/PNG/enemyShip.png");
 playerShip* player;
 background* map;
 vector<enemyShip> enemies;
@@ -66,7 +66,7 @@ bool GameFund::canSpawn()
 void GameFund::spawnShip()
 {
 	if (canSpawn()) {
-		enemyShip enemy("../Assets/PNG/enemyShip.png");
+		//enemy("../Assets/PNG/enemyShip.png");
 		enemy.dst.y = rand() % 76 -151;
 		enemy.dst.x = rand()%798;
 
@@ -81,16 +81,21 @@ void GameFund::input() {
 	for (auto& e : enemies) {
 		e.shoot();
 	}
-	//enemy->shoot();
+	
 
 }
 void GameFund::update(){
 	player->update();
+
+	for (auto& b: enemy.enemyBullet.bullets )
+	
+		
+		
+		//Enemies Spawning
 	for (enemyShip& e : enemies)
 	{
 		e.update();
 	}
-	//enemy->update();
 	map->update();
 	
 
@@ -105,8 +110,7 @@ void GameFund::load() {
 
 
 
-	//enemy = new enemyShip("../Assets/PNG/enemyShip.png");
-	//enemy->setPos({ 400,400 });
+
 	
 
 }
@@ -116,8 +120,7 @@ void GameFund::draw() {
 	map->draw();
 	player->render(NULL);
 	player->draw();
-	//enemy->render(NULL);
-//	enemy->draw();
+
 	for (enemyShip& e : enemies) {
 		e.render(NULL);
 		e.draw();

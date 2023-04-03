@@ -16,10 +16,11 @@ public:
 	bool canShoot();
 
 
+	bulletManager enemyBullet;
 private:
 	float deltaTime = 1.0f / 60.0f;
-	bulletManager enemyBullet;
 	Vec2 bulletVelocity = { 0,300 };
+
 	int moveSpeed = 100 * deltaTime;
 
 	float fireRate = 1.0f;

@@ -1,6 +1,7 @@
 #include "fundObject.h"
 #include"textFund.h"
 #include "bulletManager.h"
+#include "bullet.h"
 
 
 bulletManager bullet;
