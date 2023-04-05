@@ -4,7 +4,8 @@
 
 
 void Bullet::draw(int rotation) {
-	SDL_RenderCopyEx(GameFund::pRenderer, bulletTexture, &srcRect, &dstRect,rotation,NULL, SDL_FLIP_NONE);
+	//SDL_RenderCopyEx(GameFund::pRenderer, bulletTexture, &srcRect, &dstRect, rotation, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopy(GameFund::pRenderer, bulletTexture, &srcRect, &dstRect);
 }
 
 void Bullet::GetandSetInfo(const char* filepath, SDL_Rect objectDST, Vec2 Velo)

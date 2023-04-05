@@ -1,7 +1,7 @@
 
 #include "GameFund.h"
 
-//enemyShip enemy("../Assets/PNG/enemyShip.png");;
+
 vector<enemyShip> enemies;
 background* map;
 playerShip* player;
@@ -108,6 +108,7 @@ void GameFund::draw() {
 	SDL_RenderClear(pRenderer);
 	map->draw();
 	player->draw(NULL);
+
 	
 	
 	for (enemyShip& e : enemies) {

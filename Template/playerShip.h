@@ -29,7 +29,9 @@ public:
 	void move(Vec2 inputVector);
 	void update();
 	void shoot();
+	void drawBullets();
 	void draw(int rotation);
+
 
 
 private:
@@ -41,7 +43,7 @@ private:
 	Vec2 inputVector;
 	Vec2 bulletVelocity = { 0,-750 };
 
-
+	
 	//Bullet bullet;
 	//std::vector<Bullet> bullets;
 

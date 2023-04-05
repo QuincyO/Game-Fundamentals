@@ -1,7 +1,6 @@
 #include "playerShip.h"
 
 
-Bullet bullet;
 std::vector<Bullet> bullets;
 playerShip::playerShip(const char *texture)
 {
@@ -117,6 +116,7 @@ void playerShip::update()
 void playerShip::shoot()
 {
 	if (shooting && fireTimer <= 0.0f) {
+		Bullet bullet;
 		bullet.GetandSetInfo("../Assets/PNG/laserRed.png", dst, bulletVelocity);
 		bullets.push_back(bullet);
 		fireTimer = fireRate;
@@ -125,11 +125,15 @@ void playerShip::shoot()
 
 }
 
+void playerShip::drawBullets() {
+	for (Bullet& b : bullets)
+	{
+		b.draw(NULL);
+	}
+}
+
 void playerShip::draw(int rotation)
 {
 	SDL_RenderCopyEx(GameFund::pRenderer, pTex, &src, &dst, rotation, NULL, SDL_FLIP_NONE);
-	
-	for (Bullet& b : bullets) {
-		b.draw(NULL);
-	}
+	drawBullets();
 }
