@@ -65,9 +65,10 @@ void GameFund::spawnShip()
 
 
 	if (canSpawn()) {
+		enemyShip enemy("../Assets/PNG/enemyShip.png");
 		int x = rand() % 796;
 		int y = rand() % 101 * -1;
-		enemy.setPos(x, 350);
+		enemy.setPos(x, y);
 		enemies.push_back(enemy);
 
 	}
@@ -76,9 +77,9 @@ void GameFund::spawnShip()
 void GameFund::input() {
 	player->input();
 	spawnShip();
-//	for (auto& e : enemies) {
-//		e.shoot();
-//	}
+	for (auto& e : enemies) {
+		e.shoot();
+	}
 
 }
 void GameFund::update(){
@@ -92,10 +93,10 @@ void GameFund::update(){
 		
 		
 		//Enemies Spawning
-	//for (enemyShip& e : enemies)
-	//{
-	//	e.update();
-	//}
+	for (enemyShip& e : enemies)
+	{
+		e.update();
+	}
 
 	
 
@@ -105,7 +106,7 @@ void GameFund::load() {
 	map->loadMap();
 	player = new playerShip("../Assets/PNG/player.png");
 	player->setPos({ 250,250 });
-	//enemy = new enemyShip("../Assets/PNG/enemyShip.png");
+
 	
 
 }
@@ -115,7 +116,6 @@ void GameFund::draw() {
 	map->draw();
 	player->draw(NULL);
 	
-	enemy.draw();
 	
 	for (enemyShip& e : enemies) {
 		e.draw();

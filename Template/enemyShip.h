@@ -27,10 +27,10 @@ public:
 
 
 private:
-	SDL_Rect src, dst;
 	float deltaTime = 1.0f / 60.0f;
+	SDL_Rect src, dst;
 	SDL_Texture* eTex;
-	Vec2 bulletVelocity = { 0,300 };
+	Vec2 bulletVelocity;
 
 	int moveSpeed = 100 * deltaTime;
 

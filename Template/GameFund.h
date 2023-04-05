@@ -14,7 +14,7 @@
 class GameFund
 {
 public:
-	GameFund() : enemy("../Assets/PNG/enemyShip.png") {};
+	GameFund() {};
 	~GameFund();
 
 	void init(const char* Title, int width, int height, bool fullscreen);
@@ -37,7 +37,6 @@ private:
 	float enemySpawnRate = 2.0f;
 	float enemyTimer;
 
-	enemyShip enemy;
 
 	int count;
 

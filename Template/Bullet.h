@@ -1,7 +1,6 @@
 #pragma once
 #include "textFund.h"
 #include "GameFund.h"
-class playerShip;
 class Bullet
 {
 public:
@@ -23,7 +22,6 @@ private:
 
 
 	float deltaTime = 1.0f / 60.0f;
-	float bulletMoveSpeed = 1024 * deltaTime;
 
 
 

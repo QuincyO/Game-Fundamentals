@@ -1,7 +1,6 @@
 #include "enemyShip.h"
 
 
-Bullet eBullet;
 std::vector<Bullet> eBullets;
 
 
@@ -12,7 +11,7 @@ enemyShip::enemyShip(const char* texture)
 	src.x = src.y = 0;
 	dst.w = src.w;
 	dst.h = src.h;
-
+	bulletVelocity = { 0,250 };
 		//This Code causes the console to stop working
 	//if (eTex) {
 	//	std::cout << "Image Created\n";
@@ -62,6 +61,7 @@ void enemyShip::draw()
 
 void enemyShip::createBullet(const char* filepath, SDL_Rect objectDST, Vec2 bulletVelo)
 {
+	Bullet eBullet;
 	eBullet.GetandSetInfo(filepath, objectDST, bulletVelo);
 	eBullets.push_back(eBullet);
 }
@@ -70,7 +70,7 @@ void enemyShip::updateBullets()
 {
 	for (Bullet& b : eBullets)
 	{
-		eBullet.update();
+		b.update();
 	}
 }
 
@@ -78,7 +78,7 @@ void enemyShip::drawBullets()
 {
 	for (Bullet& b : eBullets)
 	{
-		eBullet.draw(NULL);
+		b.draw(NULL);
 	}
 }
 
