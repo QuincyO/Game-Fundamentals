@@ -128,6 +128,7 @@ void playerShip::shoot()
 void playerShip::draw(int rotation)
 {
 	SDL_RenderCopyEx(GameFund::pRenderer, pTex, &src, &dst, rotation, NULL, SDL_FLIP_NONE);
+	
 	for (Bullet& b : bullets) {
 		b.draw(NULL);
 	}

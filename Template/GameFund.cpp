@@ -76,8 +76,8 @@ void GameFund::spawnShip()
 
 void GameFund::input() {
 	player->input();
-	spawnShip();
-	for (auto& e : enemies) {
+	//spawnShip();
+	for (enemyShip& e : enemies) {
 		e.shoot();
 	}
 
@@ -85,19 +85,12 @@ void GameFund::input() {
 void GameFund::update(){
 	player->update();
 	map->update();
-//	for (auto& b : enemy.bullets)
-//	{
-//		//check for collision
-//	}
-	
-		
-		
+
 		//Enemies Spawning
 	for (enemyShip& e : enemies)
 	{
 		e.update();
 	}
-
 	
 
 }
