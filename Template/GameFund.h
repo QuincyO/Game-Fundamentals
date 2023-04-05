@@ -6,10 +6,7 @@
 #include "Vec2.h"
 #include "background.h"
 #include "playerShip.h"
-
-
-
-//#include "enemyShip.h"
+#include "enemyShip.h"
 
 
 
@@ -17,7 +14,7 @@
 class GameFund
 {
 public:
-	GameFund() { pRenderer = nullptr;  };
+	GameFund() : enemy("../Assets/PNG/enemyShip.png") {};
 	~GameFund();
 
 	void init(const char* Title, int width, int height, bool fullscreen);
@@ -37,10 +34,10 @@ private:
 	float deltaTime = 1.0f / 60.0f;
 	bool isRunning;
 	SDL_Window* pWindow;
-	//enemyShip* enemy;
 	float enemySpawnRate = 2.0f;
 	float enemyTimer;
 
+	enemyShip enemy;
 
 	int count;
 

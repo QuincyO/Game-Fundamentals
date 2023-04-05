@@ -1,6 +1,5 @@
 #pragma once
 #include <SDL.h>
-//#include "fundObject.h"
 #include"textFund.h"
 #include "Bullet.h"
 
@@ -43,8 +42,8 @@ private:
 	Vec2 bulletVelocity = { 0,-750 };
 
 
-	Bullet bullet;
-	std::vector<Bullet> bullets;
+	//Bullet bullet;
+	//std::vector<Bullet> bullets;
 
 
 

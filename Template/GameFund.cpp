@@ -1,10 +1,9 @@
 
 #include "GameFund.h"
 
-#include "enemyShip.h"
-//enemyShip enemy("../Assets/PNG/enemyShip.png");
-background* map;
+//enemyShip enemy("../Assets/PNG/enemyShip.png");;
 vector<enemyShip> enemies;
+background* map;
 playerShip* player;
 
 
@@ -63,20 +62,24 @@ bool GameFund::canSpawn()
 
 void GameFund::spawnShip()
 {
-	if (canSpawn()) {
 
+
+	if (canSpawn()) {
+		int x = rand() % 796;
+		int y = rand() % 101 * -1;
+		enemy.setPos(x, 350);
+		enemies.push_back(enemy);
 
 	}
 }
 
 void GameFund::input() {
 	player->input();
-//	spawnShip();
+	spawnShip();
 //	for (auto& e : enemies) {
 //		e.shoot();
 //	}
-//	
-//
+
 }
 void GameFund::update(){
 	player->update();
@@ -89,11 +92,11 @@ void GameFund::update(){
 		
 		
 		//Enemies Spawning
-//	for (enemyShip& e : enemies)
-//	{
-//		e.update();
-//	}
-//	map->update();
+	//for (enemyShip& e : enemies)
+	//{
+	//	e.update();
+	//}
+
 	
 
 }
@@ -102,14 +105,7 @@ void GameFund::load() {
 	map->loadMap();
 	player = new playerShip("../Assets/PNG/player.png");
 	player->setPos({ 250,250 });
-	//player = new playerShip("../Assets/PNG/player.png");
-	//
-	//
-	//player->setPos({ 250,250 });
-
-
-
-
+	//enemy = new enemyShip("../Assets/PNG/enemyShip.png");
 	
 
 }
@@ -119,13 +115,11 @@ void GameFund::draw() {
 	map->draw();
 	player->draw(NULL);
 	
-	//player->render(NULL);
-	//player->draw();
-	//
-	//for (enemyShip& e : enemies) {
-	//	e.render(NULL);
-	//	e.draw();
-	//}
+	enemy.draw();
+	
+	for (enemyShip& e : enemies) {
+		e.draw();
+	}
 
 
 	SDL_RenderPresent(pRenderer);

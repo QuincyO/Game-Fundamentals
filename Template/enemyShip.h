@@ -1,12 +1,16 @@
 #pragma once
-#include "fundObject.h"
-class fundObject;
-class enemyShip :public fundObject
+#include <SDL.h>
+#include"textFund.h"
+#include "Bullet.h"
+
+class enemyShip 
 {
 public:
-	enemyShip();
-	enemyShip(const char* texture) :fundObject(texture){};
+	enemyShip() {};
+	enemyShip(const char* texture);
 
+	void setPos(Vec2 pos);
+	void setPos(int x, int y);
 
 	void input() ;
 	void update() ;
@@ -14,13 +18,18 @@ public:
 	void draw();
 	
 
+	void createBullet(const char* filepath, SDL_Rect objectDST, Vec2 bulletVelo);
+	void updateBullets();
+	void drawBullets();
 
 	bool canShoot();
 
 
 
 private:
+	SDL_Rect src, dst;
 	float deltaTime = 1.0f / 60.0f;
+	SDL_Texture* eTex;
 	Vec2 bulletVelocity = { 0,300 };
 
 	int moveSpeed = 100 * deltaTime;

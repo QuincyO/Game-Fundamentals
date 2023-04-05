@@ -13,7 +13,7 @@ public:
 	void drawStar();
 	void loadMap();
 	void update();
-	void draw()
+	void draw();
 
 
 private:

@@ -1,7 +1,8 @@
 #include "playerShip.h"
 
 
-
+Bullet bullet;
+std::vector<Bullet> bullets;
 playerShip::playerShip(const char *texture)
 {
 	pTex = textFund::loadTexture(texture,NULL);
