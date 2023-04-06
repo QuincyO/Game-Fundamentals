@@ -12,6 +12,7 @@ Mix_Chunk* shoot;
 Mix_Music* music;
 
 std::vector<Bullet> eBullets;
+std::vector<Bullet> bullets;
 
 void updateBullets(std::vector<Bullet> bullets)
 {

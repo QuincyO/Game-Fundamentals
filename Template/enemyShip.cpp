@@ -47,7 +47,7 @@ void enemyShip::update()
 void enemyShip::shoot()
 {
 	
-		createBullet("../Assets/PNG/laserGreen.png", dst, bulletVelocity);
+		createBullet("../Assets/PNG/laserGreen.png",eBullets);
 
 }
 
@@ -65,21 +65,7 @@ void enemyShip::createBullet(const char* filepath, std::vector<Bullet>& bullets 
 	bullets.push_back(eBullet);
 }
 
-void updateBullets()
-{
-	for (Bullet& b : eBullets)
-	{
-		b.update();
-	}
-}
 
-void enemyShip::drawBullets()
-{
-	for (Bullet& b : eBullets)
-	{
-		b.draw(NULL);
-	}
-}
 
 
 
