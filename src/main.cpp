@@ -409,7 +409,7 @@ srand(time(NULL));
 	game->init("Quincy and Michael Space Game", SCREEN_WIDTH, SCREEN_HEIGHT, false);
 
 	game->load();
-
+	game->start();
 	// Main Game Loop
 	while (game->running())
 	{

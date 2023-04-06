@@ -9,7 +9,7 @@ public:
 
 	 static	SDL_Texture* loadTexture(const char* filename, int rotation);
 
-	 static void				draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dst);
+	 static void		  draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dst);
 
 private:
 

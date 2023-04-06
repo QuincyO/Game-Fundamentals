@@ -68,7 +68,7 @@ private:
 	float fireTimer = 0.0f;
 
 
-
+	int audioVol = 50;
 
 
 

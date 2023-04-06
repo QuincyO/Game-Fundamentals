@@ -1,8 +1,6 @@
 #include "enemyShip.h"
 
 
-std::vector<Bullet> eBullets;
-
 
 enemyShip::enemyShip(const char* texture)
 {
@@ -11,7 +9,7 @@ enemyShip::enemyShip(const char* texture)
 	src.x = src.y = 0;
 	dst.w = src.w;
 	dst.h = src.h;
-	bulletVelocity = { 0,1 };
+	bulletVelocity = { 0, 150 };
 
 		//This Code causes the console to stop working
 	//if (eTex) {
@@ -44,30 +42,30 @@ void enemyShip::input()
 void enemyShip::update()
 {
 	dst.y += 150 * deltaTime;
-	updateBullets();
 }
 
 void enemyShip::shoot()
 {
-	if (canShoot()) {
+	
 		createBullet("../Assets/PNG/laserGreen.png", dst, bulletVelocity);
-	}
+
 }
 
 void enemyShip::draw()
 {
 	textFund::draw(eTex, src, dst);
-	drawBullets();
+	
 }
 
-void enemyShip::createBullet(const char* filepath, SDL_Rect objectDST, Vec2 bulletVelo)
+
+void enemyShip::createBullet(const char* filepath, std::vector<Bullet>& bullets )
 {
 	Bullet eBullet;
-	eBullet.GetandSetInfo(filepath, objectDST, bulletVelocity);
-	eBullets.push_back(eBullet);
+	eBullet.GetandSetInfo(filepath, dst, bulletVelocity);
+	bullets.push_back(eBullet);
 }
 
-void enemyShip::updateBullets()
+void updateBullets()
 {
 	for (Bullet& b : eBullets)
 	{

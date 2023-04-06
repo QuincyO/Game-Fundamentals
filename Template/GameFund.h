@@ -7,6 +7,7 @@
 #include "background.h"
 #include "playerShip.h"
 #include "enemyShip.h"
+#include "SDL_mixer.h"
 
 
 
@@ -24,6 +25,7 @@ public:
 	void input();
 	void update();
 	void load();
+	void start();
 	void draw();
 	void clean();
 	bool running();
@@ -36,6 +38,7 @@ private:
 	SDL_Window* pWindow;
 	float enemySpawnRate = 2.0f;
 	float enemyTimer;
+
 
 
 	int count;

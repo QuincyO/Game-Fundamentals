@@ -3,6 +3,8 @@
 #include"textFund.h"
 #include "Bullet.h"
 
+
+
 class enemyShip 
 {
 public:
@@ -18,7 +20,7 @@ public:
 	void draw();
 	
 
-	void createBullet(const char* filepath, SDL_Rect objectDST, Vec2 bulletVelo);
+	void createBullet(const char* filepath, std::vector<Bullet>& bullets);
 	void updateBullets();
 	void drawBullets();
 

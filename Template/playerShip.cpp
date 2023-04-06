@@ -56,6 +56,11 @@ void playerShip::input()
 			case(SDL_SCANCODE_SPACE):
 				shooting = true;
 				break;
+			case(SDL_SCANCODE_PAGEDOWN):
+				audioVol += 10;
+				audioVol = min(audioVol, MIX_MAX_VOLUME);
+
+				Mix_Volume(-1, audioVol);
 			}
 			break;
 		case (SDL_KEYUP):
@@ -119,6 +124,7 @@ void playerShip::shoot()
 		Bullet bullet;
 		bullet.GetandSetInfo("../Assets/PNG/laserRed.png", dst, bulletVelocity);
 		bullets.push_back(bullet);
+		//Mix_PlayChannel(audioChan,audioChan)
 		fireTimer = fireRate;
 	}
 	fireTimer -= deltaTime;
