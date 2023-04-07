@@ -28,6 +28,5 @@ void Bullet::GetandSetInfo(const char* filepath, SDL_Rect objectDST, Vec2 Velo)
 }
 
 void Bullet::update() {
-	dstRect.x += velocity.x * deltaTime;
-	dstRect.y += velocity.y * deltaTime;
+	
 }

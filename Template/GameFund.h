@@ -5,10 +5,13 @@
 #include "SDL.h"
 #include "Vec2.h"
 #include "background.h"
-#include "playerShip.h"
-#include "enemyShip.h"
-#include "SDL_mixer.h"
 
+
+#include "SDL_mixer.h"
+#include<SDL_image.h>
+
+
+static float deltaTime = 1.0f/ 60.0f;
 
 
 
@@ -23,7 +26,9 @@ public:
 	bool canSpawn();
 	void spawnShip();
 	void input();
+	void updatePlayer();
 	void update();
+	void detectCollisions();
 	void load();
 	void start();
 	void draw();

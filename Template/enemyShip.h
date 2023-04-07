@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL.h>
 #include"textFund.h"
-#include "Bullet.h"
 
 
 
@@ -20,7 +19,6 @@ public:
 	void draw();
 	
 
-	void createBullet(const char* filepath, std::vector<Bullet>& bullets);
 	void updateBullets();
 	void drawBullets();
 
@@ -29,7 +27,7 @@ public:
 
 
 private:
-	float deltaTime = 1.0f / 60.0f;
+
 	SDL_Rect src, dst;
 	SDL_Texture* eTex;
 	Vec2 bulletVelocity;

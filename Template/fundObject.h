@@ -59,7 +59,6 @@ private:
 	float animationTimer = 0.0f;
 
 
-	float deltaTime = 1.0f / 60.0f;
 	//Movement Speed
 
 

@@ -46,24 +46,17 @@ void enemyShip::update()
 
 void enemyShip::shoot()
 {
-	
-		createBullet("../Assets/PNG/laserGreen.png",eBullets);
-
 }
+
+
 
 void enemyShip::draw()
 {
-	textFund::draw(eTex, src, dst);
+	textFund::draw(eTex, src, dst,NULL);
 	
 }
 
 
-void enemyShip::createBullet(const char* filepath, std::vector<Bullet>& bullets )
-{
-	Bullet eBullet;
-	eBullet.GetandSetInfo(filepath, dst, bulletVelocity);
-	bullets.push_back(eBullet);
-}
 
 
 
