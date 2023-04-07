@@ -135,7 +135,7 @@ namespace Fund
 	{
 	public:
 		Sprite sprite;
-		float moveSpeedPx = 300;
+		float moveSpeedPx = 400;
 		float fireRepeatDelay = 0.5f;
 	private:
 		float fireRepeatTimer;
