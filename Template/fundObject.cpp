@@ -97,11 +97,7 @@ void fundObject::render(int rotation) {
 		
 }
 
-void fundObject::createBullet(const char* filepath, SDL_Rect dst, Vec2 Velo)
-{
-	//bullet.GetandSetInfo(filepath, dst, Velo);
-	//bullets.push_back(bullet);
-}
+
 
 void fundObject::updateBullets()
 {

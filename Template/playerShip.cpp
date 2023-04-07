@@ -1,7 +1,6 @@
 #include "playerShip.h"
 
 
-
 playerShip::playerShip(const char *texture)
 {
 	pTex = textFund::loadTexture(texture,NULL);
@@ -56,6 +55,11 @@ void playerShip::input()
 			case(SDL_SCANCODE_SPACE):
 				shooting = true;
 				break;
+			case(SDL_SCANCODE_PAGEDOWN):
+				audioVol += 10;
+				audioVol = min(audioVol, MIX_MAX_VOLUME);
+
+				Mix_Volume(-1, audioVol);
 			}
 			break;
 		case (SDL_KEYUP):
@@ -86,18 +90,18 @@ void playerShip::move(Vec2 inputVector1)
 {
 	dst.y += inputVector1.y * (playerMoveSpeedPerSec * deltaTime);
 	dst.x += inputVector1.x * (playerMoveSpeedPerSec * deltaTime);
-	inputVector.y = 0;
-	inputVector.x = 0;
+	inputVec.y = 0;
+	inputVec.x = 0;
 }
 
 void playerShip::update()
 {
 	//Movement
-	if (upMove) {inputVector.y = -1;}
-	if (downMove) {inputVector.y = 1;}
-	if (leftMove) {inputVector.x = -1;}
-	if (rightMove) {inputVector.x = 1;}
-	move(inputVector);
+	if (upMove) {inputVec.y = -1;}
+	if (downMove) {inputVec.y = 1;}
+	if (leftMove) {inputVec.x = -1;}
+	if (rightMove) {inputVec.x = 1;}
+	move(inputVec);
 	
 	//Preventing From exiting Box
 	if (dst.x >= 896 - dst.w - 10) { dst.x = 896 - dst.w - 10; }
@@ -106,28 +110,29 @@ void playerShip::update()
 	if (dst.y <= 0 + 10)					{dst.y = 0 + 10;}
 	//Shooting Mechanic
 	shoot();
-	for (Bullet& b : bullets)
-	{
-		b.update();
-	}
-	
 }
+	
+
 
 void playerShip::shoot()
 {
 	if (shooting && fireTimer <= 0.0f) {
-		bullet.GetandSetInfo("../Assets/PNG/laserRed.png", dst, bulletVelocity);
-		bullets.push_back(bullet);
+		
+		
+
+		//Mix_PlayChannel(audioChan,audioChan)
 		fireTimer = fireRate;
 	}
 	fireTimer -= deltaTime;
 
 }
 
+void playerShip::drawBullets() {
+
+}
+
 void playerShip::draw(int rotation)
 {
 	SDL_RenderCopyEx(GameFund::pRenderer, pTex, &src, &dst, rotation, NULL, SDL_FLIP_NONE);
-	for (Bullet& b : bullets) {
-		b.draw(NULL);
-	}
+	drawBullets();
 }

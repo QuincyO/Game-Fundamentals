@@ -1,8 +1,6 @@
 #pragma once
 #include <SDL.h>
-//#include "fundObject.h"
 #include"textFund.h"
-#include "Bullet.h"
 
 
 
@@ -30,21 +28,23 @@ public:
 	void move(Vec2 inputVector);
 	void update();
 	void shoot();
+	void drawBullets();
 	void draw(int rotation);
 
 
+
 private:
-	float deltaTime = 1.0f / 60.0f;
+
 	Vec2 position;
 	SDL_Rect src, dst;
 	SDL_Event pEvent;
 	SDL_Texture* pTex = nullptr;
-	Vec2 inputVector;
+	Vec2 inputVec;
 	Vec2 bulletVelocity = { 0,-750 };
 
-
-	Bullet bullet;
-	std::vector<Bullet> bullets;
+	
+	//Bullet bullet;
+	//std::vector<Bullet> bullets;
 
 
 
@@ -54,7 +54,7 @@ private:
 	bool rightMove = false;
 	bool shooting = false;
 
-	float playerMoveSpeedPerSec = 300 ;
+	float playerMoveSpeedPerSec;
 
 
 
@@ -67,7 +67,7 @@ private:
 	float fireTimer = 0.0f;
 
 
-
+	int audioVol = 50;
 
 
 

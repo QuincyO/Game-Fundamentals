@@ -5,19 +5,20 @@
 #include "SDL.h"
 #include "Vec2.h"
 #include "background.h"
-#include "playerShip.h"
 
 
+#include "SDL_mixer.h"
+#include<SDL_image.h>
 
-//#include "enemyShip.h"
 
+static float deltaTime = 1.0f/ 60.0f;
 
 
 
 class GameFund
 {
 public:
-	GameFund() { pRenderer = nullptr;  };
+	GameFund() {};
 	~GameFund();
 
 	void init(const char* Title, int width, int height, bool fullscreen);
@@ -25,8 +26,11 @@ public:
 	bool canSpawn();
 	void spawnShip();
 	void input();
+	void updatePlayer();
 	void update();
+	void detectCollisions();
 	void load();
+	void start();
 	void draw();
 	void clean();
 	bool running();
@@ -37,9 +41,9 @@ private:
 	float deltaTime = 1.0f / 60.0f;
 	bool isRunning;
 	SDL_Window* pWindow;
-	//enemyShip* enemy;
 	float enemySpawnRate = 2.0f;
 	float enemyTimer;
+
 
 
 	int count;

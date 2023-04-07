@@ -7,7 +7,7 @@ class background
 {
 public:
 	background();
-	~background();
+	~background() {};
 	
 
 	void drawStar();

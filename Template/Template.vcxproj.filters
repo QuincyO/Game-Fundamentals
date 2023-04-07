@@ -181,6 +181,9 @@
       <Filter>Core\GameFundementals</Filter>
     </ClCompile>
     <ClCompile Include="pRenderer.cpp" />
+    <ClCompile Include="inclass.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">

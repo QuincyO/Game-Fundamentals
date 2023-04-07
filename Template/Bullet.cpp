@@ -4,7 +4,9 @@
 
 
 void Bullet::draw(int rotation) {
-	SDL_RenderCopyEx(GameFund::pRenderer, bulletTexture, &srcRect, &dstRect,rotation,NULL, SDL_FLIP_NONE);
+	update();
+	//SDL_RenderCopyEx(GameFund::pRenderer, bulletTexture, &srcRect, &dstRect, rotation, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopy(GameFund::pRenderer, bulletTexture, &srcRect, &dstRect);
 }
 
 void Bullet::GetandSetInfo(const char* filepath, SDL_Rect objectDST, Vec2 Velo)
@@ -23,11 +25,8 @@ void Bullet::GetandSetInfo(const char* filepath, SDL_Rect objectDST, Vec2 Velo)
 	dstRect.x = objectDST.x + (objectDST.w / 2) - (dstRect.w / 2);
 	dstRect.y = objectDST.y;
 	velocity = Velo;
-
-
 }
 
 void Bullet::update() {
-	dstRect.x += velocity.x * (deltaTime);
-	dstRect.y += velocity.y * (deltaTime);
+	
 }
