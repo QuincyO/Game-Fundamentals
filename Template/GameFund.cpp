@@ -21,16 +21,15 @@ namespace Fund
 	class Sprite
 	{
 	private:
-		SDL_Texture* pTex;
 		SDL_Rect src, dst;
 
 		float animationCurrentFrame = 0.0f;
-
 	public:
+		SDL_Texture* pTex;
 		double rotation = 0;
 		SDL_RendererFlip flipState = SDL_FLIP_NONE;
 		Vec2 position;
-		int animationFrameCount = 1;
+		int animationFrameCount = 0;
 
 		//Setters
 		void setSize(Vec2 sizeWidthHeight)
@@ -85,7 +84,7 @@ namespace Fund
 		{
 			cout << "Animation Constructor\n";
 			setSpruteSheet(frameSizex, frameSizeY);
-			setSize(frameSizex, frameSizeY);
+			//setSize(frameSizex, frameSizeY);
 			animationFrameCount = frameCount;
 		}
 
@@ -93,7 +92,8 @@ namespace Fund
 		{
 			dst.x = position.x;
 			dst.y = position.y;
-			src.x = src.y * (int)animationCurrentFrame;
+			src.x = src.w * (int)animationCurrentFrame;
+			
 			textFund::draw(pTex, src, dst,rotation);
 		}
 		void nextFrame()
@@ -105,6 +105,7 @@ namespace Fund
 		{
 			animationCurrentFrame = frame % animationFrameCount;
 			src.x = src.w * animationCurrentFrame;
+			
 
 		}
 
@@ -135,7 +136,7 @@ namespace Fund
 	{
 	public:
 		Sprite sprite;
-		float moveSpeedPx = 400;
+		float moveSpeedPx = 150;
 		float fireRepeatDelay = 0.5f;
 	private:
 		float fireRepeatTimer;
@@ -155,6 +156,8 @@ namespace Fund
 			bulletSprite.position.x = sprite.position.x + (sprite.getSize().x/2) - (bulletSprite.getSize().x/2);
 			bulletSprite.position.y = sprite.position.y;
 
+			bulletSprite.setSize(bulletSprite.getSize().x * .75, bulletSprite.getSize().y * .75);
+
 			Bullet bullet;
 			bullet.sprite = bulletSprite;
 			bullet.velocity = velocity;
@@ -171,7 +174,11 @@ namespace Fund
 
 		bool canShoot()
 		{
-			return (fireRepeatTimer <= 0.0f);
+			if (fireRepeatTimer <= 0.0f && sprite.position.y >= 0)
+			{
+				return true;
+			}
+			else return false;
 		}
 	};
 
@@ -191,6 +198,11 @@ namespace Fund
 };
 
 Fund::Ship player;
+Fund::Sprite backgroundNeb;
+Fund::Sprite backgroundWet1;
+Fund::Sprite backgroundWet2;
+Fund::Sprite backgroundDry1;
+Fund::Sprite backgroundDry2;
 
 
 Mix_Chunk* shoot;
@@ -199,7 +211,7 @@ Mix_Music* music;
 vector<Fund::Ship> enemies;
 vector<Fund::Bullet> eBullets;
 vector<Fund::Bullet> bullets;
-
+vector<Fund::Sprite> mapItems;
 
 
 
@@ -231,7 +243,7 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 
 	pRenderer = SDL_CreateRenderer(pWindow, -1, 0);
 
-	SDL_SetRenderDrawColor(pRenderer, 0, 47, 74, 255);
+	SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
 
 	if (pRenderer) {
 		std::cout << "Render Good " << std::endl;
@@ -258,7 +270,7 @@ void GameFund::spawnShip()
 {
 	Fund::Sprite enemy;
 	enemy = Fund::Sprite("../Assets/PNG/enemyShip.png");
-
+	enemy.setSize(enemy.getSize().x * .75, enemy.getSize().y * .75);
 	enemy.position.x = rand() % 786;
 	enemy.position.y = rand() % 150 * -1;
 	Fund::Ship enemy1;
@@ -294,9 +306,11 @@ void GameFund::input() {
 				downMove = true;
 				break;
 			case(SDL_SCANCODE_A):
+				player.sprite.pTex = textFund::loadTexture("../Assets/PNG/playerLeft.png",NULL);
 				leftMove = true;
 				break;
 			case(SDL_SCANCODE_D):
+				player.sprite.pTex = textFund::loadTexture("../Assets/PNG/playerRight.png",NULL);
 				rightMove = true;
 				break;
 			case(SDL_SCANCODE_SPACE):
@@ -322,9 +336,11 @@ void GameFund::input() {
 					downMove = false;
 					break;
 				case(SDL_SCANCODE_A):
+				player.sprite.pTex = textFund::loadTexture("../Assets/PNG/player.png",NULL);
 					leftMove = false;
 					break;
 				case(SDL_SCANCODE_D):
+				player.sprite.pTex = textFund::loadTexture("../Assets/PNG/player.png",NULL);
 					rightMove = false;
 					break;
 				case(SDL_SCANCODE_SPACE):
@@ -368,10 +384,50 @@ void GameFund::updatePlayer()
 	player.move(inputVec);
 	player.update();
 }
-
 void GameFund::update()
 {
 	updatePlayer();
+
+	float backgroundNebSS = 150;
+	float backgroundWetSS = 10;
+	float backgroundDry1SS = 60;
+	//Update Map
+	backgroundNeb.position.y += backgroundNebSS * deltaTime;
+
+
+	backgroundWet1.position.y += backgroundWetSS * deltaTime;
+	backgroundWet2.position.y += backgroundWetSS * deltaTime;
+
+	backgroundDry1.position.y += backgroundDry1SS * deltaTime;
+	backgroundDry2.position.y += backgroundDry1SS * deltaTime;
+	if (backgroundNeb.position.y >= 1024)
+	{
+
+		backgroundNeb.position.y = -backgroundNeb.getSize().y;
+		backgroundNeb.nextFrame();
+
+	}
+
+
+	if (backgroundWet1.position.y >= 1024)
+	{
+		backgroundWet1.position.y = backgroundWet2.position.y - backgroundWet1.getSize().y;
+	}
+	if (backgroundWet2.position.y >= 1024)
+	{
+		backgroundWet2.position.y = backgroundWet1.position.y - backgroundWet1.getSize().y;
+	}
+
+	if (backgroundDry1.position.y >= 1024)
+	{
+		backgroundDry1.position.y = backgroundDry2.position.y - backgroundDry1.getSize().y;
+	}
+	if (backgroundDry2.position.y >= 1024)
+	{
+		backgroundDry2.position.y = backgroundDry1.position.y - backgroundDry2.getSize().y;
+	}
+
+
 
 	//Update player bullets
 	for (int i = 0; i < bullets.size(); i++)
@@ -397,10 +453,12 @@ void GameFund::update()
 		if (enemy.canShoot())
 		{
 			bool towardRight = false;
-			Vec2 velocity = { 0, 500 };
+			Vec2 velocity = { 0, 250 };
 			enemy.Shoot(eBullets, velocity,"../Assets/PNG/laserGreen.png");
 		}
 	}
+
+
 
 	//Spawn enemies on timer and update timer
 	if (enemySpawnTimer <= 0)
@@ -469,7 +527,30 @@ void GameFund::load() {
 	}if (shoot == NULL) {
 		cout << "Shoot Failed to load\n";
 	}
+
+
+	backgroundNeb = Fund::Sprite(1060, 1748, 2, "../Assets/Backgrounds/nebula2.png");
+	backgroundNeb.setSize(896, 1024);
+	backgroundNeb.position.y = -backgroundNeb.getSize().y+1;
+
+	backgroundWet1 = Fund::Sprite("../Assets/Backgrounds/nebulawetstars.png");
+	backgroundWet1.setSize(896, 1024);
+	backgroundWet2 = Fund::Sprite("../Assets/Backgrounds/nebulawetstars.png");
+	backgroundWet2.setSize(896, 1024);
+	backgroundWet2.position.y = -backgroundWet2.getSize().y;
+	
+	backgroundDry1 = Fund::Sprite("../Assets/Backgrounds/nebuladrystars.png");
+	backgroundDry1.setSize(896, 1024);
+	backgroundDry1.position.y = 500;
+	backgroundDry2 = Fund::Sprite("../Assets/Backgrounds/nebuladrystars.png");
+	backgroundDry2.setSize(896, 1024);
+	backgroundDry2.position.y = backgroundDry1.position.y - backgroundDry2.getSize().y;
+
 	player.sprite = Fund::Sprite("../Assets/PNG/player.png");
+	player.sprite.setSize(player.sprite.getSize().x * .75, player.sprite.getSize().y * .75);
+
+	
+	
 	player.sprite.position.x = 250;
 	player.sprite.position.y = 250;
 
@@ -482,18 +563,31 @@ void GameFund::start()
 
 void GameFund::draw() {
 	SDL_RenderClear(pRenderer);
+	//First Layer Background
+		backgroundWet1.draw();
+		backgroundWet2.draw();
+	//Second Layer Background
+		backgroundDry1.draw();
+		backgroundDry2.draw();
+
+	//Third Layer Background
+		backgroundNeb.draw();
+
+
+	//Drawing Player
 	player.sprite.draw();
+
 	for (int i = 0; i < bullets.size(); i++)
 	{
 		bullets[i].sprite.draw();
 	}
-
+	
 	//Draw ALL enemy bullets on screen
 	for (int i = 0; i < eBullets.size(); i++)
 	{
 		eBullets[i].sprite.draw();
 	}
-
+	
 	//Draw ALL enemy Ships on screen
 	for (int i = 0; i < enemies.size(); i++)
 	{
