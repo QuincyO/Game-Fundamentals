@@ -1,6 +1,12 @@
 
 #include "GameFund.h"
 
+Mix_Chunk* sfxShoot;
+Mix_Music* music;
+Mix_Music* musicBoss;
+
+int volumeFX = MIX_MAX_VOLUME * .5;
+int musicVol = MIX_MAX_VOLUME * .10;
 
 enum audioChan
 {
@@ -23,8 +29,8 @@ namespace Fund
 	private:
 		SDL_Rect src, dst;
 
-		float animationCurrentFrame = 0.0f;
 	public:
+		float animationCurrentFrame = 0.0f;
 		SDL_Texture* pTex;
 		double rotation = 0;
 		SDL_RendererFlip flipState = SDL_FLIP_NONE;
@@ -87,13 +93,16 @@ namespace Fund
 			//setSize(frameSizex, frameSizeY);
 			animationFrameCount = frameCount;
 		}
+		~Sprite()
+		{
+		//	SDL_DestroyTexture(pTex);
+		}
 
 		void draw()
 		{
 			dst.x = position.x;
 			dst.y = position.y;
-			src.x = src.w * (int)animationCurrentFrame;
-			
+
 			textFund::draw(pTex, src, dst,rotation);
 		}
 		void nextFrame()
@@ -104,8 +113,12 @@ namespace Fund
 		void setFrame(int frame)
 		{
 			animationCurrentFrame = frame % animationFrameCount;
-			src.x = src.w * animationCurrentFrame;
-			
+
+			int row = frame / 8;
+			int col = frame % 8;
+
+			src.y = row * src.h;
+			src.x = col * src.w;
 
 		}
 
@@ -163,7 +176,6 @@ namespace Fund
 			bullet.velocity = velocity;
 
 			container.push_back(bullet);
-
 			fireRepeatTimer = fireRepeatDelay;
 		}
 
@@ -197,7 +209,13 @@ namespace Fund
 	}
 };
 
+
 Fund::Ship player;
+Fund::Sprite explosion1;
+Fund::Sprite explosion2;
+Fund::Sprite explosion3;
+Fund::Sprite explosion4;
+
 Fund::Sprite backgroundNeb;
 Fund::Sprite backgroundWet1;
 Fund::Sprite backgroundWet2;
@@ -205,14 +223,14 @@ Fund::Sprite backgroundDry1;
 Fund::Sprite backgroundDry2;
 
 
-Mix_Chunk* shoot;
-Mix_Music* music;
+
 
 vector<Fund::Ship> enemies;
 vector<Fund::Bullet> eBullets;
 vector<Fund::Bullet> bullets;
 vector<Fund::Sprite> mapItems;
 
+vector<Fund::Sprite> explosions;
 
 
 SDL_Renderer* GameFund::pRenderer = nullptr;
@@ -255,10 +273,10 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 	}
 	const int chunkSize = 1024;
 	const int frequency = 22050;
-	//if (Mix_OpenAudio(frequency, MIX_DEFAULT_FORMAT, COUNT, chunkSize) != 0) {
-	//	cout << "Audio Bad\n";
-	//}
-	//else cout << "Audio Good\n";
+	if (Mix_OpenAudio(frequency, MIX_DEFAULT_FORMAT, COUNT, chunkSize) != 0) {
+		cout << "Audio Bad\n";
+	}
+	else cout << "Audio Good\n";
 }
 
 bool GameFund::canSpawn()
@@ -289,7 +307,9 @@ bool leftMove = false;
 bool rightMove = false;
 bool shooting = false;
 
+
 void GameFund::input() {
+
 	SDL_Event pEvent;
 	while (SDL_PollEvent(&pEvent)) {
 		switch (pEvent.type)
@@ -316,9 +336,23 @@ void GameFund::input() {
 			case(SDL_SCANCODE_SPACE):
 				shooting = true;
 				break;
+			case(SDL_SCANCODE_PAGEUP):
+				volumeFX = min(volumeFX + 10, MIX_MAX_VOLUME);
+				cout << volumeFX<< endl;
+				Mix_Volume(-1, volumeFX);
+				break;
 			case(SDL_SCANCODE_PAGEDOWN):
-
-
+				volumeFX = max(volumeFX - 10, 0);
+				cout << volumeFX << endl;
+				Mix_Volume(-1, volumeFX);
+				break;
+			case (SDL_SCANCODE_EQUALS):
+				musicVol = min(musicVol + 10, MIX_MAX_VOLUME);
+				Mix_VolumeMusic(musicVol);
+				break;
+			case (SDL_SCANCODE_MINUS):
+				musicVol = max(musicVol - 10, 0);
+				Mix_VolumeMusic(musicVol);
 				break;
 			}
 			break;
@@ -379,6 +413,7 @@ void GameFund::updatePlayer()
 	{
 		Vec2 velocity = { 0,-600 };
 		player.Shoot(bullets, velocity, "../Assets/PNG/laserRed.png");
+		Mix_PlayChannel(-1, sfxShoot, 0);
 	}
 
 	player.move(inputVec);
@@ -389,7 +424,7 @@ void GameFund::update()
 	updatePlayer();
 
 	float backgroundNebSS = 150;
-	float backgroundWetSS = 10;
+	float backgroundWetSS = 20;
 	float backgroundDry1SS = 60;
 	//Update Map
 	backgroundNeb.position.y += backgroundNebSS * deltaTime;
@@ -455,8 +490,11 @@ void GameFund::update()
 			bool towardRight = false;
 			Vec2 velocity = { 0, 250 };
 			enemy.Shoot(eBullets, velocity,"../Assets/PNG/laserGreen.png");
+			
 		}
 	}
+
+
 
 
 
@@ -471,17 +509,20 @@ void GameFund::update()
 	}
 	
 	detectCollisions();
+	
 }
 void GameFund::detectCollisions()
 {
+	int exType = 0;
+	exType = rand() % 4;
 	//Enemy Bullets to Player
 	for (std::vector<Fund::Bullet>::iterator it = eBullets.begin(); it != eBullets.end();)
 	{
 		Fund::Sprite& enemyBullet = it->sprite;
 		if (Fund::areSpritesOverLapping(player.sprite, enemyBullet))
 		{
-			cout << "Player was hit!\n";
-			player.sprite.rotation += 90;
+			//cout << "Player was hit!\n";
+			//player.sprite.rotation += 90;
 
 
 			it = eBullets.erase(it);
@@ -497,8 +538,44 @@ void GameFund::detectCollisions()
 		{
 		std::vector<Fund::Bullet>::iterator bulletIT = bulletIterator;
 			//Test for collision between player bullet and enemy
+
+				if (bulletIterator->sprite.position.y <= 0) {
+					bulletIterator = bullets.erase(bulletIterator);
+					if (bulletIterator == bullets.end()) { break; }
+				}
+
+
 			if (Fund::areSpritesOverLapping(bulletIterator->sprite, enemyIterator->sprite))
 			{
+
+				switch (exType)
+				{
+				case (0):
+					explosion1.position.x = enemyIterator->sprite.position.x- (enemyIterator->sprite.getSize().x/2);
+					explosion1.position.y = enemyIterator->sprite.position.y - (enemyIterator->sprite.getSize().y / 2)-10;
+					explosion1.animationCurrentFrame = 0;
+					explosions.push_back(explosion1);
+					break;
+				case (1):
+					explosion2.position.x = enemyIterator->sprite.position.x - (enemyIterator->sprite.getSize().x / 2);
+					explosion2.position.y = enemyIterator->sprite.position.y - (enemyIterator->sprite.getSize().y / 2) - 10;
+					explosion2.animationCurrentFrame = 0;
+					explosions.push_back(explosion2);
+					break;
+				case (2):
+					explosion3.position.x = enemyIterator->sprite.position.x - (enemyIterator->sprite.getSize().x / 2);
+					explosion3.position.y = enemyIterator->sprite.position.y - (enemyIterator->sprite.getSize().y / 2) - 10;
+					explosion3.animationCurrentFrame = 0;
+					explosions.push_back(explosion3);
+					break;
+				case (3):
+					explosion4.position.x = enemyIterator->sprite.position.x - (enemyIterator->sprite.getSize().x / 2);
+					explosion4.position.y = enemyIterator->sprite.position.y - (enemyIterator->sprite.getSize().y / 2) - 10;
+					explosion4.animationCurrentFrame = 0;
+					explosions.push_back(explosion4);
+					break;
+				}
+
 				//Destroy bullet
 				bulletIterator = bullets.erase(bulletIterator);
 				//Destroy enemy
@@ -518,13 +595,20 @@ void GameFund::detectCollisions()
 
 
 }
+
+Mix_Chunk* loadSound(const char* filepath)
+{
+	Mix_Chunk* sound = Mix_LoadWAV(filepath);
+	return sound;
+}
 void GameFund::load() {
 
-	music = Mix_LoadMUS("../Assets/audio/Mutara.mp3");
-	shoot = Mix_LoadWAV("../Assets/bonus/sfx_laser2.ogg");
+	music = Mix_LoadMUS("../Assets/Bonus/ObservingTheStar.ogg");
+	musicBoss = Mix_LoadMUS("../Assets/Bonus/spaceship.wav");
+	sfxShoot = Mix_LoadWAV("../Assets/bonus/sfx_laser2.ogg");
 	if (music == NULL) {
 		cout << "Music Failed to load\n";
-	}if (shoot == NULL) {
+	}if (sfxShoot == NULL) {
 		cout << "Shoot Failed to load\n";
 	}
 
@@ -549,16 +633,31 @@ void GameFund::load() {
 	player.sprite = Fund::Sprite("../Assets/PNG/player.png");
 	player.sprite.setSize(player.sprite.getSize().x * .75, player.sprite.getSize().y * .75);
 
+	explosion1 = Fund::Sprite(512, 512, 64, "../Assets/bigBooms/1.png");
+	explosion1.setSize(160, 160);
+
+	explosion2 = Fund::Sprite(512, 512, 64, "../Assets/bigBooms/2.png");
+	explosion2.setSize(160, 160);
+
+	explosion3 = Fund::Sprite(512, 512, 64, "../Assets/bigBooms/3.png");
+	explosion3.setSize(160, 160);
+
+	explosion4 = Fund::Sprite(512, 512, 64, "../Assets/bigBooms/4.png");
+	explosion4.setSize(160, 160);
+
+
 	
 	
 	player.sprite.position.x = 250;
 	player.sprite.position.y = 250;
-
+	start();
 }
 
 void GameFund::start()
 {
 	Mix_PlayMusic(music,-1);
+	Mix_VolumeMusic(musicVol);
+	Mix_Volume(-1, volumeFX);
 }
 
 void GameFund::draw() {
@@ -575,7 +674,31 @@ void GameFund::draw() {
 
 
 	//Drawing Player
-	player.sprite.draw();
+		player.sprite.draw();
+
+		//for (auto explosionIT = explosions.begin(); explosionIT != explosions.end();)
+		//{
+		//	Fund::Sprite& explosion = *explosionIT;
+		//	explosionIT->nextFrame();
+		//
+		//	if (explosionIT->animationCurrentFrame == explosionIT->animationFrameCount-1)
+		//	{
+		//		explosionIT = explosions.erase(explosionIT);
+		//	}
+		//	explosionIT->draw();
+		//}
+
+		for (auto& e : explosions)
+		{
+			
+			if (e.animationCurrentFrame == e.animationFrameCount -1)
+			{
+				e.position.x = -500;
+			}
+			e.nextFrame();
+			e.draw();
+		}
+
 
 	for (int i = 0; i < bullets.size(); i++)
 	{
@@ -605,7 +728,7 @@ bool GameFund::running() {
 }
 
 void GameFund::clean() {
-	Mix_FreeChunk(shoot);
+	Mix_FreeChunk(sfxShoot);
 	Mix_FreeMusic(music);
 	Mix_CloseAudio();
 
