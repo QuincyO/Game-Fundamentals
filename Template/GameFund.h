@@ -5,7 +5,7 @@
 #include "SDL.h"
 #include "Vec2.h"
 #include "background.h"
-
+#include <string>
 
 #include "SDL_mixer.h"
 #include<SDL_image.h>

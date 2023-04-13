@@ -1,4 +1,4 @@
-
+#include <SDL_ttf.h>
 #include "GameFund.h"
 
 Mix_Chunk* sfxShoot;
@@ -44,6 +44,7 @@ namespace Fund
 		SDL_Rect src, dst;
 
 	public:
+		SDL_Texture* tTexture;
 		float animationCurrentFrame = 0.0f;
 		SDL_Texture* pTex;
 		double rotation = 0;
@@ -87,9 +88,11 @@ namespace Fund
 		Sprite()
 		{
 			pTex = nullptr;
+			tTexture = nullptr;
 			src = {};
 			dst = {};
 		}
+
 
 		Sprite(const char* filepath)
 		{
@@ -107,6 +110,26 @@ namespace Fund
 			//setSize(frameSizex, frameSizeY);
 			animationFrameCount = frameCount;
 		}
+		Sprite(TTF_Font* uiFont, const char* scoreString, SDL_Color color) : Sprite()
+		{
+
+
+			SDL_Surface* surface = TTF_RenderText_Solid(uiFont, scoreString, color);
+			if (surface == NULL)
+			{
+				cout << "Surface Failed to Load\n";
+			}
+			tTexture = SDL_CreateTextureFromSurface(GameFund::pRenderer, surface);
+			if (tTexture == NULL)
+			{
+				cout << "tTex failed to load\n";
+			}
+			SDL_FreeSurface(surface);
+			TTF_SizeText(uiFont, scoreString, &dst.w, &dst.h);
+			src.w = dst.w;
+			src.h = dst.h;
+
+		}
 		~Sprite()
 		{
 		//	SDL_DestroyTexture(pTex);
@@ -118,6 +141,14 @@ namespace Fund
 			dst.y = position.y;
 
 			textFund::draw(pTex, src, dst,rotation);
+		}
+
+		void drawText()
+		{
+			dst.x = position.x;
+			dst.y = position.y;
+
+			textFund::draw(tTexture, src, dst, rotation);
 		}
 		void nextFrame()
 		{
@@ -246,6 +277,11 @@ vector<Fund::Sprite> mapItems;
 
 vector<Fund::Sprite> explosions;
 
+//UI
+TTF_Font* uiFont;
+int score = 0;
+Fund::Sprite uiSpriteScore;
+
 
 SDL_Renderer* GameFund::pRenderer = nullptr;
 
@@ -291,6 +327,14 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 		cout << "Audio Bad\n";
 	}
 	else cout << "Audio Good\n";
+
+	if (TTF_Init() != 0)
+	{
+		cout << "TTF Init Failed\n" << SDL_GetError << endl;
+	}
+
+
+
 }
 
 bool GameFund::canSpawn()
@@ -650,6 +694,11 @@ Mix_Chunk* loadSound(const char* filepath)
 	}
 	return sound;
 }
+
+
+
+
+
 void GameFund::load() 
 {
 
@@ -663,11 +712,10 @@ void GameFund::load()
 	musicBoss = loadSound("../Assets/spaceGame/spaceShip.wav");
 	music = Mix_LoadMUS("../Assets/spaceGame/ObservingTheStar.ogg");
 
-
-	if (music == NULL) {
-		cout << "Music Failed to load\n";
-	}if (sfxShoot == NULL) {
-		cout << "Shoot Failed to load\n";
+	uiFont = TTF_OpenFont("../Assets/fonts/lazy.ttf", 36);
+	if (uiFont == NULL)
+	{
+		cout << "Font Failed to Load\n";
 	}
 
 
@@ -706,8 +754,8 @@ void GameFund::load()
 
 	
 	
-	player.sprite.position.x = 250;
-	player.sprite.position.y = 250;
+	player.sprite.position.x = (896/2) - (player.sprite.getSize().x/2);
+	player.sprite.position.y = 1024 * .75;
 	start();
 }
 
@@ -774,7 +822,22 @@ void GameFund::draw() {
 	{
 		enemies[i].sprite.draw();
 	}
+	//UI
 
+
+
+	//TTF_RenderText takes in a const char as a argument. But we have a string, need to convert String to const char*. Can do this with string.c_str()
+	SDL_Color color = { 255,255,255,255 };
+	std::string scoreString = "Score: " + to_string(score);
+	uiSpriteScore = Fund::Sprite(uiFont, scoreString.c_str(), color);
+
+
+	uiSpriteScore.position.x = (896/2) - uiSpriteScore.getSize().x / 2;
+	uiSpriteScore.position.y = (1024 * .05);
+
+
+
+	uiSpriteScore.drawText();
 
 	SDL_RenderPresent(pRenderer);
 }
@@ -789,6 +852,7 @@ void GameFund::clean() {
 	Mix_FreeChunk(sfxShoot);
 	Mix_FreeMusic(music);
 	Mix_CloseAudio();
+	TTF_Quit;
 
 	SDL_DestroyRenderer(pRenderer);
 	SDL_DestroyWindow(pWindow);
