@@ -8,6 +8,8 @@ Mix_Chunk* sfxHit2;
 Mix_Chunk* sfxShoot3;
 Mix_Chunk* musicBoss;
 
+Mix_Chunk* playerDied;
+
 Mix_Music* music;
 
 bool upMove = false;
@@ -16,6 +18,7 @@ bool leftMove = false;
 bool rightMove = false;
 bool shooting = false;
 bool bossActive = false;
+bool animation_done = false;
 
 
 
@@ -34,7 +37,14 @@ enum audioChan
 
 float enemySpawnTimer = 0.0f;
 float enemySpawnDelay = 2.0f;
-
+struct Timer
+{
+	float elapsed = 0.0f;
+	float duration = 0.0f;
+	bool Expired() { return elapsed >= duration; }
+	void Reset() { elapsed = 0.0f; }
+	void Tick(float dt) { elapsed += dt; }
+};
 namespace Fund
 {
 
@@ -175,6 +185,22 @@ namespace Fund
 				animationCurrentFrame -= animationFrameCount;
 			}
 		}
+
+		void animate(int loops)
+		{
+			int iterations = 0;
+
+			while (iterations < loops)
+			{
+				nextFrame();
+				draw();
+			if (animationCurrentFrame == animationFrameCount)
+			{
+				animationCurrentFrame = 0;
+				iterations++;
+			}
+			}
+		}
 	};//Class Sprite
 
 	class Bullet
@@ -195,7 +221,7 @@ namespace Fund
 	public:
 		Sprite sprite;
 		float moveSpeedPx = 150;
-		float fireRepeatDelay = 0.5f;
+		float fireRepeatDelay = 0.3f;
 	private:
 		float fireRepeatTimer;
 	public:
@@ -260,6 +286,7 @@ Fund::Sprite explosion1;
 Fund::Sprite explosion2;
 Fund::Sprite explosion3;
 Fund::Sprite explosion4;
+Fund::Sprite explosion5;
 
 Fund::Sprite backgroundNeb;
 Fund::Sprite backgroundWet1;
@@ -282,8 +309,40 @@ TTF_Font* uiFont;
 int score = 0;
 Fund::Sprite uiSpriteScore;
 
+Fund::Sprite life;
+vector<Fund::Sprite> lives;
+
+Timer restartTimer;
+
 
 SDL_Renderer* GameFund::pRenderer = nullptr;
+bool playedOnce = false;
+
+void loadLives()
+{
+	life = Fund::Sprite("../Assets/spaceGame/life.png");
+	life.position.x = 10;
+	life.position.y = 10;
+	for (int i = 0; i < 3; i++) {
+		lives.push_back(life);
+	}
+	lives[0].position.x = 10;
+	lives[1].position.x = lives[0].position.x + lives[0].getSize().x;
+	lives[2].position.x = lives[1].position.x + lives[0].getSize().x;
+
+}
+
+void start()
+{
+	Mix_PlayMusic(music, -1);
+	Mix_VolumeMusic(musicVol);
+	Mix_Volume(-1, volumeFX);
+}
+
+void addScore()
+{
+	score += 1;
+}
 
 void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 	int flags = 0;
@@ -362,14 +421,24 @@ void GameFund::spawnShip()
 	enemy.position.y = rand() % 150 * -1;
 	Fund::Ship enemy1;
 	enemy1.sprite = enemy;
-	enemy1.fireRepeatDelay = 5.0;
+	enemy1.fireRepeatDelay = 2.0;
 	enemy1.moveSpeedPx = 80;
 
 	enemies.push_back(enemy1);
 	enemySpawnTimer = enemySpawnDelay;
 
 }
-
+void restart()
+{
+	score = 0;
+	enemies.clear();
+	Mix_VolumeChunk(sfxShoot3, 64);
+	Mix_VolumeChunk(sfxShoot, 64);
+	player.sprite.position.x = (896 / 2) - (player.sprite.getSize().x / 2);
+	player.sprite.position.y = 1024 * .75;
+	loadLives();
+	bossActive = false;
+}
 
 void GameFund::input() {
 
@@ -570,10 +639,33 @@ void GameFund::update()
 
 
 
-	//Spawn enemies on timer and update timer
+	detectCollisions();
+
 
 	
-	detectCollisions();
+
+	if (lives.empty())
+	{
+
+
+		restartTimer.Tick(deltaTime);
+
+		player.sprite.position.x = -1000;
+		bossActive=true;
+		eBullets.clear();
+		Mix_VolumeChunk(sfxShoot3, 0);
+		Mix_VolumeChunk(sfxShoot, 0);
+	
+		restartTimer.duration = 10;
+		if (restartTimer.Expired())
+		{
+			restartTimer.Reset();
+			restart();
+
+
+		}
+
+	}
 	
 }
 void GameFund::detectCollisions()
@@ -588,26 +680,20 @@ void GameFund::detectCollisions()
 		Fund::Sprite& enemyBullet = it->sprite;
 		if (Fund::areSpritesOverLapping(player.sprite, enemyBullet))
 		{
-			//cout << "Player was hit!\n";
-			//player.sprite.rotation += 90;
+			lives.pop_back();
+			if (lives.empty())
+			{
+				Mix_PlayChannel(-1, playerDied, 0);
+				explosion5.position.x = player.sprite.position.x - (explosion5.getSize().x / 2) + 45;
+				explosion5.position.y = player.sprite.position.y - (explosion5.getSize().y / 2) + 30;
+			}
 
 
 			it = eBullets.erase(it);
 		}
 		if (it != eBullets.end()) it++;
 	}
-	//if (!enemies.empty()) {
-	//	for (auto enemyIterator = enemies.begin(); enemyIterator != enemies.end();)
-	//	{
-	//
-	//		if (enemyIterator->sprite.position.y >= 1024)
-	//		{
-	//			enemyIterator = enemies.erase(enemyIterator);
-	//			if (enemyIterator == enemies.end()) break;
-	//		}
-	//
-	//	}
-	//}
+
 
 	//Player Bullets to enemy Ships
 	for (std::vector<Fund::Bullet>::iterator bulletIterator = bullets.begin(); bulletIterator != bullets.end();)
@@ -616,7 +702,7 @@ void GameFund::detectCollisions()
 		for (auto enemyIterator = enemies.begin(); enemyIterator != enemies.end();)
 		{
 		std::vector<Fund::Bullet>::iterator bulletIT = bulletIterator;
-			//Test for collision between player bullet and enemy
+
 					if (enemyIterator->sprite.position.y >= 1024)
 			{
 				enemyIterator = enemies.erase(enemyIterator);
@@ -630,6 +716,7 @@ void GameFund::detectCollisions()
 				}
 			if (Fund::areSpritesOverLapping(bulletIterator->sprite, enemyIterator->sprite))
 			{
+				addScore();
 
 				switch (exType)
 				{
@@ -705,6 +792,7 @@ void GameFund::load()
 	sfxShoot = loadSound("../Assets/spaceGame/weaponfire6.wav");
 	sfxShoot2 = loadSound("../Assets/spaceGame/laserSmall_000.ogg");
 	sfxShoot3 = loadSound("../Assets/spaceGame/laserSmall_002.ogg");
+	playerDied = loadSound("../Assets/spaceGame/explosion09.wav");
 
 
 	sfxHit1 = loadSound("../Assets/spaceGame/lowFrequency_explosion_000.ogg");
@@ -751,20 +839,19 @@ void GameFund::load()
 	explosion4 = Fund::Sprite(512, 512, 64, "../Assets/bigBooms/4.png");
 	explosion4.setSize(160, 160);
 
+	explosion5 = Fund::Sprite(512, 512, 64, "../Assets/spaceGame/explosion5.png");
+	explosion5.setSize(512, 512);
+
 
 	
 	
 	player.sprite.position.x = (896/2) - (player.sprite.getSize().x/2);
 	player.sprite.position.y = 1024 * .75;
+
+	loadLives();
 	start();
 }
 
-void GameFund::start()
-{
-	Mix_PlayMusic(music,-1);
-	Mix_VolumeMusic(musicVol);
-	Mix_Volume(-1, volumeFX);
-}
 
 void GameFund::draw() {
 	SDL_RenderClear(pRenderer);
@@ -804,7 +891,17 @@ void GameFund::draw() {
 			e.nextFrame();
 			e.draw();
 		}
-
+		
+		if (lives.empty())
+		{
+			if (explosion5.animationCurrentFrame == explosion5.animationFrameCount-1)
+			{
+				animation_done = true;
+				explosion5.position.x = -1000;
+			}
+			explosion5.nextFrame();
+			explosion5.draw();
+		}
 
 	for (int i = 0; i < bullets.size(); i++)
 	{
@@ -824,7 +921,10 @@ void GameFund::draw() {
 	}
 	//UI
 
-
+	for (int i = 0; i < lives.size(); i++)
+	{
+		lives[i].draw();
+	}
 
 	//TTF_RenderText takes in a const char as a argument. But we have a string, need to convert String to const char*. Can do this with string.c_str()
 	SDL_Color color = { 255,255,255,255 };
@@ -838,6 +938,8 @@ void GameFund::draw() {
 
 
 	uiSpriteScore.drawText();
+
+
 
 	SDL_RenderPresent(pRenderer);
 }

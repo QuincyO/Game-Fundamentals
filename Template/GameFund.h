@@ -30,7 +30,6 @@ public:
 	void update();
 	void detectCollisions();
 	void load();
-	void start();
 	void draw();
 	void clean();
 	bool running();
