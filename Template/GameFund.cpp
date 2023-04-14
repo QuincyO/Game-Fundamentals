@@ -36,7 +36,7 @@ enum audioChan
 };
 
 float enemySpawnTimer = 0.0f;
-float enemySpawnDelay = 2.0f;
+float enemySpawnDelay = 1.5f;
 struct Timer
 {
 	float elapsed = 0.0f;
@@ -421,7 +421,7 @@ void GameFund::spawnShip()
 	enemy.position.y = rand() % 150 * -1;
 	Fund::Ship enemy1;
 	enemy1.sprite = enemy;
-	enemy1.fireRepeatDelay = 2.0;
+	enemy1.fireRepeatDelay = 1.5;
 	enemy1.moveSpeedPx = 80;
 
 	enemies.push_back(enemy1);
@@ -432,6 +432,9 @@ void restart()
 {
 	score = 0;
 	enemies.clear();
+	eBullets.clear();
+	bullets.clear();
+	explosions.clear();
 	Mix_VolumeChunk(sfxShoot3, 64);
 	Mix_VolumeChunk(sfxShoot, 64);
 	player.sprite.position.x = (896 / 2) - (player.sprite.getSize().x / 2);
