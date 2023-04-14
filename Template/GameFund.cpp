@@ -686,6 +686,7 @@ void GameFund::detectCollisions()
 			lives.pop_back();
 			if (lives.empty())
 			{
+				explosion5.setFrame(0);
 				Mix_PlayChannel(-1, playerDied, 0);
 				explosion5.position.x = player.sprite.position.x - (explosion5.getSize().x / 2) + 45;
 				explosion5.position.y = player.sprite.position.y - (explosion5.getSize().y / 2) + 30;
