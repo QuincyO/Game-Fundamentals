@@ -17,13 +17,15 @@ bool downMove = false;
 bool leftMove = false;
 bool rightMove = false;
 bool shooting = false;
-bool bossActive = false;
+bool endCondition = false;
 bool animation_done = false;
+bool turnOff;
+bool restartSwitch = false;
+bool muteShots;
 
 
-
-int volumeFX = MIX_MAX_VOLUME * .10;
-int musicVol = MIX_MAX_VOLUME * .10;
+int volumeFX = MIX_MAX_VOLUME * .2;
+int musicVol = MIX_MAX_VOLUME * .1;
 
 enum audioChan
 {
@@ -300,7 +302,6 @@ Fund::Sprite backgroundDry2;
 vector<Fund::Ship> enemies;
 vector<Fund::Bullet> eBullets;
 vector<Fund::Bullet> bullets;
-vector<Fund::Sprite> mapItems;
 
 vector<Fund::Sprite> explosions;
 
@@ -318,11 +319,14 @@ Timer restartTimer;
 SDL_Renderer* GameFund::pRenderer = nullptr;
 bool playedOnce = false;
 
+
+//Loading Our Lives
 void loadLives()
 {
 	life = Fund::Sprite("../Assets/spaceGame/life.png");
 	life.position.x = 10;
 	life.position.y = 10;
+	lives.clear();
 	for (int i = 0; i < 3; i++) {
 		lives.push_back(life);
 	}
@@ -331,12 +335,14 @@ void loadLives()
 	lives[2].position.x = lives[1].position.x + lives[0].getSize().x;
 
 }
-
+//Init Volume
 void start()
 {
 	Mix_PlayMusic(music, -1);
 	Mix_VolumeMusic(musicVol);
 	Mix_Volume(-1, volumeFX);
+	Mix_VolumeChunk(sfxHit1, MIX_MAX_VOLUME);
+	Mix_VolumeChunk(sfxHit2, MIX_MAX_VOLUME);
 }
 
 void addScore()
@@ -398,7 +404,7 @@ void GameFund::init(const char* Title, int width, int height, bool fullscreen) {
 
 bool GameFund::canSpawn()
 {
-	if (bossActive == false && enemySpawnTimer <= 0)
+	if (endCondition == false && enemySpawnTimer <= 0)
 	{
 		enemySpawnTimer = enemySpawnRate;
 		return true;
@@ -428,6 +434,7 @@ void GameFund::spawnShip()
 	enemySpawnTimer = enemySpawnDelay;
 
 }
+//When we restart
 void restart()
 {
 	score = 0;
@@ -440,7 +447,8 @@ void restart()
 	player.sprite.position.x = (896 / 2) - (player.sprite.getSize().x / 2);
 	player.sprite.position.y = 1024 * .75;
 	loadLives();
-	bossActive = false;
+	endCondition = false;
+	restartSwitch = false;
 }
 
 void GameFund::input() {
@@ -461,6 +469,7 @@ void GameFund::input() {
 				downMove = true;
 				break;
 			case(SDL_SCANCODE_A):
+				//Animate Left and Right
 				player.sprite.pTex = textFund::loadTexture("../Assets/PNG/playerLeft.png",NULL);
 				leftMove = true;
 				break;
@@ -490,8 +499,18 @@ void GameFund::input() {
 				Mix_Volume(-1, volumeFX);
 				break;
 			case (SDL_SCANCODE_B):
-				bossActive = true;
+				turnOff = true;
 				break;
+			case(SDL_SCANCODE_N):
+				turnOff = false;
+				break;
+			case(SDL_SCANCODE_Z):
+				restartSwitch = true;
+			case(SDL_SCANCODE_1):
+				muteShots = true;
+				break;
+			case(SDL_SCANCODE_2):
+				muteShots = false;
 			}
 			break;
 		}
@@ -518,8 +537,7 @@ void GameFund::input() {
 				case(SDL_SCANCODE_SPACE):
 					shooting = false;
 					break;
-				case (SDL_SCANCODE_B):
-					bossActive = false;
+
 				}
 				}
 			}
@@ -561,116 +579,144 @@ void GameFund::updatePlayer()
 }
 void GameFund::update()
 {
+	bool masterKey = true;
 	updatePlayer();
-
-	float backgroundNebSS = 150;
-	float backgroundWetSS = 20;
-	float backgroundDry1SS = 60;
-	//Update Map
-	backgroundNeb.position.y += backgroundNebSS * deltaTime;
-
-
-	backgroundWet1.position.y += backgroundWetSS * deltaTime;
-	backgroundWet2.position.y += backgroundWetSS * deltaTime;
-
-	backgroundDry1.position.y += backgroundDry1SS * deltaTime;
-	backgroundDry2.position.y += backgroundDry1SS * deltaTime;
-	if (backgroundNeb.position.y >= 1024)
+	if (restartSwitch)
 	{
-
-		backgroundNeb.position.y = -backgroundNeb.getSize().y;
-		backgroundNeb.nextFrame();
-
+		restart();
 	}
-
-
-	if (backgroundWet1.position.y >= 1024)
+	if (!turnOff)
 	{
-		backgroundWet1.position.y = backgroundWet2.position.y - backgroundWet1.getSize().y;
-	}
-	if (backgroundWet2.position.y >= 1024)
-	{
-		backgroundWet2.position.y = backgroundWet1.position.y - backgroundWet1.getSize().y;
-	}
-
-	if (backgroundDry1.position.y >= 1024)
-	{
-		backgroundDry1.position.y = backgroundDry2.position.y - backgroundDry1.getSize().y;
-	}
-	if (backgroundDry2.position.y >= 1024)
-	{
-		backgroundDry2.position.y = backgroundDry1.position.y - backgroundDry2.getSize().y;
-	}
-
-
-
-	//Update player bullets
-	for (int i = 0; i < bullets.size(); i++)
-	{
-		//To access elements of an array, we use the array access operator []
-		bullets[i].update();
-	}
-
-	//Update enemy bullets
-	for (int i = 0; i < eBullets.size(); i++)
-	{
-		eBullets[i].update();
-	}
-
-	//Update enemy ships
-	for (int i = 0; i < enemies.size(); i++)
-	{
-		//Get reference to enemy at index i (& makes it a reference variable)
-		Fund::Ship& enemy = enemies[i];
-
-		enemy.move({ 0, 1 });
-		enemy.update();
-		if (enemy.canShoot())
+		if (muteShots)
 		{
-			bool towardRight = false;
-			Vec2 velocity = { 0, 250 };
-			enemy.Shoot(eBullets, velocity,"../Assets/PNG/laserGreen.png");
-			Mix_PlayChannel(-1, sfxShoot3, 0);
-			
+			Mix_VolumeChunk(sfxShoot, 0);
+			Mix_VolumeChunk(sfxShoot3, 0);
+		}
+		else if (!muteShots)
+		{
+			Mix_VolumeChunk(sfxShoot, volumeFX);
+			Mix_VolumeChunk(sfxShoot3, volumeFX);
+
 		}
 	}
-
-	if (canSpawn())
+	 else if (turnOff)
 	{
-		spawnShip();
-	}
-
-
-
-	detectCollisions();
-
-
-	
-
-	if (lives.empty())
-	{
-
-
-		restartTimer.Tick(deltaTime);
-
-		player.sprite.position.x = -1000;
-		bossActive=true;
+		loadLives();
+		score = 0;
+		masterKey = false;
 		eBullets.clear();
-		Mix_VolumeChunk(sfxShoot3, 0);
-		Mix_VolumeChunk(sfxShoot, 0);
-	
-		restartTimer.duration = 10;
-		if (restartTimer.Expired())
-		{
-			restartTimer.Reset();
-			restart();
+		explosions.clear();
+		enemies.clear();
+	}
+		float backgroundNebSS = 150;
+		float backgroundWetSS = 20;
+		float backgroundDry1SS = 60;
+		//Update Map
+		backgroundNeb.position.y += backgroundNebSS * deltaTime;
 
+
+		backgroundWet1.position.y += backgroundWetSS * deltaTime;
+		backgroundWet2.position.y += backgroundWetSS * deltaTime;
+
+		backgroundDry1.position.y += backgroundDry1SS * deltaTime;
+		backgroundDry2.position.y += backgroundDry1SS * deltaTime;
+		if (backgroundNeb.position.y >= 1024)
+		{
+
+			backgroundNeb.position.y = -backgroundNeb.getSize().y;
+			backgroundNeb.nextFrame();
 
 		}
 
+
+		if (backgroundWet1.position.y >= 1024)
+		{
+			backgroundWet1.position.y = backgroundWet2.position.y - backgroundWet1.getSize().y;
+		}
+		if (backgroundWet2.position.y >= 1024)
+		{
+			backgroundWet2.position.y = backgroundWet1.position.y - backgroundWet1.getSize().y;
+		}
+
+		if (backgroundDry1.position.y >= 1024)
+		{
+			backgroundDry1.position.y = backgroundDry2.position.y - backgroundDry1.getSize().y;
+		}
+		if (backgroundDry2.position.y >= 1024)
+		{
+			backgroundDry2.position.y = backgroundDry1.position.y - backgroundDry2.getSize().y;
+		}
+
+
+
+		//Update player bullets
+		for (int i = 0; i < bullets.size(); i++)
+		{
+			//To access elements of an array, we use the array access operator []
+			bullets[i].update();
+		}
+
+		//Update enemy bullets
+		for (int i = 0; i < eBullets.size(); i++)
+		{
+			eBullets[i].update();
+		}
+
+		//Update enemy ships
+		for (int i = 0; i < enemies.size(); i++)
+		{
+			//Get reference to enemy at index i (& makes it a reference variable)
+			Fund::Ship& enemy = enemies[i];
+
+			enemy.move({ 0, 1 });
+			enemy.update();
+			if (enemy.canShoot())
+			{
+				bool towardRight = false;
+				Vec2 velocity = { 0, 250 };
+				enemy.Shoot(eBullets, velocity, "../Assets/PNG/laserGreen.png");
+				Mix_PlayChannel(-1, sfxShoot3, 0);
+
+			}
+		}
+
+		if (canSpawn()&&masterKey)
+		{
+			spawnShip();
+		}
+
+
+
+		detectCollisions();
+
+
+
+		//While we are dead #1
+		if (lives.empty())
+		{
+
+
+			restartTimer.Tick(deltaTime);
+
+			player.sprite.position.x = -1000;
+			endCondition = true;
+			eBullets.clear();
+			Mix_VolumeChunk(sfxShoot3, 0);
+			Mix_VolumeChunk(sfxShoot, 0);
+
+			restartTimer.duration = 6;
+			if (restartTimer.Expired())
+			{
+				restartTimer.Reset();
+				restart();
+
+
+			}
+
+		}
 	}
 	
-}
+
 void GameFund::detectCollisions()
 {
 	int exType = 0;
@@ -683,9 +729,14 @@ void GameFund::detectCollisions()
 		Fund::Sprite& enemyBullet = it->sprite;
 		if (Fund::areSpritesOverLapping(player.sprite, enemyBullet))
 		{
+
+			//Removing Lives
 			lives.pop_back();
+
+
 			if (lives.empty())
 			{
+				//Setting player explosion
 				explosion5.setFrame(0);
 				Mix_PlayChannel(-1, playerDied, 0);
 				explosion5.position.x = player.sprite.position.x - (explosion5.getSize().x / 2) + 45;
@@ -714,14 +765,16 @@ void GameFund::detectCollisions()
 			}
 
 
-				if (bulletIterator->sprite.position.y <= 0) {
+				if (bulletIterator->sprite.position.y <= 1) {
 					bulletIterator = bullets.erase(bulletIterator);
 					if (bulletIterator == bullets.end()) { break; }
 				}
 			if (Fund::areSpritesOverLapping(bulletIterator->sprite, enemyIterator->sprite))
 			{
+				//Adding Score Count
 				addScore();
 
+				//Random Explo
 				switch (exType)
 				{
 				case (0):
@@ -885,6 +938,7 @@ void GameFund::draw() {
 		//	explosionIT->draw();
 		//}
 
+		//Drawing Explosions
 		for (auto& e : explosions)
 		{
 			
@@ -896,11 +950,11 @@ void GameFund::draw() {
 			e.draw();
 		}
 		
+		//Drawing player explosion
 		if (lives.empty())
 		{
 			if (explosion5.animationCurrentFrame == explosion5.animationFrameCount-1)
 			{
-				animation_done = true;
 				explosion5.position.x = -1000;
 			}
 			explosion5.nextFrame();
@@ -931,6 +985,8 @@ void GameFund::draw() {
 	}
 
 	//TTF_RenderText takes in a const char as a argument. But we have a string, need to convert String to const char*. Can do this with string.c_str()
+	
+	//Typing to screen
 	SDL_Color color = { 255,255,255,255 };
 	std::string scoreString = "Score: " + to_string(score);
 	uiSpriteScore = Fund::Sprite(uiFont, scoreString.c_str(), color);
