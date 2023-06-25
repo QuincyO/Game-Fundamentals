@@ -758,7 +758,7 @@ void GameFund::detectCollisions()
 		{
 		std::vector<Fund::Bullet>::iterator bulletIT = bulletIterator;
 
-					if (enemyIterator->sprite.position.y >= 1024)
+			if (enemyIterator->sprite.position.y >= 1024)
 			{
 				enemyIterator = enemies.erase(enemyIterator);
 				if (enemyIterator == enemies.end()) break;
